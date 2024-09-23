@@ -1,15 +1,18 @@
 package usecase
 
 import (
+	"time"
+
 	"github.com/rafaelsouzaribeiro/go-chat-with-mqtt/internal/entity"
 	"github.com/rafaelsouzaribeiro/go-chat-with-mqtt/internal/usecase/dto"
 )
 
-func (i *UseCaseMessageUser) SaveMessage(input *dto.MessageDto) (*dto.MessageDto, error) {
+func (i *UseCaseMessageUser) SaveMessage(input *dto.Payload) (*dto.Payload, error) {
 	err := i.Irepository.SaveMessage(&entity.Message{
-		Message: input.Message,
-		Type:    input.Type,
-		Time:    input.Time,
+		Message:   input.Message,
+		Topic:     input.Topic,
+		Time:      time.Now(),
+		MessageId: input.MessageId,
 	})
 
 	if err != nil {

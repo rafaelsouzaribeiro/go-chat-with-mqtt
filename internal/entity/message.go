@@ -2,10 +2,11 @@ package entity
 
 import "time"
 
-var KeySpace = "whatsapp"
+var KeySpace = "chat-mqtt"
 
 type Message struct {
-	Message string
-	Type    string
-	Time    time.Time
+	Topic     string
+	Message   string
+	Time      time.Time
+	MessageId uint16
 }
