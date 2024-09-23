@@ -9,7 +9,9 @@ type Broker struct {
 
 func NewBroker(host, username, password string, port int) *Broker {
 	return &Broker{
-		host: host,
-		port: port,
+		host:     host,
+		port:     port,
+		username: username,
+		password: password,
 	}
 }
