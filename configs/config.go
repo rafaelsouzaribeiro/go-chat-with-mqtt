@@ -5,9 +5,10 @@ import (
 )
 
 type Conf struct {
-	HostName       string `mapstructure:"HOST_NAME_CONF"`
-	WsEndPoint     string `mapstructure:"WS_ENDPOINT_CONF"`
-	Port           string `mapstructure:"PORT_CONF"`
+	HostMqtt       string `mapstructure:"HOST_MQTT"`
+	PortMqtt       string `mapstructure:"PORT_MQTT"`
+	UserNameMqtt   string `mapstructure:"USERNAME_MQTT"`
+	PasswordMqtt   string `mapstructure:"PASSWORD_MQTT"`
 	HostCassaandra string `mapstructure:"HOST_CASSANDRA"`
 	UserCassaandra string `mapstructure:"USER_CASSANDRA"`
 	PassCassaandra string `mapstructure:"PASSWORD_CASSANDRA"`
