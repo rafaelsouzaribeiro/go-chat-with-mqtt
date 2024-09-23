@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 
-	"github.com/rafaelsouzaribeiro/whatsapp-clone-in-go/internal/entity"
-	"github.com/rafaelsouzaribeiro/whatsapp-clone-in-go/internal/infra/database/cassandra/migrations"
+	"github.com/rafaelsouzaribeiro/go-chat-with-mqtt/internal/entity"
+	"github.com/rafaelsouzaribeiro/go-chat-with-mqtt/internal/infra/database/cassandra/migrations"
 )
 
 var cql = ""

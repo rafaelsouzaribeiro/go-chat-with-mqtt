@@ -4,8 +4,8 @@ import (
 	"strings"
 
 	"github.com/gocql/gocql"
-	"github.com/rafaelsouzaribeiro/whatsapp-clone-in-go/configs"
-	"github.com/rafaelsouzaribeiro/whatsapp-clone-in-go/internal/infra/database/cassandra/connection"
+	"github.com/rafaelsouzaribeiro/go-chat-with-mqtt/configs"
+	"github.com/rafaelsouzaribeiro/go-chat-with-mqtt/internal/infra/database/cassandra/connection"
 	"github.com/spf13/viper"
 )
 

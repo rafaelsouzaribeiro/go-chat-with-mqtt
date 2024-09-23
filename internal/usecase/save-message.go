@@ -1,8 +1,8 @@
 package usecase
 
 import (
-	"github.com/rafaelsouzaribeiro/whatsapp-clone-in-go/internal/entity"
-	"github.com/rafaelsouzaribeiro/whatsapp-clone-in-go/internal/usecase/dto"
+	"github.com/rafaelsouzaribeiro/go-chat-with-mqtt/internal/entity"
+	"github.com/rafaelsouzaribeiro/go-chat-with-mqtt/internal/usecase/dto"
 )
 
 func (i *UseCaseMessageUser) SaveMessage(input *dto.MessageDto) (*dto.MessageDto, error) {

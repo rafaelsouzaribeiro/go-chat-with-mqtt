@@ -1,6 +1,6 @@
 package usecase
 
-import "github.com/rafaelsouzaribeiro/whatsapp-clone-in-go/internal/entity"
+import "github.com/rafaelsouzaribeiro/go-chat-with-mqtt/internal/entity"
 
 type UseCaseMessageUser struct {
 	Irepository entity.Irepository
