@@ -1,5 +1,5 @@
 package entity
 
 type Irepository interface {
-	SaveMessage(msg *Message) error
+	PublishMessage(msg *Message) error
 }

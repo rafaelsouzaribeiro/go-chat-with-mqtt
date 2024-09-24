@@ -8,7 +8,7 @@ import (
 )
 
 func (i *UseCaseMessageUser) SaveMessage(input *dto.Payload) (*dto.Payload, error) {
-	err := i.Irepository.SaveMessage(&entity.Message{
+	err := i.Irepository.PublishMessage(&entity.Message{
 		Message:   input.Message,
 		Topic:     input.Topic,
 		Time:      time.Now(),

@@ -15,12 +15,12 @@ var connectLostHandler mqtt.ConnectionLostHandler = func(client mqtt.Client, err
 	fmt.Printf("Connect lost: %v", err)
 }
 
-func (b *Broker) SetClient(pay dto.Payload, canalChan chan<- dto.Payload) {
+func (b *MqttClient) SetClient(pay dto.Payload, canalChan chan<- dto.Payload) {
 
 	opts := mqtt.NewClientOptions()
-	opts.AddBroker(fmt.Sprintf("tcp://%s:%d", b.broker, b.port))
-	opts.SetUsername(pay.Username)
-	opts.SetPassword(pay.Password)
+	opts.AddBroker(fmt.Sprintf("tcp://%s:%d", b.broker.broker, b.broker.port))
+	opts.SetUsername(b.broker.username)
+	opts.SetPassword(b.broker.password)
 	opts.OnConnect = connectHandler
 	opts.OnConnectionLost = connectLostHandler
 	client := mqtt.NewClient(opts)
@@ -36,8 +36,8 @@ func (b *Broker) SetClient(pay dto.Payload, canalChan chan<- dto.Payload) {
 		}
 	})
 
-	b.client = client
-	b.topic = pay.Topic
+	b.broker.client = client
+	b.broker.topic = pay.Topic
 
 	token.Wait()
 	fmt.Printf("Subscribed to topic: %s", pay.Topic)

@@ -36,7 +36,6 @@ func setCommands() {
 			userid INT,
             message TEXT,
             pages INT,
-            username TEXT,
             times TIMESTAMP,
             PRIMARY KEY (userid,pages,times )
         ) WITH CLUSTERING ORDER BY (pages ASC,times DESC);`, entity.KeySpace)
