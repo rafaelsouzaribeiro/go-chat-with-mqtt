@@ -13,6 +13,7 @@ func (i *UseCaseMessageUser) SaveMessage(input *dto.Payload) (*dto.Payload, erro
 		Topic:     input.Topic,
 		Time:      time.Now(),
 		MessageId: input.MessageId,
+		Username:  input.Username,
 	})
 
 	if err != nil {

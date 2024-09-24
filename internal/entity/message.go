@@ -2,7 +2,7 @@ package entity
 
 import "time"
 
-var KeySpace = "chat-mqtt"
+var KeySpace = "chatmqtt"
 
 type Message struct {
 	Topic     string

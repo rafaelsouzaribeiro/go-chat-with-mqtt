@@ -6,12 +6,12 @@ import (
 )
 
 type Broker struct {
-	broker   string
-	port     int
-	client   mqtt.Client
-	topic    string
-	username string
-	password string
+	Broker   string
+	Port     int
+	Client   mqtt.Client
+	Topic    string
+	Username string
+	Password string
 }
 
 type MqttClient struct {
