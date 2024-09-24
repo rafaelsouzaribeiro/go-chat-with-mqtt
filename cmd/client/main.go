@@ -4,10 +4,9 @@ import (
 	"fmt"
 	"log"
 	"strconv"
-	"strings"
 
 	"github.com/rafaelsouzaribeiro/go-chat-with-mqtt/configs"
-	"github.com/rafaelsouzaribeiro/go-chat-with-mqtt/internal/infra/database/cassandra/connection"
+	"github.com/rafaelsouzaribeiro/go-chat-with-mqtt/internal/infra/database/factory"
 	"github.com/rafaelsouzaribeiro/go-chat-with-mqtt/internal/infra/di"
 	"github.com/rafaelsouzaribeiro/go-chat-with-mqtt/internal/infra/web/mqtt/client"
 	"github.com/rafaelsouzaribeiro/go-chat-with-mqtt/internal/usecase/dto"
@@ -20,9 +19,8 @@ func main() {
 		panic(err)
 	}
 
-	hosts := strings.Split(Conf.HostCassaandra, ",")
-
-	db, err := connection.NewCassandraConnect(hosts, Conf.UserCassaandra, Conf.PassCassaandra)
+	f := factory.NewFactory(factory.Cassandra, Conf)
+	db, err := f.GetConnection()
 
 	if err != nil {
 		panic(err)
