@@ -2,18 +2,15 @@ package factory
 
 import (
 	"fmt"
-
-	"github.com/rafaelsouzaribeiro/go-chat-with-mqtt/configs"
 )
 
 type Factory struct {
-	Types string
-	Conf  *configs.Conf
+	Factory string
 }
 
 func NewFactory(f *Factory) (*Iconnection, error) {
 
-	switch f.Types {
+	switch f.Factory {
 	case "cassandra":
 		con, err := f.GetConCassandra()
 

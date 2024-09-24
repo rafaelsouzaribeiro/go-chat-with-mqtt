@@ -20,8 +20,7 @@ func main() {
 	}
 
 	db, err := factory.NewFactory(&factory.Factory{
-		Conf:  Conf,
-		Types: factory.Cassandra,
+		Factory: factory.Cassandra,
 	})
 
 	if err != nil {

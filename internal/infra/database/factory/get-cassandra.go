@@ -12,13 +12,13 @@ func (f *Factory) GetConCassandra() (*gocql.Session, error) {
 	viper.AutomaticEnv()
 
 	hostsDocker := strings.Split(viper.GetString("HOST_CASSANDRA_DOCKER"), ",")
-	hosts := strings.Split(f.Conf.HostCassaandra, ",")
+	hosts := strings.Split(viper.GetString("HOST_CASSANDRA"), ",")
 
 	if hostsDocker[0] != "" {
 		hosts = hostsDocker
 	}
 
-	cassandra, err := connection.NewCassandraConnect(hosts, f.Conf.PassCassaandra, f.Conf.UserCassaandra)
+	cassandra, err := connection.NewCassandraConnect(hosts, viper.GetString("USER_CASSANDRA"), viper.GetString("PASSWORD_CASSANDRA"))
 
 	if err != nil {
 		return nil, err
