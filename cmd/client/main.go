@@ -19,8 +19,10 @@ func main() {
 		panic(err)
 	}
 
-	f := factory.NewFactory(factory.Cassandra, Conf)
-	db, err := f.GetConnection()
+	db, err := factory.NewFactory(&factory.Factory{
+		Conf:  Conf,
+		Types: factory.Cassandra,
+	})
 
 	if err != nil {
 		panic(err)
