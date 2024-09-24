@@ -1,8 +1,11 @@
 package connection
 
-import "github.com/gocql/gocql"
+import (
+	"github.com/gocql/gocql"
+)
 
 func NewCassandraConnect(hosts []string, username, password string) (*gocql.Session, error) {
+
 	cluster := gocql.NewCluster(hosts...)
 	cluster.Consistency = gocql.Quorum
 	cluster.ProtoVersion = 4
