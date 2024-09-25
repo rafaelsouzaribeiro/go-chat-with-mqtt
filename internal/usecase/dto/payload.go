@@ -1,8 +1,8 @@
 package dto
 
 type Payload struct {
-	Username  string
-	Topic     string
-	Message   string
-	MessageId uint16
+	Username  string `json:"username"`
+	Topic     string `json:"topic"`
+	Message   string `json:"message"`
+	MessageId uint16 `json:"message_id"`
 }
