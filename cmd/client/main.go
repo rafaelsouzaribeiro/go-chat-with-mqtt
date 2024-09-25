@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"strconv"
 
@@ -48,6 +49,11 @@ func main() {
 	webserver := server.NewWebServer("8080")
 	webserver.Router.POST("/publish", cli.PublishMessage)
 	go webserver.Start()
+
+	for messages := range channel {
+		fmt.Printf("Message: %s Topic: %s Message ID: %d \n",
+			messages.Message, messages.Topic, messages.MessageId)
+	}
 
 	select {}
 }
