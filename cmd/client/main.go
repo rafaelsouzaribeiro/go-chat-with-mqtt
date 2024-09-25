@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"strconv"
 
@@ -9,6 +8,7 @@ import (
 	"github.com/rafaelsouzaribeiro/go-chat-with-mqtt/internal/infra/database/factory"
 	"github.com/rafaelsouzaribeiro/go-chat-with-mqtt/internal/infra/di"
 	"github.com/rafaelsouzaribeiro/go-chat-with-mqtt/internal/infra/web/mqtt/client"
+	"github.com/rafaelsouzaribeiro/go-chat-with-mqtt/internal/infra/web/mqtt/server"
 	"github.com/rafaelsouzaribeiro/go-chat-with-mqtt/internal/usecase/dto"
 )
 
@@ -43,22 +43,11 @@ func main() {
 	})
 
 	channel := make(chan dto.Payload)
-	cli.Connect(channel)
+	go cli.Connect(channel)
 
-	err = cli.PublishMessage(&dto.Payload{
-		Username: "Rafael",
-		Message:  "Testar",
-		Topic:    "topic/test",
-	})
-
-	if err != nil {
-		panic(err)
-	}
-	for messages := range channel {
-		fmt.Printf("Message: %s Topic: %s Message ID: %d \n",
-			messages.Message, messages.Topic, messages.MessageId)
-
-	}
+	webserver := server.NewWebServer("8080")
+	webserver.Router.POST("/publish", cli.PublishMessage)
+	go webserver.Start()
 
 	select {}
 }
