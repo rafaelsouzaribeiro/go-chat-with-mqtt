@@ -24,11 +24,11 @@ func (b *Broker) StartServer() {
 	_ = b.Server.AddHook(new(auth.Hook), &auth.Options{
 		Ledger: &auth.Ledger{
 			Auth: auth.AuthRules{
-				{Username: auth.RString(b.username), Password: auth.RString(b.password), Allow: true},
+				{Username: auth.RString(b.Username), Password: auth.RString(b.Password), Allow: true},
 			}}})
 
 	listener := listeners.Config{
-		Address: fmt.Sprintf("%s:%d", b.host, b.port),
+		Address: fmt.Sprintf("%s:%d", b.Host, b.Port),
 		ID:      "t1",
 	}
 

@@ -6,22 +6,15 @@ import (
 )
 
 type Broker struct {
-	host     string
-	port     int
-	username string
-	password string
+	Host     string
+	Port     int
+	Username string
+	Password string
 	Server   *mqtt.Server
-	topic    string
+	Topic    string
 	Usecase  *usecase.UseCaseMessageUser
 }
 
-func NewBroker(host, username, password, topic string, port int, Usecase *usecase.UseCaseMessageUser) *Broker {
-	return &Broker{
-		host:     host,
-		port:     port,
-		username: username,
-		password: password,
-		topic:    topic,
-		Usecase:  Usecase,
-	}
+func NewBroker(b *Broker) *Broker {
+	return b
 }

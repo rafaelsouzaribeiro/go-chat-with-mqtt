@@ -32,7 +32,14 @@ func main() {
 	}
 
 	di := di.NewUseCase(db)
-	svc := server.NewBroker(Conf.HostMqtt, Conf.UserNameMqtt, Conf.PasswordMqtt, "topic/test", port, di)
+	svc := server.NewBroker(&server.Broker{
+		Host:     Conf.HostMqtt,
+		Port:     port,
+		Username: Conf.UserNameMqtt,
+		Password: Conf.PasswordMqtt,
+		Topic:    "topic/test",
+		Usecase:  di,
+	})
 	webserver := server.NewWebServer("8080")
 	webserver.Router.POST("/publish", svc.PublishMessage)
 	go webserver.Start()
