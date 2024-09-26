@@ -38,7 +38,12 @@ func (b *MqttClient) Connect(canalChan chan<- dto.Payload) {
 			return
 		}
 
-		canalChan <- payload
+		canalChan <- dto.Payload{
+			Topic:     m.Topic(),
+			Message:   payload.Message,
+			MessageId: m.MessageID(),
+			Username:  payload.Username,
+		}
 	})
 
 	b.broker.Client = client
