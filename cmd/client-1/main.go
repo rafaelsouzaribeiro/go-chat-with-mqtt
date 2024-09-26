@@ -6,8 +6,6 @@ import (
 	"strconv"
 
 	"github.com/rafaelsouzaribeiro/go-chat-with-mqtt/configs"
-	"github.com/rafaelsouzaribeiro/go-chat-with-mqtt/internal/infra/database/factory"
-	"github.com/rafaelsouzaribeiro/go-chat-with-mqtt/internal/infra/di"
 	"github.com/rafaelsouzaribeiro/go-chat-with-mqtt/internal/infra/web/mqtt/client"
 	"github.com/rafaelsouzaribeiro/go-chat-with-mqtt/internal/usecase/dto"
 )
@@ -19,22 +17,12 @@ func main() {
 		panic(err)
 	}
 
-	db, err := factory.NewFactory(&factory.Factory{
-		Factory: factory.Cassandra,
-	})
-
-	if err != nil {
-		panic(err)
-	}
-
-	di := di.NewUseCase(db)
-
 	port, err := strconv.Atoi(Conf.PortMqtt)
 	if err != nil {
 		log.Fatalf("Invalid port: %v", err)
 	}
 
-	cli := client.NewClient(di, &client.Broker{
+	cli := client.NewClient(&client.Broker{
 		Broker:   Conf.HostMqtt,
 		Port:     port,
 		Topic:    "topic/test",

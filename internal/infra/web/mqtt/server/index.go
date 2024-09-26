@@ -19,9 +19,9 @@ func (b *Broker) StartServer() {
 		InlineClient: true,
 	}
 
-	server := mqtt.New(&opts)
+	b.Server = mqtt.New(&opts)
 
-	_ = server.AddHook(new(auth.Hook), &auth.Options{
+	_ = b.Server.AddHook(new(auth.Hook), &auth.Options{
 		Ledger: &auth.Ledger{
 			Auth: auth.AuthRules{
 				{Username: auth.RString(b.username), Password: auth.RString(b.password), Allow: true},
@@ -33,20 +33,20 @@ func (b *Broker) StartServer() {
 	}
 
 	tcp := listeners.NewTCP(listener)
-	err := server.AddListener(tcp)
+	err := b.Server.AddListener(tcp)
 
 	if err != nil {
 		panic(err)
 	}
 
 	go func() {
-		err := server.Serve()
+		err := b.Server.Serve()
 		if err != nil {
 			panic(err)
 		}
 	}()
 
 	sigReceived := <-sigs
-	server.Log.Info("Received signal", "signal", sigReceived)
-	server.Close()
+	b.Server.Log.Info("Received signal", "signal", sigReceived)
+	b.Server.Close()
 }
