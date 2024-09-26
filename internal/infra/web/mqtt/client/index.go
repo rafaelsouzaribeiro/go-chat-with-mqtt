@@ -1,6 +1,7 @@
 package client
 
 import (
+	"encoding/json"
 	"fmt"
 
 	mqtt "github.com/eclipse/paho.mqtt.golang"
@@ -29,11 +30,15 @@ func (b *MqttClient) Connect(canalChan chan<- dto.Payload) {
 	}
 
 	token := client.Subscribe(b.broker.Topic, 1, func(c mqtt.Client, m mqtt.Message) {
-		canalChan <- dto.Payload{
-			Topic:     m.Topic(),
-			Message:   string(m.Payload()),
-			MessageId: m.MessageID(),
+		var payload dto.Payload
+
+		err := json.Unmarshal(m.Payload(), &payload)
+		if err != nil {
+			fmt.Printf("Failed to deserialize message: %v\n", err)
+			return
 		}
+
+		canalChan <- payload
 	})
 
 	b.broker.Client = client

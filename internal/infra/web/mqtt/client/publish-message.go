@@ -1,6 +1,7 @@
 package client
 
 import (
+	"encoding/json"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -24,7 +25,13 @@ func (b *MqttClient) PublishMessage(c *gin.Context) {
 		return
 	}
 
-	token := b.broker.Client.Publish(b.broker.Topic, 1, false, dto.Message)
+	payloadJson, err := json.Marshal(dto)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to serialize message"})
+		return
+	}
+
+	token := b.broker.Client.Publish(b.broker.Topic, 1, false, payloadJson)
 	token.Wait()
 
 	c.JSON(http.StatusCreated, dto)

@@ -51,8 +51,8 @@ func main() {
 	go webserver.Start()
 
 	for messages := range channel {
-		fmt.Printf("Message: %s Topic: %s Message ID: %d \n",
-			messages.Message, messages.Topic, messages.MessageId)
+		fmt.Printf("Message: %s Topic: %s Message ID: %d Username: %s \n",
+			messages.Message, messages.Topic, messages.MessageId, messages.Username)
 	}
 
 	select {}
