@@ -12,11 +12,13 @@ import (
 	"github.com/mochi-mqtt/server/v2/listeners"
 	"github.com/mochi-mqtt/server/v2/packets"
 	"github.com/rafaelsouzaribeiro/go-chat-with-mqtt/internal/usecase/dto"
+	"github.com/spf13/viper"
 )
 
 func (b *Broker) StartServer() {
 	sigs := make(chan os.Signal, 1)
 	signal.Notify(sigs, syscall.SIGINT, syscall.SIGTERM, os.Interrupt)
+	viper.AutomaticEnv()
 
 	opts := mqtt.Options{
 		InlineClient: true,
@@ -65,7 +67,7 @@ func (b *Broker) StartServer() {
 		}
 	}
 
-	server.Subscribe("topic/test", 1, callbackFn)
+	server.Subscribe(viper.GetString("TOPIC_MQTT"), 1, callbackFn)
 
 	go func() {
 		err := server.Serve()
