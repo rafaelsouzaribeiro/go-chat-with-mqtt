@@ -1,4 +1,4 @@
-package server
+package client
 
 import (
 	"encoding/json"
@@ -8,7 +8,7 @@ import (
 	"github.com/rafaelsouzaribeiro/go-chat-with-mqtt/internal/usecase/dto"
 )
 
-func (b *Broker) PublishMessage(c *gin.Context) {
+func (b *MqttClient) PublishMessage(c *gin.Context) {
 	var dto dto.Payload
 
 	if err := c.ShouldBindJSON(&dto); err != nil {
@@ -31,11 +31,8 @@ func (b *Broker) PublishMessage(c *gin.Context) {
 		return
 	}
 
-	err = b.Server.Publish(b.topic, payloadJson, false, 0)
-
-	if err != nil {
-		panic(err)
-	}
+	token := b.broker.Client.Publish(b.broker.Topic, 1, false, payloadJson)
+	token.Wait()
 
 	c.JSON(http.StatusCreated, dto)
 }

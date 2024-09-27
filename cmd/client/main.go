@@ -9,6 +9,7 @@ import (
 	"github.com/rafaelsouzaribeiro/go-chat-with-mqtt/internal/infra/database/factory"
 	"github.com/rafaelsouzaribeiro/go-chat-with-mqtt/internal/infra/di"
 	"github.com/rafaelsouzaribeiro/go-chat-with-mqtt/internal/infra/web/mqtt/client"
+	"github.com/rafaelsouzaribeiro/go-chat-with-mqtt/internal/infra/web/mqtt/server"
 	"github.com/rafaelsouzaribeiro/go-chat-with-mqtt/internal/usecase/dto"
 )
 
@@ -44,6 +45,10 @@ func main() {
 
 	channel := make(chan dto.Payload)
 	go cli.Connect(channel)
+
+	webserver := server.NewWebServer("8080")
+	webserver.Router.POST("/publish", cli.PublishMessage)
+	go webserver.Start()
 
 	for messages := range channel {
 		fmt.Printf("Message: %s Topic: %s Message ID: %d Username: %s \n",

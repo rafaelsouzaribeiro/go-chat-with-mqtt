@@ -2,6 +2,7 @@ package client
 
 import (
 	mqtt "github.com/eclipse/paho.mqtt.golang"
+	"github.com/rafaelsouzaribeiro/go-chat-with-mqtt/internal/usecase"
 )
 
 type Broker struct {
@@ -14,11 +15,13 @@ type Broker struct {
 }
 
 type MqttClient struct {
-	broker *Broker
+	Usecase *usecase.UseCaseMessageUser
+	broker  *Broker
 }
 
-func NewClient(broker *Broker) *MqttClient {
+func NewClient(usecase *usecase.UseCaseMessageUser, broker *Broker) *MqttClient {
 	return &MqttClient{
-		broker: broker,
+		Usecase: usecase,
+		broker:  broker,
 	}
 }

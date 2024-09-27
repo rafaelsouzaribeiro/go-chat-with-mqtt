@@ -5,8 +5,6 @@ import (
 	"strconv"
 
 	"github.com/rafaelsouzaribeiro/go-chat-with-mqtt/configs"
-	"github.com/rafaelsouzaribeiro/go-chat-with-mqtt/internal/infra/database/factory"
-	"github.com/rafaelsouzaribeiro/go-chat-with-mqtt/internal/infra/di"
 	"github.com/rafaelsouzaribeiro/go-chat-with-mqtt/internal/infra/web/mqtt/server"
 )
 
@@ -23,18 +21,6 @@ func main() {
 		log.Fatalf("Invalid port: %v", err)
 	}
 
-	db, err := factory.NewFactory(&factory.Factory{
-		Factory: factory.Cassandra,
-	})
-
-	if err != nil {
-		panic(err)
-	}
-
-	di := di.NewUseCase(db)
-	svc := server.NewBroker(Conf.HostMqtt, Conf.UserNameMqtt, Conf.PasswordMqtt, "topic/test", port, di)
-	webserver := server.NewWebServer("8080")
-	webserver.Router.POST("/publish", svc.PublishMessage)
-	go webserver.Start()
+	svc := server.NewBroker(Conf.HostMqtt, Conf.UserNameMqtt, Conf.PasswordMqtt, port)
 	svc.StartServer()
 }
