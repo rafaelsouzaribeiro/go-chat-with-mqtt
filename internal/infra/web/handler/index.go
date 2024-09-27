@@ -6,7 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func StartPages() {
+func StartTemplates() {
 	router := gin.Default()
 	router.LoadHTMLGlob("../web/templates/*")
 	router.GET("/index", func(c *gin.Context) {
