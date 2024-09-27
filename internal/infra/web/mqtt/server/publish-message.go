@@ -31,7 +31,7 @@ func (b *Broker) PublishMessage(c *gin.Context) {
 		return
 	}
 
-	err = b.Server.Publish(b.Topic, payloadJson, false, 0)
+	err = b.Server.Publish(b.topic, payloadJson, false, 0)
 
 	if err != nil {
 		panic(err)
