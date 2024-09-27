@@ -7,6 +7,7 @@ import (
 	"github.com/rafaelsouzaribeiro/go-chat-with-mqtt/configs"
 	"github.com/rafaelsouzaribeiro/go-chat-with-mqtt/internal/infra/database/factory"
 	"github.com/rafaelsouzaribeiro/go-chat-with-mqtt/internal/infra/di"
+	"github.com/rafaelsouzaribeiro/go-chat-with-mqtt/internal/infra/web/handler"
 	"github.com/rafaelsouzaribeiro/go-chat-with-mqtt/internal/infra/web/mqtt/server"
 )
 
@@ -33,6 +34,7 @@ func main() {
 
 	di := di.NewUseCase(db)
 
+	handler.StartPages()
 	svc := server.NewBroker(Conf.HostMqtt, Conf.UserNameMqtt, Conf.PasswordMqtt, port, di)
 	svc.StartServer()
 }
