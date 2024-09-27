@@ -1,6 +1,7 @@
 package server
 
 import (
+	"encoding/json"
 	"fmt"
 	"os"
 	"os/signal"
@@ -10,6 +11,7 @@ import (
 	"github.com/mochi-mqtt/server/v2/hooks/auth"
 	"github.com/mochi-mqtt/server/v2/listeners"
 	"github.com/mochi-mqtt/server/v2/packets"
+	"github.com/rafaelsouzaribeiro/go-chat-with-mqtt/internal/usecase/dto"
 )
 
 func (b *Broker) StartServer() {
@@ -41,8 +43,28 @@ func (b *Broker) StartServer() {
 	}
 
 	callbackFn := func(cl *mqtt.Client, sub packets.Subscription, pk packets.Packet) {
-		fmt.Println("inline client received message from subscription", "client", cl.ID, "subscriptionId", sub.Identifier, "topic", pk.TopicName, "payload", string(pk.Payload))
+		var Payload dto.Payload
+
+		err := json.Unmarshal(pk.Payload, &Payload)
+		if err != nil {
+			fmt.Printf("Failed to deserialize message: %v\n", err)
+			return
+		}
+
+		dto := dto.Payload{
+			Message:  Payload.Message,
+			Username: Payload.Username,
+			UserId:   Payload.UserId,
+		}
+
+		_, err = b.Usecase.SaveMessage(&dto)
+
+		if err != nil {
+			fmt.Printf("Failed to save message: %v\n", err)
+			return
+		}
 	}
+
 	server.Subscribe("topic/test", 1, callbackFn)
 
 	go func() {

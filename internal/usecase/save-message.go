@@ -9,11 +9,10 @@ import (
 
 func (i *UseCaseMessageUser) SaveMessage(input *dto.Payload) (*dto.Payload, error) {
 	err := i.Irepository.PublishMessage(&entity.Message{
-		Message:   input.Message,
-		Topic:     input.Topic,
-		Time:      time.Now(),
-		MessageId: input.MessageId,
-		Username:  input.Username,
+		Message:  input.Message,
+		Time:     time.Now(),
+		Username: input.Username,
+		UserId:   input.UserId,
 	})
 
 	if err != nil {

@@ -3,7 +3,6 @@ module github.com/rafaelsouzaribeiro/go-chat-with-mqtt
 go 1.23.0
 
 require (
-	github.com/eclipse/paho.mqtt.golang v1.5.0
 	github.com/gocql/gocql v1.6.0
 	github.com/google/uuid v1.4.0
 	github.com/mochi-mqtt/server/v2 v2.6.5
@@ -30,8 +29,6 @@ require (
 	go.uber.org/atomic v1.9.0 // indirect
 	go.uber.org/multierr v1.9.0 // indirect
 	golang.org/x/exp v0.0.0-20230905200255-921286631fa9 // indirect
-	golang.org/x/net v0.27.0 // indirect
-	golang.org/x/sync v0.7.0 // indirect
 	golang.org/x/sys v0.22.0 // indirect
 	golang.org/x/text v0.16.0 // indirect
 	gopkg.in/inf.v0 v0.9.1 // indirect
