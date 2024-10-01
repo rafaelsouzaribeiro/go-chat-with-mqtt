@@ -32,7 +32,7 @@ func (b *Broker) StartServer() {
 				{Username: auth.RString(b.Username), Password: auth.RString(b.Password), Allow: true},
 			}}})
 
-	tcp := listeners.NewTCP(GetListeners(b.Host, "mqtt", b.Port))
+	tcp := listeners.NewTCP(GetListeners(b.Host, "tcp", b.Port))
 	err := server.AddListener(tcp)
 
 	if err != nil {
