@@ -54,7 +54,6 @@ func setCommands() {
 
 	cql[3] = fmt.Sprintf(`CREATE TABLE IF NOT EXISTS %s.users (
 				id TEXT,
-				message TEXT,
 				pages INT,
 				username TEXT,
 				times TIMESTAMP,
