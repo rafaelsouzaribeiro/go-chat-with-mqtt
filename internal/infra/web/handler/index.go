@@ -7,12 +7,16 @@ import (
 )
 
 func StartTemplates() {
-	router := gin.Default()
-	router.LoadHTMLGlob("../web/templates/*")
-	router.GET("/index", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "login.tmpl", gin.H{
-			"title": "Login",
-		})
+	r := gin.Default()
+
+	r.Static("./static", "../web/static")
+
+	r.LoadHTMLGlob("../web/templates/*")
+
+	r.GET("/", func(c *gin.Context) {
+		c.HTML(http.StatusOK, "chat.html", nil)
 	})
-	router.Run(":8080")
+
+	r.Run(":8080")
+
 }
