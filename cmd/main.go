@@ -34,7 +34,7 @@ func main() {
 
 	di := di.NewUseCase(db)
 
-	handler.StartTemplates()
+	go handler.StartTemplates()
 	svc := server.NewBroker(Conf.HostMqtt, Conf.UserNameMqtt, Conf.PasswordMqtt, port, di)
 	svc.StartServer()
 }
