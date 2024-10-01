@@ -9,6 +9,7 @@ type Pagination struct {
 	Id    string
 	Total int
 	Page  int
+	Iter  *gocql.Iter
 }
 
 type CassandraRepository struct {
