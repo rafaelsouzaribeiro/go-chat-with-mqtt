@@ -34,7 +34,20 @@ func main() {
 
 	di := di.NewUseCase(db)
 
+	portSocket, err := strconv.Atoi(Conf.PortWebsocketMqtt)
+	if err != nil {
+		log.Fatalf("Invalid port: %v", err)
+	}
+
 	go handler.StartTemplates()
-	svc := server.NewBroker(Conf.HostMqtt, Conf.UserNameMqtt, Conf.PasswordMqtt, port, di)
+	svc := server.NewBroker(&server.Broker{
+		Host:       Conf.HostMqtt,
+		Port:       port,
+		Username:   Conf.UserNameMqtt,
+		Password:   Conf.PasswordMqtt,
+		SocketHost: Conf.HostWebsocketMqtt,
+		SocketPort: portSocket,
+		Usecase:    di,
+	})
 	svc.StartServer()
 }

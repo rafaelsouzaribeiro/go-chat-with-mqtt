@@ -5,14 +5,16 @@ import (
 )
 
 type Conf struct {
-	HostMqtt       string `mapstructure:"HOST_MQTT"`
-	PortMqtt       string `mapstructure:"PORT_MQTT"`
-	UserNameMqtt   string `mapstructure:"USERNAME_MQTT"`
-	PasswordMqtt   string `mapstructure:"PASSWORD_MQTT"`
-	TopicMqtt      string `mapstructure:"TOPIC_MQTT"`
-	HostCassaandra string `mapstructure:"HOST_CASSANDRA"`
-	UserCassaandra string `mapstructure:"USER_CASSANDRA"`
-	PassCassaandra string `mapstructure:"PASSWORD_CASSANDRA"`
+	HostMqtt          string `mapstructure:"HOST_MQTT"`
+	PortMqtt          string `mapstructure:"PORT_MQTT"`
+	UserNameMqtt      string `mapstructure:"USERNAME_MQTT"`
+	PasswordMqtt      string `mapstructure:"PASSWORD_MQTT"`
+	HostWebsocketMqtt string `mapstructure:"HOST_MQTT_WEBSOCKET"`
+	PortWebsocketMqtt string `mapstructure:"PORT_MQTT_WEBSOCKET"`
+	TopicMqtt         string `mapstructure:"TOPIC_MQTT"`
+	HostCassaandra    string `mapstructure:"HOST_CASSANDRA"`
+	UserCassaandra    string `mapstructure:"USER_CASSANDRA"`
+	PassCassaandra    string `mapstructure:"PASSWORD_CASSANDRA"`
 }
 
 func LoadConfig(path string) (*Conf, error) {
