@@ -5,6 +5,12 @@ import (
 	"github.com/rafaelsouzaribeiro/go-chat-with-mqtt/internal/infra/database/factory"
 )
 
+type Pagination struct {
+	Id    string
+	Total int
+	Page  int
+}
+
 type CassandraRepository struct {
 	gocql *gocql.Session
 }
