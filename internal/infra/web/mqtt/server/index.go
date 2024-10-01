@@ -32,14 +32,25 @@ func (b *Broker) StartServer() {
 				{Username: auth.RString(b.username), Password: auth.RString(b.password), Allow: true},
 			}}})
 
+	// listener := listeners.Config{
+	// 	Address: fmt.Sprintf("%s:%d", b.host, b.port),
+	// 	ID:      "t1",
+	// }
+
+	// tcp := listeners.NewTCP(listener)
+	// err := server.AddListener(tcp)
+
+	// if err != nil {
+	// 	panic(err)
+	// }
+
 	listener := listeners.Config{
 		Address: fmt.Sprintf("%s:%d", b.host, b.port),
 		ID:      "t1",
 	}
 
-	tcp := listeners.NewTCP(listener)
-	err := server.AddListener(tcp)
-
+	ws := listeners.NewWebsocket(listener)
+	err := server.AddListener(ws)
 	if err != nil {
 		panic(err)
 	}
