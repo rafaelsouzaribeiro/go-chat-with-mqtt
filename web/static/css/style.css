@@ -76,12 +76,12 @@ body {
 }
 
 .message.sent p {
-    background-color: #2ed573;
+    background-color: #005C4B;
     align-self: flex-end;
 }
 
 .message.received p {
-    background-color: #ced6e0;
+    background-color: #0B141A;
     align-self: flex-start;
 }
 
