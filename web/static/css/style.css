@@ -78,11 +78,13 @@ body {
 .message.sent p {
     background-color: #005C4B;
     align-self: flex-end;
+    color:#fff
 }
 
 .message.received p {
     background-color: #0B141A;
     align-self: flex-start;
+    color:#fff
 }
 
 .time {
