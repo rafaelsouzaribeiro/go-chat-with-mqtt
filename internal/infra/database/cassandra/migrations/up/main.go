@@ -57,7 +57,6 @@ func setCommands() {
 				message TEXT,
 				pages INT,
 				username TEXT,
-				password TEXT,
 				times TIMESTAMP,
 				photo TEXT,
 				PRIMARY KEY (pages,times )
