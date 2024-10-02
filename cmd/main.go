@@ -7,8 +7,8 @@ import (
 	"github.com/rafaelsouzaribeiro/go-chat-with-mqtt/configs"
 	"github.com/rafaelsouzaribeiro/go-chat-with-mqtt/internal/infra/database/factory"
 	"github.com/rafaelsouzaribeiro/go-chat-with-mqtt/internal/infra/di"
-	"github.com/rafaelsouzaribeiro/go-chat-with-mqtt/internal/infra/web/handler"
 	"github.com/rafaelsouzaribeiro/go-chat-with-mqtt/internal/infra/web/mqtt/server"
+	"github.com/rafaelsouzaribeiro/go-chat-with-mqtt/internal/infra/web/webserver"
 )
 
 func main() {
@@ -39,7 +39,10 @@ func main() {
 		log.Fatalf("Invalid port: %v", err)
 	}
 
-	go handler.StartTemplates()
+	webServer := webserver.NewWebServer(Conf.WebPort)
+	webServer.AddHandlerChat(di)
+	webServer.Start()
+
 	svc := server.NewBroker(&server.Broker{
 		Host:       Conf.HostMqtt,
 		Port:       port,

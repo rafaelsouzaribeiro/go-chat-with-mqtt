@@ -15,6 +15,7 @@ type Conf struct {
 	HostCassaandra    string `mapstructure:"HOST_CASSANDRA"`
 	UserCassaandra    string `mapstructure:"USER_CASSANDRA"`
 	PassCassaandra    string `mapstructure:"PASSWORD_CASSANDRA"`
+	WebPort           string `mapstructure:"WEBSERVER_PORT"`
 }
 
 func LoadConfig(path string) (*Conf, error) {
