@@ -46,7 +46,7 @@ func (b *Broker) StartServer() {
 	}
 
 	callbackFn := func(cl *mqtt.Client, sub packets.Subscription, pk packets.Packet) {
-		var Payload dto.Payload
+		var Payload dto.PayloadMesage
 
 		err := json.Unmarshal(pk.Payload, &Payload)
 		if err != nil {
@@ -54,7 +54,7 @@ func (b *Broker) StartServer() {
 			return
 		}
 
-		dto := dto.Payload{
+		dto := dto.PayloadMesage{
 			Message:  Payload.Message,
 			Username: Payload.Username,
 			UserId:   Payload.UserId,
