@@ -3,6 +3,7 @@ var port = 9090;
 var clientId = "webio4mqttexample" + new Date().getUTCMilliseconds();
 var username = "root";
 var password = "123mudar";
+var userId = 1;
 
 var mqttClient = new Paho.MQTT.Client(hostname, port, clientId);
 mqttClient.onMessageArrived = MessageArrived;
@@ -13,7 +14,7 @@ Connect();
 
 function SelectUser(){
 
-    fetch('/message/1') 
+    fetch(`/list-user/${userId}`) 
         .then(response => {
             if (!response.ok) {
                 throw new Error('Erro ao carregar a página');

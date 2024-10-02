@@ -53,11 +53,11 @@ func setCommands() {
 	);`, entity.KeySpace)
 
 	cql[3] = fmt.Sprintf(`CREATE TABLE IF NOT EXISTS %s.users (
-				id TEXT,
-				pages INT,
-				username TEXT,
-				times TIMESTAMP,
-				photo TEXT,
-				PRIMARY KEY (pages,times )
-			) WITH CLUSTERING ORDER BY (times ASC);`, entity.KeySpace)
+                                id TEXT,
+                                pages INT,
+                                username TEXT,
+                                times TIMESTAMP,
+                                photo TEXT,
+                                PRIMARY KEY ((pages), id, times)
+                        );`, entity.KeySpace)
 }
