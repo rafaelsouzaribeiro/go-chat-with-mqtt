@@ -41,7 +41,7 @@ func main() {
 
 	webServer := webserver.NewWebServer(Conf.WebPort)
 	webServer.AddHandlerChat(di)
-	webServer.Start()
+	go webServer.Start()
 
 	svc := server.NewBroker(&server.Broker{
 		Host:       Conf.HostMqtt,

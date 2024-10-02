@@ -1,8 +1,6 @@
 package server
 
 import (
-	"encoding/json"
-	"fmt"
 	"os"
 	"os/signal"
 	"syscall"
@@ -10,8 +8,6 @@ import (
 	mqtt "github.com/mochi-mqtt/server/v2"
 	"github.com/mochi-mqtt/server/v2/hooks/auth"
 	"github.com/mochi-mqtt/server/v2/listeners"
-	"github.com/mochi-mqtt/server/v2/packets"
-	"github.com/rafaelsouzaribeiro/go-chat-with-mqtt/internal/usecase/dto"
 	"github.com/spf13/viper"
 )
 
@@ -45,30 +41,7 @@ func (b *Broker) StartServer() {
 		panic(err)
 	}
 
-	callbackFn := func(cl *mqtt.Client, sub packets.Subscription, pk packets.Packet) {
-		var Payload dto.PayloadMesage
-
-		err := json.Unmarshal(pk.Payload, &Payload)
-		if err != nil {
-			fmt.Printf("Failed to deserialize message: %v\n", err)
-			return
-		}
-
-		dto := dto.PayloadMesage{
-			Message:  Payload.Message,
-			Username: Payload.Username,
-			UserId:   Payload.UserId,
-		}
-
-		_, err = b.Usecase.SaveMessage(&dto)
-
-		if err != nil {
-			fmt.Printf("Failed to save message: %v\n", err)
-			return
-		}
-	}
-
-	server.Subscribe(viper.GetString("TOPIC_MQTT"), 1, callbackFn)
+	server.Subscribe(viper.GetString("TOPIC_MQTT"), 1, b.callbackFn)
 
 	go func() {
 		err := server.Serve()
