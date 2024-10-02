@@ -3,7 +3,6 @@ var port = 9090;
 var clientId = "webio4mqttexample" + new Date().getUTCMilliseconds();
 var username = "root";
 var password = "123mudar";
-var subscription = "topic/test";
 
 var mqttClient = new Paho.MQTT.Client(hostname, port, clientId);
 mqttClient.onMessageArrived = MessageArrived;
