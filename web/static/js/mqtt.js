@@ -3,7 +3,7 @@ var port = 9090;
 var clientId = "webio4mqttexample" + new Date().getUTCMilliseconds();
 var username = "root";
 var password = "123mudar";
-var userId = 1;
+var userId = '1';
 
 var mqttClient = new Paho.MQTT.Client(hostname, port, clientId);
 mqttClient.onMessageArrived = MessageArrived;
@@ -21,8 +21,17 @@ function SelectUser(){
             }
             return response.text(); 
         })
-        .then(html => {
-            document.getElementById('chat-body').innerHTML = html;
+        .then(json => {
+            const obj = JSON. parse(json);
+
+            console.log(obj);
+            const usersHTML = `
+                    <li>User1</li>
+                    <li>User2</li>
+                    <li>User3</li>
+                    <li>User5</li>
+            `;
+            document.getElementById('users').innerHTML = usersHTML;
         })
         .catch(error => {
             console.error('Erro:', error);

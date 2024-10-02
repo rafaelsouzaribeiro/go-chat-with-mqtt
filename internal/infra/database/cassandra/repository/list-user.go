@@ -10,7 +10,8 @@ func (r *CassandraRepository) ListUser(id string) (*[]entity.User, error) {
 	entity.Once.Do(func() { entity.IndexU = entity.StartUIndex })
 
 	s := fmt.Sprintf(`select photo,pages,username,id,times from %s.users 
-	WHERE pages=? AND id=? ORDER BY times DESC`, entity.KeySpace)
+	WHERE pages=? AND id=? ORDER BY times DESC;`, entity.KeySpace)
+
 	query := r.gocql.Query(s, entity.IndexU, id)
 	iter := query.Iter()
 	defer iter.Close()
@@ -18,8 +19,9 @@ func (r *CassandraRepository) ListUser(id string) (*[]entity.User, error) {
 	var message entity.User
 	var messages []entity.User
 
-	for iter.Scan(&message.Username, &message.Photo,
-		&message.Username, &message.Times) {
+	for iter.Scan(&message.Photo, &message.Pages, &message.Username,
+		&message.Id, &message.Times) {
+
 		messages = append(messages, message)
 	}
 

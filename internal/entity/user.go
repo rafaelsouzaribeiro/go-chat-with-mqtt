@@ -7,4 +7,5 @@ type User struct {
 	Id       string
 	Photo    string
 	Times    time.Time
+	Pages    string
 }
