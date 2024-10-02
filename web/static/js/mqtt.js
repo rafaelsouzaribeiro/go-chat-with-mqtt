@@ -11,6 +11,23 @@ mqttClient.onConnectionLost = ConnectionLost;
 
 Connect();
 
+function SelectUser(){
+
+    fetch('/message') 
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Erro ao carregar a página');
+            }
+            return response.text(); 
+        })
+        .then(html => {
+            document.getElementById('chat-body').innerHTML = html;
+        })
+        .catch(error => {
+            console.error('Erro:', error);
+        });
+}
+
 function Connect() {
     mqttClient.connect({
         onSuccess: Connected,

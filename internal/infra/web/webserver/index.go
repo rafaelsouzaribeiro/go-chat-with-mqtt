@@ -13,6 +13,7 @@ func (w *WebServer) AddHandlerChat(order *usecase.UseCaseMessageUser) {
 	w.router.LoadHTMLGlob("../web/templates/*")
 	w.router.GET("/list-user", chatHandler.List)
 	w.router.GET("/", chatHandler.StartTemplates)
+	w.router.GET("/message", chatHandler.MessageTemplates)
 }
 
 func (w *WebServer) Start() {
