@@ -4,5 +4,5 @@ const PerPage = 20
 
 type Irepository interface {
 	PublishMessage(msg *Message) error
-	ListUser(user *User) error
+	ListUser(id int64) (*User, error)
 }
