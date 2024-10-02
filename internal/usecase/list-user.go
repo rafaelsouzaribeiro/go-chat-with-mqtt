@@ -4,7 +4,7 @@ import (
 	"github.com/rafaelsouzaribeiro/go-chat-with-mqtt/internal/usecase/dto"
 )
 
-func (i *UseCaseMessageUser) ListUser(id int64) (*[]dto.PayloadUser, error) {
+func (i *UseCaseMessageUser) ListUser(id string) (*[]dto.PayloadUser, error) {
 	list, err := i.Irepository.ListUser(id)
 
 	if err != nil {

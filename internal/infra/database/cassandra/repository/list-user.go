@@ -6,7 +6,7 @@ import (
 	"github.com/rafaelsouzaribeiro/go-chat-with-mqtt/internal/entity"
 )
 
-func (r *CassandraRepository) ListUser(id int64) (*[]entity.User, error) {
+func (r *CassandraRepository) ListUser(id string) (*[]entity.User, error) {
 	entity.Once.Do(func() { entity.IndexU = entity.StartUIndex })
 
 	s := fmt.Sprintf(`select photo,pages,username,id,times from %s.users 

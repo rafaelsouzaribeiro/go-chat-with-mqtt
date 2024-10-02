@@ -4,7 +4,7 @@ import "sync"
 
 type Irepository interface {
 	PublishMessage(msg *Message) error
-	ListUser(id int64) (*[]User, error)
+	ListUser(id string) (*[]User, error)
 }
 
 var (

@@ -2,7 +2,6 @@ package handler
 
 import (
 	"net/http"
-	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -10,13 +9,7 @@ import (
 func (o *ChatHandler) List(c *gin.Context) {
 	id := c.Param("id")
 
-	idstr, err := strconv.ParseInt(id, 10, 64)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid ID"})
-		return
-	}
-
-	output, err := o.chatUseCase.ListUser(idstr)
+	output, err := o.chatUseCase.ListUser(id)
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
