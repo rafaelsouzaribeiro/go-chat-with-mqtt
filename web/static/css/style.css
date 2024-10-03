@@ -92,6 +92,22 @@ body {
     color: #999;
 }
 
+#users img{
+    clip-path: circle();
+    width: 20%;
+    float: left;
+}
+
+#users span{
+    float: left;
+    margin-top: 18px;
+    margin-left: 10px;
+}
+
+.clear{
+    clear: both;
+}
+
 .chat-footer {
     padding: 15px;
     background-color: #dfe4ea;

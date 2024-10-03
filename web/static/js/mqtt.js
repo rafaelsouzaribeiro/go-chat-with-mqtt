@@ -12,9 +12,9 @@ mqttClient.onConnectionLost = ConnectionLost;
 
 Connect();
 
-function SelectUser(){
+function SelectUsers(){
 
-    fetch(`/list-user/${userId}`) 
+    fetch(`/list-users/`) 
         .then(response => {
             if (!response.ok) {
                 throw new Error('Erro ao carregar a página');
@@ -22,16 +22,18 @@ function SelectUser(){
             return response.text(); 
         })
         .then(json => {
-            const obj = JSON. parse(json);
+            const obj = JSON.parse(json);
+            var elements="";
 
-            console.log(obj);
-            const usersHTML = `
-                    <li>User1</li>
-                    <li>User2</li>
-                    <li>User3</li>
-                    <li>User5</li>
-            `;
-            document.getElementById('users').innerHTML = usersHTML;
+            obj.forEach(element => {
+                elements+=`<li id='${element.id}' page='${element.page}' timestamp='${element.time}' class='user-id'>
+                    <img src='${element.photo}' alt='${element.username}' />
+                    <span>${element.username}</span>
+                    <div class='clear'></div>
+                </li>`;
+            });
+
+             document.getElementById('users').innerHTML = elements;
         })
         .catch(error => {
             console.error('Erro:', error);
@@ -53,6 +55,7 @@ function Connect() {
 function Connected() {
     console.log("Connected");
     mqttClient.subscribe(subscription);
+    SelectUsers();
 }
 
 
