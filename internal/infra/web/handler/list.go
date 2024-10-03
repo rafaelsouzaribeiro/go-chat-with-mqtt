@@ -6,10 +6,10 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func (o *ChatHandler) List(c *gin.Context) {
+func (o *ChatHandler) ListMessage(c *gin.Context) {
 	id := c.Param("id")
 
-	output, err := o.chatUseCase.ListUser(id)
+	output, err := o.chatUseCase.ListMessage(id)
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{

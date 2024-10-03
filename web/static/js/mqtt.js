@@ -12,6 +12,32 @@ mqttClient.onConnectionLost = ConnectionLost;
 
 Connect();
 
+function Onclick() {
+    document.querySelectorAll(".user-id").forEach(function(element) {
+        element.addEventListener("click", function() {
+            var id = this.getAttribute("id");
+            FetchMessage(id);
+        });
+    });
+}
+
+function FetchMessage(id){
+   
+    fetch(`/list-message/${id}`) 
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Erro ao carregar a página');
+            }
+            return response.text(); 
+        })
+        .then(json => {
+            console.log(json);
+        })
+        .catch(error => {
+            console.error('Erro:', error);
+        }); 
+}
+
 function SelectUsers(){
 
     fetch(`/list-users/`) 
@@ -22,18 +48,21 @@ function SelectUsers(){
             return response.text(); 
         })
         .then(json => {
+            console.log(json);
             const obj = JSON.parse(json);
             var elements="";
-
+            
             obj.forEach(element => {
-                elements+=`<li id='${element.id}' page='${element.page}' timestamp='${element.time}' class='user-id'>
+                elements+=`<li id='${element.id}' class='user-id'>
                     <img src='${element.photo}' alt='${element.username}' />
                     <span>${element.username}</span>
                     <div class='clear'></div>
                 </li>`;
             });
 
+           
              document.getElementById('users').innerHTML = elements;
+             Onclick();
         })
         .catch(error => {
             console.error('Erro:', error);

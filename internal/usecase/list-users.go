@@ -18,7 +18,7 @@ func (i *UseCaseMessageUser) ListUsers() (*[]dto.PayloadUser, error) {
 			Username: v.Username,
 			Id:       v.Id,
 			Photo:    v.Photo,
-			Time:     v.Times,
+			Times:    v.Times,
 		})
 
 	}

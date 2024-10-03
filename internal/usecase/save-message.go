@@ -10,7 +10,7 @@ import (
 func (i *UseCaseMessageUser) SaveMessage(input *dto.PayloadMesage) (*dto.PayloadMesage, error) {
 	err := i.Irepository.PublishMessage(&entity.Message{
 		Message:  input.Message,
-		Time:     time.Now(),
+		Times:    time.Now(),
 		Username: input.Username,
 		UserId:   input.UserId,
 	})

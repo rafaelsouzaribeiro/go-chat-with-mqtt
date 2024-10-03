@@ -5,6 +5,7 @@ import "time"
 type Message struct {
 	Message  string
 	Username string
-	Time     time.Time
+	Times    time.Time
 	UserId   string
+	Pages    string
 }
