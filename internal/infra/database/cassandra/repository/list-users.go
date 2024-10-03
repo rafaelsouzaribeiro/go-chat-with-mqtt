@@ -7,7 +7,6 @@ import (
 )
 
 func (r *CassandraRepository) ListUsers() (*[]entity.User, error) {
-	entity.Once.Do(func() { entity.IndexU = entity.StartUIndex })
 
 	s := fmt.Sprintf(`SELECT photo,pages,username,id,times FROM %s.users 
 	WHERE pages=?;`, entity.KeySpace)
@@ -24,8 +23,6 @@ func (r *CassandraRepository) ListUsers() (*[]entity.User, error) {
 
 		messages = append(messages, message)
 	}
-
-	entity.IndexU++
 
 	return &messages, nil
 }

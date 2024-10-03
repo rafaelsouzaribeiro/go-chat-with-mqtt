@@ -3,7 +3,8 @@ var port = 9090;
 var clientId = "webio4mqttexample" + new Date().getUTCMilliseconds();
 var username = "root";
 var password = "123mudar";
-var userId = '1';
+var userId = "";
+var userName = "";
 
 var mqttClient = new Paho.MQTT.Client(hostname, port, clientId);
 mqttClient.onMessageArrived = MessageArrived;
@@ -31,7 +32,23 @@ function FetchMessage(id){
             return response.text(); 
         })
         .then(json => {
-            console.log(json);
+            var json = JSON.parse(json);
+
+            if(json!=null){
+                document.getElementById("chat-body").innerHTML="";
+                json.forEach(element => {
+                    document.getElementById("chat-body").innerHTML+=`<div class="message sent">
+                        <p>${element.message}
+                        </p>
+                        <span class="time">${formatTimestamp(element.times)}</span>
+                    </div>`;
+                });
+
+                userId = json[0].userId;
+                userName = json[0].username;
+   
+            }
+            
         })
         .catch(error => {
             console.error('Erro:', error);
@@ -49,7 +66,7 @@ function SelectUsers(){
         })
         .then(json => {
             console.log(json);
-            const obj = JSON.parse(json);
+            var obj = JSON.parse(json);
             var elements="";
             
             obj.forEach(element => {
@@ -84,8 +101,8 @@ function Connect() {
 function Connected() {
     console.log("Connected");
     mqttClient.subscribe(subscription);
-    SelectUsers();
-}
+    
+ }
 
 
 function ConnectionFailed(res) {
@@ -102,24 +119,66 @@ function ConnectionLost(res) {
 
 
 function MessageArrived(message) {
-    console.log("Mensagem recebida no tópico " + message.destinationName + " : " + message.payloadString);
+    var json = JSON.parse(message.payloadString)
+
+    if (json!=null){
+        document.getElementById("chat-body").innerHTML+=`<div class="message sent">
+            <p>${json.message}
+            </p>
+            <span class="time">${formatTimestamp(json.times)}</span>
+        </div>`;
+        console.log("Mensagem recebida no tópico " + message.destinationName + " : " + message.payloadString);
+    }
+
+   
 }
 
 
 function sendMessage() {
-    var jsonMessage = {
-        "username": "User123",
-        "message": "f",
-        "userId": "1"
-    };
+    message=document.getElementById("message-input").value.trim();
 
-    var payload = JSON.stringify(jsonMessage);
+    if (userId!="" && message!=""){
+        var jsonMessage = {
+            "username": userName,
+            "message": message,
+            "userId": userId,
+            "times" :new Date().toISOString(),
+        };
     
+        var payload = JSON.stringify(jsonMessage);
+        
+        
+        var message = new Paho.MQTT.Message(payload);
+        message.destinationName = subscription;
     
-    var message = new Paho.MQTT.Message(payload);
-    message.destinationName = subscription;
-
-    mqttClient.send(message);
-
-    console.log("Mensagem enviada: " + payload);
+        mqttClient.send(message);
+    
+        console.log("Mensagem enviada: " + payload);        
+    }
+   
 }
+
+function formatTimestamp(timestamp) {
+    var date = new Date(timestamp);
+
+    var day = date.getDate();
+    var month = date.getMonth() + 1; 
+    var year = date.getFullYear();
+
+    var hours = date.getHours();
+    var minutes = date.getMinutes();
+    var seconds = date.getSeconds();
+
+    day = day < 10 ? '0' + day : day;
+    month = month < 10 ? '0' + month : month;
+    hours = hours < 10 ? '0' + hours : hours;
+    minutes = minutes < 10 ? '0' + minutes : minutes;
+    seconds = seconds < 10 ? '0' + seconds : seconds;
+
+    return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
+}
+
+
+window.addEventListener("load", function() {
+    SelectUsers();
+});

@@ -12,7 +12,7 @@ var (
 	StartUIndex = int64(1)
 	PerPage     = int64(20)
 	KeySpace    = "chatmqtt"
-	IndexU      int64
+	IndexU      = int64(1)
 	IndexM      = int64(1)
 	Once        sync.Once
 	IdUser      int64
