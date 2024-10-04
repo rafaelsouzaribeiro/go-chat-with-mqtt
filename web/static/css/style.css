@@ -9,6 +9,7 @@ body {
     background-color: #f4f4f4;
 }
 
+
 .container {
     display: flex;
     flex-direction: row;
@@ -135,7 +136,67 @@ body {
     background-color: #1e90ff;
 }
 
-/* Responsividade */
+
+.login-container {
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    margin: 50px auto;
+}
+
+.login-box {
+    text-align: center;
+}
+
+.login-box h1 {
+    color: #25D366; /* WhatsApp green */
+    margin-bottom: 20px;
+}
+
+.input-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.input-group label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.login-btn {
+    width: 100%;
+    padding: 10px;
+    background-color: #25D366; /* WhatsApp green */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.login-btn:hover {
+    background-color: #20b058;
+}
+
+@media (max-width: 600px) {
+    .login-container {
+        padding: 15px;
+        max-width: 90%;
+    }
+}
+
 @media (max-width: 768px) {
     .container {
         flex-direction: column;

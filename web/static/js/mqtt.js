@@ -121,7 +121,7 @@ function ConnectionLost(res) {
 function MessageArrived(message) {
     var json = JSON.parse(message.payloadString)
 
-    if (json!=null){
+    if (json!=null && userId){
         document.getElementById("chat-body").innerHTML+=`<div class="message sent">
             <p>${json.message}
             </p>
