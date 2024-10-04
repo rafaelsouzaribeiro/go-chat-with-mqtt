@@ -15,6 +15,7 @@ func (w *WebServer) AddHandlerChat(order *usecase.UseCaseMessageUser) {
 	w.router.GET("/list-message/:id", chatHandler.ListMessage)
 	w.router.GET("/list-users/", chatHandler.Lists)
 	w.router.GET("/", chatHandler.LoginTemplates)
+	w.router.POST("/action", chatHandler.Action)
 
 	cre, err := middleware.NewCredential(3600, "go-index", nil)
 

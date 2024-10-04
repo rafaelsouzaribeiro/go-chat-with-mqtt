@@ -10,7 +10,7 @@
     <div class="login-container">
         <div class="login-box">
             <h1>Login</h1>
-            <form action="#">
+            <form id="login-form">
                 <div class="input-group">
                     <label for="phone-email">E-mail</label>
                     <input type="text" id="phone-email" placeholder="Entre com seu e-mail">
@@ -21,5 +21,37 @@
             </form>
         </div>
     </div>
+    <script type="text/javascript">
+        document.getElementById('login-form').addEventListener('submit', function(event) {
+            event.preventDefault(); 
+
+            const email = document.getElementById('phone-email').value;
+            const senha = document.getElementById('phone-senha').value;
+
+            fetch('/action', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    //'Authorization': 'Bearer ' + token,
+                },
+                body: JSON.stringify({
+                    email: email,
+                    senha: senha
+                })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Erro ao processar a requisição');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Success:', data);  // Manipule o sucesso da resposta
+            })
+            .catch(error => {
+                console.error('Error:', error);  // Manipule os erros
+            });
+        });
+    </script>
 </body>
 </html>

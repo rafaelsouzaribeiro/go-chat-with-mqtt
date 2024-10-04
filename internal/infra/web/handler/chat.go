@@ -10,6 +10,10 @@ import (
 func (o *ChatHandler) IndexTemplates(c *gin.Context) {
 	viper.AutomaticEnv()
 
+	token := c.Param("token")
+
+	c.Header("Authorization", "Bearer "+token)
+
 	data := gin.H{
 		"topic": viper.GetString("TOPIC_MQTT"),
 	}
