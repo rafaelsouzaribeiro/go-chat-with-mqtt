@@ -56,6 +56,24 @@
                 console.error('Error:', error);  
             });
         });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const cookieConsent = document.getElementById('cookieConsent');
+            const acceptCookies = document.getElementById('acceptCookies');
+
+            if (!localStorage.getItem('cookiesAccepted')) {
+                cookieConsent.style.display = 'block';
+            }
+
+            acceptCookies.addEventListener('click', function() {
+                localStorage.setItem('cookiesAccepted', 'true');
+                cookieConsent.style.display = 'none';
+            });
+        });
     </script>
+    <div class="cookie-consent" id="cookieConsent">
+        <p>Este site usa cookies para melhorar sua experiência. Ao continuar navegando, você concorda com o uso de cookies.</p>
+        <button id="acceptCookies">Aceitar</button>
+    </div>
 </body>
 </html>

@@ -15,9 +15,9 @@ func (o *ChatHandler) IndexTemplates(c *gin.Context) {
 		o.ClearSession(c, "go-chat")
 	}
 
-	a, ok := session.Values["userId"]
+	a, ok := session.Values["idUser"]
 	if !ok {
-		http.Error(c.Writer, "value not set", http.StatusInternalServerError)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "value not se"})
 		return
 	}
 

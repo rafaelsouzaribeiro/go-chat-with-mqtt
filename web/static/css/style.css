@@ -190,6 +190,40 @@ body {
     background-color: #20b058;
 }
 
+.cookie-consent {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 400px;
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+}
+
+.cookie-consent p {
+    margin-bottom: 10px;
+}
+
+.cookie-consent button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.cookie-consent button:hover {
+    background-color: #45a049;
+}
+
+
 @media (max-width: 600px) {
     .login-container {
         padding: 15px;
