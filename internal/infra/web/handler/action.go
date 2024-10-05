@@ -38,11 +38,11 @@ func (o *ChatHandler) Action(c *gin.Context) {
 		return
 	}
 
-	session.Values["username"] = loginReq.Username
+	session.Values["iduser"] = loginReq.Id
 
 	err = session.Save(c.Request, c.Writer)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Erro ao salvar a sessão"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error saving session"})
 		return
 	}
 
