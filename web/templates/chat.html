@@ -8,7 +8,6 @@
 </head>
 <body>
     <div class="container">
-        "{{.topic}}"
         <div class="user-list">
             <h3>Users</h3>
             <div>
@@ -40,6 +39,7 @@
     <script src="/static/js/mqttws31.min.js"></script>
     <script>
         var subscription = "{{.topic}}";
+        var loggedId = "{{.idUser}}";
     </script>
     <script src="/static/js/mqtt.js"></script>
 </body>

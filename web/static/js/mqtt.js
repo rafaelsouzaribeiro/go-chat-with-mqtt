@@ -137,12 +137,13 @@ function MessageArrived(message) {
 
 function sendMessage() {
     message=document.getElementById("message-input").value.trim();
-alert(userId)
+
     if (userId!="" && message!=""){
         var jsonMessage = {
             "username": userName,
             "message": message,
             "userId": userId,
+            "loggedId":loggedId,
             "times" :new Date().toISOString(),
         };
     
