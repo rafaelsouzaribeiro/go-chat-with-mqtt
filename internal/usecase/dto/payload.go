@@ -15,4 +15,5 @@ type PayloadUser struct {
 	Id       string    `json:"id"`
 	Photo    string    `json:"photo"`
 	Times    time.Time `json:"times"`
+	Password string    `json:"password"`
 }

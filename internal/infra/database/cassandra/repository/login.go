@@ -4,20 +4,13 @@ import (
 	"fmt"
 
 	"github.com/rafaelsouzaribeiro/go-chat-with-mqtt/internal/entity"
-	"golang.org/x/crypto/bcrypt"
 )
 
-func (r *CassandraRepository) Login(username, password string) (*entity.User, error) {
-	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+func (r *CassandraRepository) Login(username string) (*entity.User, error) {
+	s := fmt.Sprintf(`SELECT id,username,photo,password FROM %s.users_login
+					 WHERE username=?;`, entity.KeySpace)
 
-	if err != nil {
-		return nil, err
-	}
-
-	s := fmt.Sprintf(`SELECT id,username,photo FROM %s.users 
-					 WHERE username=? AND password=?;`, entity.KeySpace)
-
-	query := r.gocql.Query(s, username, hashedPassword)
+	query := r.gocql.Query(s, username)
 	iter := query.Iter()
 	defer iter.Close()
 

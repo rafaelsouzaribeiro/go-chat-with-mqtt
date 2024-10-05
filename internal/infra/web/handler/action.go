@@ -25,15 +25,14 @@ func (o *ChatHandler) Action(c *gin.Context) {
 		return
 	}
 
-	passwordHash, err := o.chatUseCase.HashPassword(loginReq.Password)
+	user, err := o.chatUseCase.Login(loginReq.Username)
+
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error generating password hash"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Error logging in"})
 		return
 	}
 
-	user, err := o.chatUseCase.Login(loginReq.Username, passwordHash)
-
-	if err != nil {
+	if !o.chatUseCase.CheckPassword(user.Password, loginReq.Password) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Error logging in"})
 		return
 	}
