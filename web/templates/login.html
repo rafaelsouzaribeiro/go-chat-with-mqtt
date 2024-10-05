@@ -15,7 +15,7 @@
                     <label for="phone-email">Username</label>
                     <input type="text" id="phone-username" required placeholder="Entre com seu username">
                     <label for="phone-senha">password</label>
-                    <input type="text" id="phone-senha" required placeholder="Entre com sua senha">
+                    <input type="password" id="phone-senha" required placeholder="Entre com sua senha">
                 </div>
                 <button type="submit" class="login-btn">Login</button>
             </form>
@@ -40,12 +40,17 @@
             })
             .then(response => {
                 if (!response.ok) {
-                    throw new Error('Error processing request');
+                    return response.json().then(errorData => {
+                        alert(errorData.error); 
+                    });
                 }
                 return response.json();
             })
             .then(data => {
-                console.log('Success:', data); 
+                if (data!=undefined){
+                    console.log('Success:', data); 
+                }
+               
             })
             .catch(error => {
                 console.error('Error:', error);  
