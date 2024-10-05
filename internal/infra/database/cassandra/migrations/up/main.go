@@ -59,7 +59,7 @@ func setCommands() {
 								password TEXT,
                                 times TIMESTAMP,
                                 photo TEXT,
-                                PRIMARY KEY((pages), times,id,username,password)
+                                PRIMARY KEY((pages), times,id)
                         ) WITH CLUSTERING ORDER BY (times DESC);`, entity.KeySpace)
 
 	cql[4] = fmt.Sprintf(`CREATE TABLE IF NOT EXISTS %s.users_login (
@@ -68,6 +68,6 @@ func setCommands() {
 			password TEXT,
 			times TIMESTAMP,
 			photo TEXT,
-			PRIMARY KEY(id,username)
-	)`, entity.KeySpace)
+			PRIMARY KEY(username)
+	);`, entity.KeySpace)
 }
