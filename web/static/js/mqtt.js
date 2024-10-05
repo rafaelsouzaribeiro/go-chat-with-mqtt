@@ -1,7 +1,7 @@
 var hostname = "127.0.0.1";  
 var port = 9090; 
 var clientId = "webio4mqttexample" + new Date().getUTCMilliseconds();
-var username = "root";
+var usernameCon = "root";
 var password = "123mudar";
 var userId = "";
 var userName = "";
@@ -33,9 +33,9 @@ function FetchMessage(id){
             return response.text(); 
         })
         .then(json => {
-            var json = JSON.parse(json);
-
             if(json!=null){
+                var json = JSON.parse(json);
+
                 document.getElementById("chat-body").innerHTML="";
                 json.forEach(element => {
                     document.getElementById("chat-body").innerHTML+=`<div class="message sent">
@@ -92,7 +92,7 @@ function Connect() {
         onSuccess: Connected,
         onFailure: ConnectionFailed,
         keepAliveInterval: 10,
-        userName: username,
+        userName: usernameCon,
         useSSL: false,
         password: password
     });
