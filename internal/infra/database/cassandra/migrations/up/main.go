@@ -7,7 +7,7 @@ import (
 	"github.com/rafaelsouzaribeiro/go-chat-with-mqtt/internal/infra/database/cassandra/migrations"
 )
 
-var cql = make([]string, 4)
+var cql = make([]string, 5)
 
 func main() {
 
