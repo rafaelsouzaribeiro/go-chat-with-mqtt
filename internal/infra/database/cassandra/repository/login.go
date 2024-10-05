@@ -17,7 +17,7 @@ func (r *CassandraRepository) Login(username string) (*entity.User, error) {
 	var user entity.User
 
 	for iter.Scan(&user.Id, &user.Username,
-		&user.Photo) {
+		&user.Photo, &user.Password) {
 
 		return &user, nil
 	}
