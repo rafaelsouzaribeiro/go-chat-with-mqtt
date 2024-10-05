@@ -17,6 +17,7 @@ function Onclick() {
     document.querySelectorAll(".user-id").forEach(function(element) {
         element.addEventListener("click", function() {
             var id = this.getAttribute("id");
+            userId=id;
             FetchMessage(id);
         });
     });
@@ -136,7 +137,7 @@ function MessageArrived(message) {
 
 function sendMessage() {
     message=document.getElementById("message-input").value.trim();
-
+alert(userId)
     if (userId!="" && message!=""){
         var jsonMessage = {
             "username": userName,

@@ -32,7 +32,6 @@
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    //'Authorization': 'Bearer ' + token,
                 },
                 body: JSON.stringify({
                     username: username,
@@ -41,15 +40,15 @@
             })
             .then(response => {
                 if (!response.ok) {
-                    throw new Error('Erro ao processar a requisição');
+                    throw new Error('Error processing request');
                 }
                 return response.json();
             })
             .then(data => {
-                console.log('Success:', data);  // Manipule o sucesso da resposta
+                console.log('Success:', data); 
             })
             .catch(error => {
-                console.error('Error:', error);  // Manipule os erros
+                console.error('Error:', error);  
             });
         });
     </script>

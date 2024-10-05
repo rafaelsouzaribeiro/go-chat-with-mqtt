@@ -16,6 +16,13 @@ func (o *ChatHandler) Action(c *gin.Context) {
 	if err := c.ShouldBindJSON(&loginReq); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
+
+	}
+
+	session, err := store.Get(c.Request, "go-chat")
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error getting session"})
+		return
 	}
 
 	passwordHash, err := o.chatUseCase.HashPassword(loginReq.Password)
@@ -28,6 +35,14 @@ func (o *ChatHandler) Action(c *gin.Context) {
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Error logging in"})
+		return
+	}
+
+	session.Values["username"] = loginReq.Username
+
+	err = session.Save(c.Request, c.Writer)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Erro ao salvar a sessão"})
 		return
 	}
 
