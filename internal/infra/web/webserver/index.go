@@ -5,7 +5,6 @@ import (
 
 	"github.com/rafaelsouzaribeiro/go-chat-with-mqtt/internal/infra/web/handler"
 	"github.com/rafaelsouzaribeiro/go-chat-with-mqtt/internal/usecase"
-	"github.com/rafaelsouzaribeiro/jwt-auth/pkg/middleware"
 )
 
 func (w *WebServer) AddHandlerChat(order *usecase.UseCaseMessageUser) {
@@ -16,14 +15,7 @@ func (w *WebServer) AddHandlerChat(order *usecase.UseCaseMessageUser) {
 	w.router.GET("/list-users/", chatHandler.Lists)
 	w.router.GET("/", chatHandler.LoginTemplates)
 	w.router.POST("/action", chatHandler.Action)
-
-	cre, err := middleware.NewCredential(3600, "go-index", nil)
-
-	if err != nil {
-		panic(err)
-	}
-
-	w.router.GET("/index/:token", cre.AuthMiddlewareGin(), chatHandler.IndexTemplates)
+	w.router.GET("/index", chatHandler.IndexTemplates)
 }
 
 func (w *WebServer) Start() {

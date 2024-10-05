@@ -6,6 +6,7 @@ type Irepository interface {
 	PublishMessage(msg *Message) error
 	ListMessage(id string) (*[]Message, error)
 	ListUsers() (*[]User, error)
+	Login(username, password string) (*User, error)
 }
 
 var (

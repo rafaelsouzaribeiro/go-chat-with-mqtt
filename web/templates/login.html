@@ -12,10 +12,10 @@
             <h1>Login</h1>
             <form id="login-form">
                 <div class="input-group">
-                    <label for="phone-email">E-mail</label>
-                    <input type="text" id="phone-email" placeholder="Entre com seu e-mail">
-                    <label for="phone-senha">Senha</label>
-                    <input type="text" id="phone-senha" placeholder="Entre com sua senha">
+                    <label for="phone-email">Username</label>
+                    <input type="text" id="phone-username" required placeholder="Entre com seu username">
+                    <label for="phone-senha">password</label>
+                    <input type="text" id="phone-senha" required placeholder="Entre com sua senha">
                 </div>
                 <button type="submit" class="login-btn">Login</button>
             </form>
@@ -25,7 +25,7 @@
         document.getElementById('login-form').addEventListener('submit', function(event) {
             event.preventDefault(); 
 
-            const email = document.getElementById('phone-email').value;
+            const username = document.getElementById('phone-username').value;
             const senha = document.getElementById('phone-senha').value;
 
             fetch('/action', {
@@ -35,8 +35,8 @@
                     //'Authorization': 'Bearer ' + token,
                 },
                 body: JSON.stringify({
-                    email: email,
-                    senha: senha
+                    username: username,
+                    password: senha
                 })
             })
             .then(response => {

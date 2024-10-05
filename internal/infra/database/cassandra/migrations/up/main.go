@@ -56,8 +56,9 @@ func setCommands() {
                                 id TEXT,
                                 pages INT,
                                 username TEXT,
+								password TEXT,
                                 times TIMESTAMP,
                                 photo TEXT,
-                                PRIMARY KEY ((pages), times,id)
+                                PRIMARY KEY PRIMARY KEY ((pages), times,id,username,password)
                         ) WITH CLUSTERING ORDER BY (times DESC);`, entity.KeySpace)
 }

@@ -8,4 +8,5 @@ type User struct {
 	Photo    string
 	Times    time.Time
 	Pages    string
+	Password string
 }
