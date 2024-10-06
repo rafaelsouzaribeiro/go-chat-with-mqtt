@@ -178,12 +178,13 @@ body {
 .login-btn {
     width: 100%;
     padding: 10px;
-    background-color: #25D366; /* WhatsApp green */
+    background-color: #25D366; 
     color: white;
     border: none;
     border-radius: 5px;
     font-size: 16px;
     cursor: pointer;
+    margin-top: 20px;
 }
 
 .login-btn:hover {
@@ -192,9 +193,9 @@ body {
 
 .cookie-consent {
     position: fixed;
-    bottom: 0;
+    top: 50%;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translate(-50%, -50%); /* Centraliza tanto horizontalmente quanto verticalmente */
     width: 100%;
     max-width: 400px;
     background-color: #333;
