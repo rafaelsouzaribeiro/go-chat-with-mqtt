@@ -224,6 +224,12 @@ body {
 }
 
 
+a.registration{
+    text-decoration: none;
+    color:#45a049;
+}
+
+
 @media (max-width: 600px) {
     .login-container {
         padding: 15px;

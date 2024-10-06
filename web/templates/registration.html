@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration - Chat App</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-box">
+            <h1>Registration</h1>
+            <form id="registration">
+                <div class="input-group">
+                    <label for="photo">Photo</label>
+                    <input type="text" id="photo" required placeholder="Enter the link to your photo">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" required placeholder="Enter your username">
+                    <label for="password">password</label>
+                    <input type="password" id="password" required placeholder="Enter your password">
+                    <label for="password">Confirm password</label>
+                    <input type="password" id="repeat-password" required placeholder="Repeat password">
+                </div>
+                <button type="submit" class="login-btn">Submit</button>
+            </form>
+        </div>
+    </div>
+    <script type="text/javascript">
+        document.getElementById('registration').addEventListener('submit', function(event) {
+            event.preventDefault(); 
+
+            const photo = document.getElementById('photo').value.trim();
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value.trim();
+            const repeatpassword = document.getElementById('repeat-password').value.trim();
+
+            if (photo==""){
+                alert("Enter your photo");
+                photo.focus();
+                return false;
+            }
+
+            if (username==""){
+                alert("Enter your username");
+                username.focus();
+                return false;
+            }
+
+            if (password==""){
+                alert("Enter your password");
+                password.focus();
+                return false;
+            }
+
+            if (password!=repeatpassword){
+                alert("Password and confirm password must match");
+                password.focus();
+                return false;
+            }
+
+            fetch('/action-registration', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    photo:photo,
+                    username: username,
+                    password: password,
+                })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then(errorData => {
+                        alert(errorData.error); 
+                    });
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data!=undefined){
+                    alert("Successfully registered")
+                    window.location.href="/";
+                }
+               
+            })
+            .catch(error => {
+                console.error('Error:', error);  
+            });
+            });       
+    </script>
+</body>
+</html>
