@@ -10,7 +10,7 @@ func (i *UseCaseMessageUser) Login(username string) (*dto.PayloadUser, error) {
 	}
 
 	return &dto.PayloadUser{
-		Username: user.Photo,
+		Username: user.Username,
 		Id:       user.Id,
 		Photo:    user.Photo,
 		Times:    user.Times,

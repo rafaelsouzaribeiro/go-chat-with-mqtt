@@ -37,7 +37,8 @@ func (o *ChatHandler) Action(c *gin.Context) {
 		o.ClearSession(c, "go-chat")
 	}
 
-	session.Values["idUser"] = user.Id
+	session.Values["username"] = user.Username
+	session.Values["password"] = user.Password
 
 	err = session.Save(c.Request, c.Writer)
 	if err != nil {

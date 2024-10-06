@@ -6,9 +6,9 @@ import (
 	"github.com/rafaelsouzaribeiro/go-chat-with-mqtt/internal/usecase/dto"
 )
 
-func (r *UseCaseMessageUser) CheckUser(id string) (*dto.PayloadUser, error) {
+func (r *UseCaseMessageUser) CheckUser(password, username string) (*dto.PayloadUser, error) {
 
-	user, err := r.Irepository.CheckUser(id)
+	user, err := r.Irepository.CheckUser(password, username)
 
 	if err != nil {
 		return nil, err

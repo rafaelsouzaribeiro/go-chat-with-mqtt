@@ -15,13 +15,19 @@ func (o *ChatHandler) IndexTemplates(c *gin.Context) {
 		o.ClearSession(c, "go-chat")
 	}
 
-	id, ok := session.Values["idUser"]
+	username, ok := session.Values["username"]
 	if !ok {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "value not set"})
 		return
 	}
 
-	user, err := o.chatUseCase.CheckUser(id.(string))
+	password, ok := session.Values["password"]
+	if !ok {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "value not set"})
+		return
+	}
+
+	user, err := o.chatUseCase.CheckUser(password.(string), username.(string))
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "user not logged in"})
@@ -30,7 +36,7 @@ func (o *ChatHandler) IndexTemplates(c *gin.Context) {
 
 	data := gin.H{
 		"topic":    viper.GetString("TOPIC_MQTT"),
-		"idUser":   id.(string),
+		"idUser":   user.Id,
 		"username": user.Username,
 		"photo":    user.Photo,
 	}

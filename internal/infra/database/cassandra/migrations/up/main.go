@@ -68,6 +68,6 @@ func setCommands() {
 			password TEXT,
 			times TIMESTAMP,
 			photo TEXT,
-			PRIMARY KEY(username)
+			PRIMARY KEY(username,password)
 	);`, entity.KeySpace)
 }

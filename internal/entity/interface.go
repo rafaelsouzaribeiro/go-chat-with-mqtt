@@ -7,7 +7,7 @@ type Irepository interface {
 	ListMessage(id string) (*[]Message, error)
 	ListUsers() (*[]User, error)
 	Login(username string) (*User, error)
-	CheckUser(id string) (*User, error)
+	CheckUser(password, username string) (*User, error)
 }
 
 var (

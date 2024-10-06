@@ -6,12 +6,12 @@ import (
 	"github.com/rafaelsouzaribeiro/go-chat-with-mqtt/internal/entity"
 )
 
-func (r *CassandraRepository) CheckUser(id string) (*entity.User, error) {
+func (r *CassandraRepository) CheckUser(password, username string) (*entity.User, error) {
 
-	s := fmt.Sprintf(`SELECT id,username,photo,times FROM %s.users 
-					 WHERE id=?;`, entity.KeySpace)
+	s := fmt.Sprintf(`SELECT id,username,photo,times FROM %s.users_login 
+					 WHERE password=? AND username=?;`, entity.KeySpace)
 
-	query := r.gocql.Query(s, id)
+	query := r.gocql.Query(s, password, username)
 	iter := query.Iter()
 	defer iter.Close()
 

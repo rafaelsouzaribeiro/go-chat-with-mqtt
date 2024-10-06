@@ -14,7 +14,6 @@ func (o *ChatHandler) ActionRegistration(c *gin.Context) {
 	if err := c.ShouldBindJSON(&loginReq); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
-
 	}
 	fmt.Printf("%v", loginReq)
 	c.JSON(http.StatusOK, loginReq)
