@@ -15,14 +15,14 @@ func (r *CassandraRepository) ListUsers() (*[]entity.User, error) {
 	iter := query.Iter()
 	defer iter.Close()
 
-	var message entity.User
-	var messages []entity.User
+	var user entity.User
+	var users []entity.User
 
-	for iter.Scan(&message.Photo, &message.Pages, &message.Username,
-		&message.Id, &message.Times) {
+	for iter.Scan(&user.Photo, &user.Pages, &user.Username,
+		&user.Id, &user.Times) {
 
-		messages = append(messages, message)
+		users = append(users, user)
 	}
 
-	return &messages, nil
+	return &users, nil
 }
