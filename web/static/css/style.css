@@ -93,13 +93,13 @@ body {
     color: #999;
 }
 
-#users img{
+#users img,.user-itens img{
     clip-path: circle();
     width: 20%;
     float: left;
 }
 
-#users span{
+#users span,.user-itens figcaption{
     float: left;
     margin-top: 18px;
     margin-left: 10px;
@@ -228,6 +228,25 @@ body {
 a.registration{
     text-decoration: none;
     color:#45a049;
+}
+
+figure.profile img{
+    width: 20%;
+    clip-path: circle();
+   
+}
+
+.profile-user{
+    margin-bottom: 83px;
+}
+
+figure.profile *{
+    float: left;
+}
+
+figure.profile figcaption{
+    margin-top: 26px;
+    margin-left: 9px;
 }
 
 
