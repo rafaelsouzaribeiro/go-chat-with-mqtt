@@ -37,13 +37,17 @@ function FetchMessage(id){
                 var json = JSON.parse(json);
 
                 document.getElementById("chat-body").innerHTML="";
-                json.forEach(element => {
-                    document.getElementById("chat-body").innerHTML+=`<div class="message sent">
-                        <p>${element.message}
-                        </p>
-                        <span class="time">${formatTimestamp(element.times)}</span>
-                    </div>`;
-                });
+                
+                if (json!=null){
+                    json.forEach(element => {
+                        document.getElementById("chat-body").innerHTML+=`<div class="message sent">
+                            <p>${element.message}
+                            </p>
+                            <span class="time">${formatTimestamp(element.times)}</span>
+                        </div>`;
+                    });
+                }
+         
 
             }
             
@@ -68,6 +72,8 @@ function SelectUsers(){
                 var elements="";
                 
                 obj.forEach(element => {
+                    if (loggedId==element.id){return;} 
+
                     elements+=`<li id='${element.id}' class='user-id'>
                         <img src='${element.photo}' alt='${element.username}' />
                         <span>${element.username}</span>
@@ -121,12 +127,15 @@ function MessageArrived(message) {
     var json = JSON.parse(message.payloadString)
 
     if (json!=null && userId){
-        document.getElementById("chat-body").innerHTML+=`<div class="message sent">
-            <p>${json.message}
-            </p>
-            <span class="time">${formatTimestamp(json.times)}</span>
-        </div>`;
-        console.log("Mensagem recebida no tópico " + message.destinationName + " : " + message.payloadString);
+        if ((json.loggedId == loggedId && json.userId == userId) || 
+        (json.loggedId == userId && json.userId == loggedId)) {
+            document.getElementById("chat-body").innerHTML+=`<div class="message sent">
+                <p>${json.message}
+                </p>
+                <span class="time">${formatTimestamp(json.times)}</span>
+            </div>`;
+            console.log("Mensagem recebida no tópico " + message.destinationName + " : " + message.payloadString);
+        }
     }
 
    
@@ -136,7 +145,7 @@ function MessageArrived(message) {
 function sendMessage() {
     message=document.getElementById("message-input").value.trim();
 
-    if (message!=""){
+    if (message!="" && userId){
         var jsonMessage = {
             "username": loggeduser,
             "message": message,

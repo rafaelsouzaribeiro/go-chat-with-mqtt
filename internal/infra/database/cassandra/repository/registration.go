@@ -22,16 +22,17 @@ func (i *CassandraRepository) Registration(user entity.User) (*entity.User, erro
 	defer pg.Iter.Close()
 
 	batch := i.gocql.NewBatch(gocql.LoggedBatch)
+	id := uuid.NewString()
 
 	q := fmt.Sprintf(`INSERT INTO %s.users_login (id,username,password,photo,times)
 						  VALUES (?, ?, ?, ?, ?)`, entity.KeySpace)
 
-	batch.Query(q, uuid.NewString(), user.Username, user.Password, user.Photo, time.Now())
+	batch.Query(q, id, user.Username, user.Password, user.Photo, time.Now())
 
 	q = fmt.Sprintf(`INSERT INTO %s.users (id,pages,username,password,photo,times)
 	VALUES (?, ?, ?, ?, ?,?)`, entity.KeySpace)
 
-	batch.Query(q, uuid.NewString(), pg.Page, user.Username, user.Password, user.Photo, time.Now())
+	batch.Query(q, id, pg.Page, user.Username, user.Password, user.Photo, time.Now())
 
 	if pg.Iter.NumRows() == 0 {
 		query := fmt.Sprintf(`INSERT INTO %s.pagination_users (id,page,total) VALUES (?,?,?)`,
