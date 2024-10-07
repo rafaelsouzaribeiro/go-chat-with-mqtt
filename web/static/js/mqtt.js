@@ -66,21 +66,22 @@ function SelectUsers(){
             return response.text(); 
         })
         .then(json => {
-            console.log(json);
-            var obj = JSON.parse(json);
-            var elements="";
-            
-            obj.forEach(element => {
-                elements+=`<li id='${element.id}' class='user-id'>
-                    <img src='${element.photo}' alt='${element.username}' />
-                    <span>${element.username}</span>
-                    <div class='clear'></div>
-                </li>`;
-            });
+            if (json!=null){
+                var obj = JSON.parse(json);
+                var elements="";
+                
+                obj.forEach(element => {
+                    elements+=`<li id='${element.id}' class='user-id'>
+                        <img src='${element.photo}' alt='${element.username}' />
+                        <span>${element.username}</span>
+                        <div class='clear'></div>
+                    </li>`;
+                });
 
-           
-             document.getElementById('users').innerHTML = elements;
-             Onclick();
+            
+                document.getElementById('users').innerHTML = elements;
+                Onclick();
+            }
         })
         .catch(error => {
             console.error('Erro:', error);

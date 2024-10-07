@@ -16,11 +16,17 @@ func (o *ChatHandler) ActionRegistration(c *gin.Context) {
 		return
 	}
 
-	println(loginReq.Username, loginReq.Photo, loginReq.Password)
+	p, err := o.chatUseCase.HashPassword(loginReq.Password)
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
 	user, err := o.chatUseCase.Registration(&dto.PayloadUser{
 		Username: loginReq.Username,
 		Photo:    loginReq.Photo,
-		Password: loginReq.Password,
+		Password: p,
 	})
 
 	if err != nil {
