@@ -34,11 +34,12 @@ func main() {
 func setCommands() {
 	cql[0] = fmt.Sprintf(`CREATE TABLE IF NOT EXISTS %s.messages (
 			userid TEXT,
+			receive TEXT,
             message TEXT,
             pages INT,
 			username TEXT,
             times TIMESTAMP,
-            PRIMARY KEY (userid,pages,times )
+	        PRIMARY KEY ((userid, receive), pages, times)
         ) WITH CLUSTERING ORDER BY (pages ASC,times DESC);`, entity.KeySpace)
 
 	cql[1] = fmt.Sprintf(`CREATE TABLE IF NOT EXISTS %s.pagination_users (
