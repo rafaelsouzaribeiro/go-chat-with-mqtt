@@ -45,9 +45,6 @@ function FetchMessage(id){
                     </div>`;
                 });
 
-                userId = json[0].userId;
-                userName = json[0].username;
-   
             }
             
         })
@@ -139,9 +136,9 @@ function MessageArrived(message) {
 function sendMessage() {
     message=document.getElementById("message-input").value.trim();
 
-    if (userId!="" && message!=""){
+    if (message!=""){
         var jsonMessage = {
-            "username": userName,
+            "username": loggeduser,
             "message": message,
             "userId": userId,
             "loggedId":loggedId,
