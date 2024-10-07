@@ -8,6 +8,7 @@ type Irepository interface {
 	ListUsers() (*[]User, error)
 	Login(username string) (*User, error)
 	CheckUser(password, username string) (*User, error)
+	Registration(user User) (*User, error)
 }
 
 var (

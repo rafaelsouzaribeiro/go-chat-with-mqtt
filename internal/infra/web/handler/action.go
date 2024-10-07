@@ -16,9 +16,7 @@ func (o *ChatHandler) Action(c *gin.Context) {
 
 	if err := c.ShouldBindJSON(&loginReq); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-
 		return
-
 	}
 
 	user, err := o.chatUseCase.Login(loginReq.Username)
@@ -43,7 +41,7 @@ func (o *ChatHandler) Action(c *gin.Context) {
 
 	err = session.Save(c.Request, c.Writer)
 	if err != nil {
-		http.Error(c.Writer, err.Error(), http.StatusInternalServerError)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error save session"})
 		return
 	}
 

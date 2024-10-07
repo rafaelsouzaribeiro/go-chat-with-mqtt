@@ -36,25 +36,21 @@
 
             if (photo==""){
                 alert("Enter your photo");
-                photo.focus();
                 return false;
             }
 
             if (username==""){
                 alert("Enter your username");
-                username.focus();
                 return false;
             }
 
             if (password==""){
                 alert("Enter your password");
-                password.focus();
                 return false;
             }
 
             if (password!=repeatpassword){
                 alert("Password and confirm password must match");
-                password.focus();
                 return false;
             }
 
@@ -80,7 +76,8 @@
             .then(data => {
                 if (data!=undefined){
                     alert("Successfully registered")
-                    window.location.href="/";
+                    console.log(data)
+                    // window.location.href="/";
                 }
                
             })

@@ -11,7 +11,7 @@ import (
 
 func (i *CassandraRepository) PublishMessage(input *entity.Message) error {
 
-	pg := i.GetPagination()
+	pg := i.GetPaginationMessage()
 	defer pg.Iter.Close()
 
 	if strings.TrimSpace(input.Message) != "" {

@@ -6,7 +6,7 @@ import (
 	"github.com/rafaelsouzaribeiro/go-chat-with-mqtt/internal/entity"
 )
 
-func (r *CassandraRepository) GetPagination() Pagination {
+func (r *CassandraRepository) GetPaginationMessage() Pagination {
 	var save Pagination
 	var total int = 1
 	var page int = 1
