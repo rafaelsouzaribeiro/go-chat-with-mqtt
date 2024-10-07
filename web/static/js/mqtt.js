@@ -37,7 +37,7 @@ function FetchMessage(id){
                 var json = JSON.parse(json);
 
                 document.getElementById("chat-body").innerHTML="";
-                
+
                 if (json!=null){
                     json.forEach(element => {
                         document.getElementById("chat-body").innerHTML+=`<div class="message sent">
@@ -126,7 +126,7 @@ function ConnectionLost(res) {
 function MessageArrived(message) {
     var json = JSON.parse(message.payloadString)
 
-    if (json!=null && userId){
+    if (json!=null){
         if ((json.loggedId == loggedId && json.userId == userId) || 
         (json.loggedId == userId && json.userId == loggedId)) {
             document.getElementById("chat-body").innerHTML+=`<div class="message sent">
