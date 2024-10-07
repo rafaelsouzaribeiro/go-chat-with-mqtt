@@ -6,12 +6,12 @@ import (
 	"github.com/rafaelsouzaribeiro/go-chat-with-mqtt/internal/entity"
 )
 
-func (r *CassandraRepository) ListMessage(id string) (*[]entity.Message, error) {
+func (r *CassandraRepository) ListMessage(id, receive string) (*[]entity.Message, error) {
 
-	s := fmt.Sprintf(`SELECT message,pages,username,userid,times FROM %s.messages 
-	WHERE pages=? AND userid=? ORDER BY times ASC;`, entity.KeySpace)
+	s := fmt.Sprintf(`SELECT message,pages,username,userid,times,receive FROM %s.messages 
+	WHERE pages=? AND userid=? AND receive=? ORDER BY times ASC;`, entity.KeySpace)
 
-	query := r.gocql.Query(s, entity.IndexM, id)
+	query := r.gocql.Query(s, entity.IndexM, id, receive)
 	iter := query.Iter()
 	defer iter.Close()
 
@@ -19,7 +19,7 @@ func (r *CassandraRepository) ListMessage(id string) (*[]entity.Message, error) 
 	var messages []entity.Message
 
 	for iter.Scan(&message.Message, &message.Pages, &message.Username,
-		&message.UserId, &message.Times) {
+		&message.UserId, &message.Times, &message.Receive) {
 
 		messages = append(messages, message)
 	}

@@ -8,6 +8,7 @@ type PayloadMesage struct {
 	UserId   string    `json:"userId"`
 	Times    time.Time `json:"times"`
 	Pages    string    `json:"pages"`
+	Receive  string    `json:"receive"`
 }
 
 type PayloadUser struct {

@@ -18,9 +18,9 @@ func (i *CassandraRepository) PublishMessage(input *entity.Message) error {
 	batch := i.gocql.NewBatch(gocql.LoggedBatch)
 
 	if strings.TrimSpace(input.Message) != "" {
-		q := fmt.Sprintf(`INSERT INTO %s.messages (userid,message,username,pages,times)
-						  VALUES (?, ?, ?, ?, ?)`, entity.KeySpace)
-		batch.Query(q, input.UserId, input.Message, input.Username, pg.Page, time.Now())
+		q := fmt.Sprintf(`INSERT INTO %s.messages (userid,message,username,pages,receive,times)
+						  VALUES (?, ?, ?, ?, ?,?)`, entity.KeySpace)
+		batch.Query(q, input.UserId, input.Message, input.Username, pg.Page, input.Receive, time.Now())
 
 		if pg.Iter.NumRows() == 0 {
 			query := fmt.Sprintf(`INSERT INTO %s.pagination_messages (id,page,total) VALUES (?,?,?)`,

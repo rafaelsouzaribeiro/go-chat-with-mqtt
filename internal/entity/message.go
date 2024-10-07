@@ -8,4 +8,5 @@ type Message struct {
 	Times    time.Time
 	UserId   string
 	Pages    string
+	Receive  string
 }

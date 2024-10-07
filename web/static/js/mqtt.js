@@ -25,7 +25,7 @@ function Onclick() {
 
 function FetchMessage(id){
    
-    fetch(`/list-message/${id}`) 
+    fetch(`/list-message/${id}/${loggedId}`) 
         .then(response => {
             if (!response.ok) {
                 throw new Error('Erro ao carregar a página');
@@ -125,10 +125,11 @@ function ConnectionLost(res) {
 
 function MessageArrived(message) {
     var json = JSON.parse(message.payloadString)
+    console.log(json);
 
     if (json!=null){
-        if ((json.loggedId == loggedId && json.userId == userId) || 
-        (json.loggedId == userId && json.userId == loggedId)) {
+        if ((json.receive == loggedId && json.userId == userId) || 
+        (json.receive == userId && json.userId == loggedId)) { 
             document.getElementById("chat-body").innerHTML+=`<div class="message sent">
                 <p>${json.message}
                 </p>
@@ -145,12 +146,12 @@ function MessageArrived(message) {
 function sendMessage() {
     message=document.getElementById("message-input").value.trim();
 
-    if (message!="" && userId){
+    if (message!="" && userId){ 
         var jsonMessage = {
             "username": loggeduser,
             "message": message,
             "userId": userId,
-            "loggedId":loggedId,
+            "receive":loggedId,
             "times" :new Date().toISOString(),
         };
     

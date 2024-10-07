@@ -18,13 +18,24 @@ func (b *Broker) callbackFn(cl *mqtt.Client, sub packets.Subscription, pk packet
 		return
 	}
 
-	dto := dto.PayloadMesage{
+	_, err = b.Usecase.SaveMessage(&dto.PayloadMesage{
 		Message:  Payload.Message,
 		Username: Payload.Username,
 		UserId:   Payload.UserId,
+		Receive:  Payload.Receive,
+	})
+
+	if err != nil {
+		fmt.Printf("Failed to save message: %v\n", err)
+		return
 	}
 
-	_, err = b.Usecase.SaveMessage(&dto)
+	_, err = b.Usecase.SaveMessage(&dto.PayloadMesage{
+		Message:  Payload.Message,
+		Username: Payload.Username,
+		UserId:   Payload.Receive,
+		Receive:  Payload.UserId,
+	})
 
 	if err != nil {
 		fmt.Printf("Failed to save message: %v\n", err)
