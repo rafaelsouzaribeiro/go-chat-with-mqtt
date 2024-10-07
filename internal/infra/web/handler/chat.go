@@ -15,19 +15,14 @@ func (o *ChatHandler) IndexTemplates(c *gin.Context) {
 		o.ClearSession(c, "go-chat")
 	}
 
-	username, ok := session.Values["username"]
-	if !ok {
+	result := session.Flashes()
+
+	if result == nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "value not set"})
 		return
 	}
 
-	password, ok := session.Values["password"]
-	if !ok {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "value not set"})
-		return
-	}
-
-	user, err := o.chatUseCase.CheckUser(password.(string), username.(string))
+	user, err := o.chatUseCase.CheckUser(result[1].(string), result[0].(string))
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "user not logged in"})
