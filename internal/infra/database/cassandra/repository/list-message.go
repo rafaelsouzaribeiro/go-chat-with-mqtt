@@ -10,7 +10,7 @@ func (r *CassandraRepository) ListMessage(id, receive string) (*[]entity.Message
 
 	pg := r.GetPaginationMessage(id, receive)
 	defer pg.Iter.Close()
-	p := pg.Page - 1
+	p := pg.Page
 
 	s := fmt.Sprintf(`SELECT message,pages,username,userid,times,receive,types FROM %s.messages 
 	WHERE pages=? AND userid=? AND receive=? ORDER BY times ASC;`, entity.KeySpace)
@@ -29,7 +29,7 @@ func (r *CassandraRepository) ListMessage(id, receive string) (*[]entity.Message
 		messages = append(messages, message)
 	}
 
-	query2 := r.gocql.Query(s, pg.Page, receive, id)
+	query2 := r.gocql.Query(s, p, receive, id)
 	iter2 := query2.Iter()
 	defer iter2.Close()
 
