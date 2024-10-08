@@ -9,9 +9,37 @@ var userName = "";
 var mqttClient = new Paho.MQTT.Client(hostname, port, clientId);
 mqttClient.onMessageArrived = MessageArrived;
 mqttClient.onConnectionLost = ConnectionLost;
+const emojis = ["😀", "😃", "😄", "😁", "😆", "😅", "😂", "🤣", "😊", 
+    "😇","💗","💔","❤️‍🔥","❤","😍","😴","😌","😌","🤤","😱","😭","😩","🤬","🤡","👹","👺","👻","👽"
+    ,"👾","🙌","🤝","🙏","👍","👎"];
+const emojiContainer = document.querySelector(".icones");
 
+
+emojis.forEach((emoji) => {
+    const emojiDiv = document.createElement("div");
+    emojiDiv.classList.add("emoji");
+    emojiDiv.innerText = emoji;
+    emojiContainer.appendChild(emojiDiv);
+});
+
+
+document.getElementById("icon").addEventListener("click",function(){
+    var icones = document.getElementById("icones");
+    if (icones.style.display === "none") {
+        icones.style.display = "block"; 
+    } else {
+        icones.style.display = "none";  
+    }
+});
+
+function OnclickImo(){
+    emojiContainer.addEventListener("click",(e)=>{
+        document.getElementById("message-input").value+=e.target.innerText;
+    })
+}
 
 Connect();
+OnclickImo();
 
 function Onclick() {
     document.querySelectorAll(".user-id").forEach(function(element) {

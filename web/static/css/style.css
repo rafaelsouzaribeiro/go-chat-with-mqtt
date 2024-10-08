@@ -114,6 +114,29 @@ body {
     padding: 15px;
     background-color: #dfe4ea;
     display: flex;
+    position: relative;
+}
+
+.chat-footer img{
+    position: absolute;
+    top:-5px;
+    width: 30px;
+    cursor: pointer;
+}
+
+
+.icones{
+    position: absolute;
+    top:-40px;
+    display: none;
+}
+
+.icones div.emoji{
+    float: left;
+    padding: 5px;
+    cursor: pointer;
+    background-color: #57606F;
+   
 }
 
 .chat-footer input[type="text"] {
