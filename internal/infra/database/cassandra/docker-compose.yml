@@ -1,0 +1,14 @@
+services:
+  cassandra:
+    image: cassandra:latest
+    network_mode: bridge
+    ports:
+      - "9042:9042"
+    container_name: cassandra
+    volumes:
+       - /mnt/docker/volumes/cassandra:/var/lib/cassandra
+    env_file: ../../../../cmd/.env   
+
+       
+       
+
