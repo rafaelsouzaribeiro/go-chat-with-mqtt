@@ -46,7 +46,6 @@ function Onclick() {
         element.addEventListener("click", function() {
             var id = this.getAttribute("id");
             userId=id;
-            alert(userId)
             document.querySelectorAll(".user-id").forEach(function(el) {
                 el.style.backgroundColor = "#57606f";
             });
