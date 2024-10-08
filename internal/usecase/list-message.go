@@ -20,6 +20,7 @@ func (i *UseCaseMessageUser) ListMessage(id, receive string) (*[]dto.PayloadMesa
 			UserId:   v.UserId,
 			Times:    v.Times,
 			Pages:    v.Pages,
+			Receive:  v.Receive,
 		})
 
 	}
