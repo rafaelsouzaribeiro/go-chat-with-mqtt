@@ -28,7 +28,7 @@ function FetchMessage(id){
     fetch(`/list-message/${id}/${loggedId}`) 
         .then(response => {
             if (!response.ok) {
-                throw new Error('Erro ao carregar a página');
+                throw new Error('Error loading page');
             }
             return response.text(); 
         })
@@ -135,7 +135,7 @@ function MessageArrived(message) {
                 </p>
                 <span class="time">${formatTimestamp(json.times)}</span>
             </div>`;
-            console.log("Mensagem recebida no tópico " + message.destinationName + " : " + message.payloadString);
+            console.log("Message received in topic " + message.destinationName + " : " + message.payloadString);
         }
     }
 
