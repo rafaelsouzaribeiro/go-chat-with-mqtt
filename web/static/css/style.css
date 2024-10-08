@@ -127,13 +127,16 @@ body {
 
 .icones{
     position: absolute;
-    top:-40px;
+    top:-70px;
     display: none;
+    width: 90%;
+    z-index: 1000;
+
 }
 
 .icones div.emoji{
     float: left;
-    padding: 5px;
+    padding: 10px;
     cursor: pointer;
     background-color: #57606F;
    
