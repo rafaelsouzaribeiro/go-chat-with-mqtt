@@ -30,15 +30,4 @@ func (b *Broker) callbackFn(cl *mqtt.Client, sub packets.Subscription, pk packet
 		return
 	}
 
-	_, err = b.Usecase.SaveMessage(&dto.PayloadMesage{
-		Message:  Payload.Message,
-		Username: Payload.Username,
-		UserId:   Payload.Receive,
-		Receive:  Payload.UserId,
-	})
-
-	if err != nil {
-		fmt.Printf("Failed to save message: %v\n", err)
-		return
-	}
 }
