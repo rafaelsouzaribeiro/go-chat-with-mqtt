@@ -45,9 +45,6 @@ body {
     background-color: #1e272e;
 }
 
-.user-list ul li:active {
-    background-color: #1e272e;
-}
 
 .chat-container {
     flex: 1;

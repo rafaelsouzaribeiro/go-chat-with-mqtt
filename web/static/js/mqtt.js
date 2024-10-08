@@ -18,10 +18,15 @@ function Onclick() {
         element.addEventListener("click", function() {
             var id = this.getAttribute("id");
             userId=id;
+            document.querySelectorAll(".user-id").forEach(function(el) {
+                el.style.backgroundColor = "#57606f";
+            });
+            this.style.backgroundColor = "#1e272e";
             FetchMessage(id);
         });
     });
 }
+
 
 function FetchMessage(id){
    
