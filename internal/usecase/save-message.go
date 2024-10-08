@@ -14,6 +14,7 @@ func (i *UseCaseMessageUser) SaveMessage(input *dto.PayloadMesage) (*dto.Payload
 		Username: input.Username,
 		UserId:   input.UserId,
 		Receive:  input.Receive,
+		Types:    input.Types,
 	})
 
 	if err != nil {

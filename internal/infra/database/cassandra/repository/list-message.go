@@ -8,7 +8,7 @@ import (
 
 func (r *CassandraRepository) ListMessage(id, receive string) (*[]entity.Message, error) {
 
-	s := fmt.Sprintf(`SELECT message,pages,username,userid,times,receive FROM %s.messages 
+	s := fmt.Sprintf(`SELECT message,pages,username,userid,times,receive,types FROM %s.messages 
 	WHERE pages=? AND userid=? AND receive=? ORDER BY times ASC;`, entity.KeySpace)
 
 	query := r.gocql.Query(s, entity.IndexM, id, receive)
@@ -19,7 +19,7 @@ func (r *CassandraRepository) ListMessage(id, receive string) (*[]entity.Message
 	var messages []entity.Message
 
 	for iter.Scan(&message.Message, &message.Pages, &message.Username,
-		&message.UserId, &message.Times, &message.Receive) {
+		&message.UserId, &message.Times, &message.Receive, &message.Types) {
 
 		messages = append(messages, message)
 	}

@@ -40,7 +40,8 @@ function FetchMessage(id){
 
                 if (json!=null){
                     json.forEach(element => {
-                        document.getElementById("chat-body").innerHTML+=`<div class="message sent">
+                        
+                        document.getElementById("chat-body").innerHTML+=`<div class="message ${element.types}">
                             <p>${element.message}
                             </p>
                             <span class="time">${formatTimestamp(element.times)}</span>
@@ -128,15 +129,23 @@ function MessageArrived(message) {
     console.log(json);
 
     if (json!=null){
-        if ((json.receive == loggedId && json.userId == userId) || 
-        (json.receive == userId && json.userId == loggedId)) { 
-            document.getElementById("chat-body").innerHTML+=`<div class="message sent">
+        if (json.receive == loggedId && json.userId == userId) { 
+            document.getElementById("chat-body").innerHTML+=`<div class="message received">
                 <p>${json.message}
                 </p>
                 <span class="time">${formatTimestamp(json.times)}</span>
             </div>`;
-            console.log("Message received in topic " + message.destinationName + " : " + message.payloadString);
+            
         }
+
+        if (json.receive == userId && json.userId == loggedId){
+                document.getElementById("chat-body").innerHTML+=`<div class="message sent">
+                <p>${json.message}
+                </p>
+                <span class="time">${formatTimestamp(json.times)}</span>
+            </div>`;
+        }
+
     }
 
    

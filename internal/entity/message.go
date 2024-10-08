@@ -9,4 +9,5 @@ type Message struct {
 	UserId   string
 	Pages    string
 	Receive  string
+	Types    string
 }

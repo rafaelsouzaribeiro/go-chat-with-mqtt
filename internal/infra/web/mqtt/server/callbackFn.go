@@ -23,6 +23,7 @@ func (b *Broker) callbackFn(cl *mqtt.Client, sub packets.Subscription, pk packet
 		Username: Payload.Username,
 		UserId:   Payload.UserId,
 		Receive:  Payload.Receive,
+		Types:    Payload.Types,
 	})
 
 	if err != nil {
