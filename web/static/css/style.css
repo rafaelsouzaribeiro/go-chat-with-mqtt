@@ -73,9 +73,10 @@ body {
     padding: 8px;
     width: 200px;
     color:#fff;
-    border-radius: 20px;
+    border-radius: 8px;
     text-align: center;
     display: block;
+    margin: 5px;
 }
 
 .message {
