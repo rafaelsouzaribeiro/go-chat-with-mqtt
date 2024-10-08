@@ -20,6 +20,18 @@ func (r *CassandraRepository) ListMessage(id, receive string) (*[]entity.Message
 
 	for iter.Scan(&message.Message, &message.Pages, &message.Username,
 		&message.UserId, &message.Times, &message.Receive, &message.Types) {
+		message.Types = "received"
+
+		messages = append(messages, message)
+	}
+
+	query2 := r.gocql.Query(s, entity.IndexM, receive, id)
+	iter2 := query2.Iter()
+	defer iter2.Close()
+
+	for iter2.Scan(&message.Message, &message.Pages, &message.Username,
+		&message.UserId, &message.Times, &message.Receive, &message.Types) {
+		message.Types = "sent"
 
 		messages = append(messages, message)
 	}
