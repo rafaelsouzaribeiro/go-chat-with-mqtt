@@ -15,7 +15,6 @@ func (r *CassandraRepository) ListMessage(id, receive string) (*[]entity.Message
 	s := fmt.Sprintf(`SELECT message,pages,username,userid,times,receive,types FROM %s.messages 
 	WHERE pages=? AND userid=? AND receive=? ORDER BY times ASC;`, entity.KeySpace)
 	query := r.gocql.Query(s, p, id, receive)
-
 	iter := query.Iter()
 	defer iter.Close()
 
