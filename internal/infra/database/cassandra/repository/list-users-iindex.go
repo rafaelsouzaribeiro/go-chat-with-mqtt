@@ -6,14 +6,14 @@ import (
 	"github.com/rafaelsouzaribeiro/go-chat-with-mqtt/internal/entity"
 )
 
-func (r *CassandraRepository) ListUsers() (*[]entity.User, error) {
+func (r *CassandraRepository) ListUsersIndex() (*[]entity.User, error) {
 
-	p := r.GetPaginationUser()
+	entity.IndexU--
 
 	s := fmt.Sprintf(`SELECT photo,pages,username,id,times FROM %s.users 
 	WHERE pages=?;`, entity.KeySpace)
-
-	query := r.gocql.Query(s, p.Page)
+	fmt.Printf("%s,%d", s, entity.IndexU)
+	query := r.gocql.Query(s, entity.IndexU)
 	iter := query.Iter()
 	defer iter.Close()
 
@@ -25,8 +25,6 @@ func (r *CassandraRepository) ListUsers() (*[]entity.User, error) {
 
 		users = append(users, user)
 	}
-
-	entity.IndexU = int64(p.Page)
 
 	return &users, nil
 }

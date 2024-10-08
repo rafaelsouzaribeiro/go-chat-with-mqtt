@@ -116,7 +116,7 @@ function SelectUsers(){
                 });
 
             
-                document.getElementById('users').innerHTML = elements;
+                document.getElementById('users').innerHTML += elements;
                 Onclick();
             }
         })
@@ -124,6 +124,43 @@ function SelectUsers(){
             console.error('Erro:', error);
         });
 }
+
+function SelectUsersindex(){
+
+    fetch(`/list-users-index/`) 
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Erro ao carregar a página');
+            }
+            return response.text(); 
+        })
+        .then(json => {
+            if (json!=null){
+                var obj = JSON.parse(json);
+                var elements="";
+                if (obj!=null){
+                    obj.forEach(element => {
+                        if (loggedId==element.id){return;} 
+    
+                        elements+=`<li id='${element.id}' class='user-id'>
+                            <img src='${element.photo}' alt='${element.username}' />
+                            <span>${element.username}</span>
+                            <div class='clear'></div>
+                        </li>`;
+                    });
+    
+                
+                    document.getElementById('users').innerHTML += elements;
+                    Onclick();
+                }
+  
+            }
+        })
+        .catch(error => {
+            console.error('Erro:', error);
+        });
+}
+
 
 function Connect() {
     mqttClient.connect({
@@ -265,7 +302,13 @@ function loadPreviousMessages() {
 
 document.getElementById("loader").addEventListener('click',function(){
     loadPreviousMessages();
-;})
+;});
+
+document.getElementById("btnusers").addEventListener('click',function(){
+    SelectUsersindex();
+;});
+
+
 
 document.getElementById("chat-body").addEventListener('scroll', function(event) {
     if (this.scrollTop === 0) {

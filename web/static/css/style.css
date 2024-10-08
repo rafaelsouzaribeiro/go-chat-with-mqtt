@@ -23,6 +23,7 @@ body {
     background-color: #2f3542;
     color: white;
     padding: 20px;
+    overflow: auto;
 }
 
 .user-list h3 {

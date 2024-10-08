@@ -4,6 +4,7 @@ type Irepository interface {
 	PublishMessage(msg *Message) error
 	ListMessage(id, receive string) (*[]Message, error)
 	ListUsers() (*[]User, error)
+	ListUsersIndex() (*[]User, error)
 	Login(username string) (*User, error)
 	CheckUser(password, username string) (*User, error)
 	Registration(user User) (*User, error)
