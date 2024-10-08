@@ -126,11 +126,10 @@ body {
 
 
 .icones{
-    position: absolute;
-    top:-70px;
+    width: 100%;
+    height: 79px;
+    background-color: #57606F;
     display: none;
-    width: 90%;
-    z-index: 1000;
 
 }
 
