@@ -231,6 +231,48 @@ function formatTimestamp(timestamp) {
 }
 
 
+function loadPreviousMessages() {
+    fetch(`/list-message-index/${userId}/${loggedId}`)
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Error loading page');
+        }
+        return response.text(); 
+    })
+    .then(json => {
+        if(json!=null){
+            var json = JSON.parse(json);
+
+            if (json!=null){
+                json.forEach(element => {
+                    
+                    document.getElementById("chat-body").innerHTML+=`<div class="message ${element.types}">
+                        <p>${element.message}
+                        </p>
+                        <span class="time">${formatTimestamp(element.times)}</span>
+                    </div>`;
+                });
+            }
+     
+
+        }
+        
+    })
+    .catch(error => {
+        console.error('Erro:', error);
+    }); 
+}
+
+document.getElementById("loader").addEventListener('click',function(){
+    loadPreviousMessages();
+;})
+
+document.getElementById("chat-body").addEventListener('scroll', function(event) {
+    if (this.scrollTop === 0) {
+        loadPreviousMessages();
+    }
+});
+
 window.addEventListener("load", function() {
     SelectUsers();
 });

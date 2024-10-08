@@ -6,15 +6,14 @@ import (
 	"github.com/rafaelsouzaribeiro/go-chat-with-mqtt/internal/entity"
 )
 
-func (r *CassandraRepository) ListMessage(id, receive string) (*[]entity.Message, error) {
+func (r *CassandraRepository) ListMessageIndex(id, receive string) (*[]entity.Message, error) {
 
-	pg := r.GetPaginationMessage(id, receive)
-	defer pg.Iter.Close()
-	p := pg.Page - 1
+	entity.IndexM--
 
 	s := fmt.Sprintf(`SELECT message,pages,username,userid,times,receive,types FROM %s.messages 
-	WHERE pages=? AND userid=? AND receive=? ORDER BY times ASC;`, entity.KeySpace)
-	query := r.gocql.Query(s, p, id, receive)
+	WHERE pages=? AND userid=? AND receive=? ORDER BY times DESC;`, entity.KeySpace)
+
+	query := r.gocql.Query(s, entity.IndexM, id, receive)
 
 	iter := query.Iter()
 	defer iter.Close()
@@ -29,7 +28,7 @@ func (r *CassandraRepository) ListMessage(id, receive string) (*[]entity.Message
 		messages = append(messages, message)
 	}
 
-	query2 := r.gocql.Query(s, pg.Page, receive, id)
+	query2 := r.gocql.Query(s, entity.IndexM, receive, id)
 	iter2 := query2.Iter()
 	defer iter2.Close()
 
@@ -39,8 +38,6 @@ func (r *CassandraRepository) ListMessage(id, receive string) (*[]entity.Message
 
 		messages = append(messages, message)
 	}
-
-	entity.IndexM = int64(pg.Page)
 
 	return &messages, nil
 }

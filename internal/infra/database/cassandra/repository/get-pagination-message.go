@@ -6,14 +6,21 @@ import (
 	"github.com/rafaelsouzaribeiro/go-chat-with-mqtt/internal/entity"
 )
 
-func (r *CassandraRepository) GetPaginationMessage() Pagination {
+func (r *CassandraRepository) GetPaginationMessage(idUser, receive string) Pagination {
 	var save Pagination
 	var total int = 1
 	var page int = 1
 
-	s := fmt.Sprintf(`SELECT id,page,total FROM %s.pagination_messages`, entity.KeySpace)
-	query := r.gocql.Query(s)
+	s := fmt.Sprintf(`SELECT id,page,total FROM %s.pagination_messages WHERE id=?`, entity.KeySpace)
+	query := r.gocql.Query(s, idUser)
 	iter := query.Iter()
+
+	if iter.NumRows() == 0 {
+		query2 := r.gocql.Query(s, receive)
+		iter = query2.Iter()
+	}
+
+	defer iter.Close()
 
 	if iter.Scan(&save.Id, &save.Page, &save.Total) {
 		result := save.Total % int(entity.PerPage)
