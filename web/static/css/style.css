@@ -79,6 +79,15 @@ body {
     margin: 5px;
 }
 
+.btnusers{
+    width: 100%;
+    height: 30px;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+    background-color: #202C33;
+    color: #fff;
+}
 .message {
     margin-bottom: 10px;
 }
