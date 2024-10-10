@@ -20,7 +20,7 @@ func (r *CassandraRepository) ListMessageIndex(id, receive string) (*[]entity.Me
 	messages := make(map[string]entity.Message)
 	var m []entity.Message
 
-	for iter.Scan(&message.Message, &message.Pages, &message.Username,
+	for iter.Scan(&message.Id, &message.Message, &message.Pages, &message.Username,
 		&message.UserId, &message.Times, &message.Receive, &message.Types) {
 		message.Types = "received"
 
@@ -31,7 +31,7 @@ func (r *CassandraRepository) ListMessageIndex(id, receive string) (*[]entity.Me
 	iter2 := query2.Iter()
 	defer iter2.Close()
 
-	for iter2.Scan(&message.Message, &message.Pages, &message.Username,
+	for iter2.Scan(&message.Id, &message.Message, &message.Pages, &message.Username,
 		&message.UserId, &message.Times, &message.Receive, &message.Types) {
 		message.Types = "sent"
 
