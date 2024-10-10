@@ -10,7 +10,6 @@ import (
 func (r *CassandraRepository) ListMessage(id, receive string) (*[]entity.Message, error) {
 
 	pg := r.GetPaginationMessageIndex(id, receive)
-	defer pg.Iter.Close()
 	p := pg.Page
 
 	s := fmt.Sprintf(`SELECT id,message,pages,username,userid,times,receive,types FROM %s.messages 
