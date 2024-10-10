@@ -2,6 +2,7 @@ package repository
 
 import (
 	"fmt"
+	"sort"
 
 	"github.com/rafaelsouzaribeiro/go-chat-with-mqtt/internal/entity"
 )
@@ -19,13 +20,13 @@ func (r *CassandraRepository) ListMessage(id, receive string) (*[]entity.Message
 	defer iter.Close()
 
 	var message entity.Message
-	messages := make(map[string]entity.Message)
-	var m []entity.Message
+	var messages []entity.Message
 
 	for iter.Scan(&message.Id, &message.Message, &message.Pages, &message.Username,
 		&message.UserId, &message.Times, &message.Receive, &message.Types) {
 		message.Types = "received"
-		messages[message.Id] = message
+		message.PageTotal = int64(p)
+		messages = append(messages, message)
 	}
 
 	query2 := r.gocql.Query(s, p, receive, id)
@@ -35,13 +36,13 @@ func (r *CassandraRepository) ListMessage(id, receive string) (*[]entity.Message
 	for iter2.Scan(&message.Id, &message.Message, &message.Pages, &message.Username,
 		&message.UserId, &message.Times, &message.Receive, &message.Types) {
 		message.Types = "sent"
-		messages[message.Id] = message
+		message.PageTotal = int64(p)
+		messages = append(messages, message)
 	}
 
-	for _, msg := range messages {
-		msg.PageTotal = int64(p)
-		m = append(m, msg)
-	}
+	sort.Slice(messages, func(i, j int) bool {
+		return messages[i].Times.Before(messages[j].Times)
+	})
 
-	return &m, nil
+	return &messages, nil
 }
