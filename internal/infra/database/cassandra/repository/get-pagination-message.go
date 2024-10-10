@@ -15,20 +15,12 @@ func (r *CassandraRepository) GetPaginationMessage(idUser, receive string) Pagin
 	query := r.gocql.Query(s, idUser)
 	iter := query.Iter()
 
-	if iter.Scan(&save.Id, &save.Page, &save.Total) {
-		result := save.Total % int(entity.PerPage)
-		total = save.Total + 1
-
-		if result == 0 {
-			page = save.Page + 1
-		} else {
-			page = save.Page
-		}
+	if iter.NumRows() == 0 {
+		iter.Close()
+		query2 := r.gocql.Query(s, receive)
+		iter = query2.Iter()
 	}
-	iter.Close()
 
-	query2 := r.gocql.Query(s, receive)
-	iter = query2.Iter()
 	defer iter.Close()
 
 	if iter.Scan(&save.Id, &save.Page, &save.Total) {
