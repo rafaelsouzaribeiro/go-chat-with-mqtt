@@ -39,7 +39,5 @@ func (r *CassandraRepository) ListMessage(id, receive string) (*[]entity.Message
 		messages = append(messages, message)
 	}
 
-	entity.IndexM = int64(pg.Page)
-
 	return &messages, nil
 }

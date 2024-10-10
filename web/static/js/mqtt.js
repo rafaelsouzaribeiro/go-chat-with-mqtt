@@ -5,7 +5,8 @@ var usernameCon = "root";
 var password = "123mudar";
 var userId = "";
 var userName = "";
-var pageTotal = 0;
+var pageTotalU = 0;
+var pageTotalM = 0;
 
 var mqttClient = new Paho.MQTT.Client(hostname, port, clientId);
 mqttClient.onMessageArrived = MessageArrived;
@@ -58,8 +59,8 @@ function Onclick() {
 
 
 function FetchMessage(id){
-   
-    fetch(`/list-message/${id}/${loggedId}`) 
+    
+    fetch(`/list-message/${id}/${loggedId}/`) 
         .then(response => {
             if (!response.ok) {
                 throw new Error('Error loading page');
@@ -74,7 +75,8 @@ function FetchMessage(id){
 
                 if (json!=null){
                     json.forEach(element => {
-                        
+                        pageTotalM=element.page_total;
+
                         document.getElementById("chat-body").innerHTML+=`<div class="message ${element.types}">
                             <p>${element.message}
                             </p>
@@ -108,7 +110,7 @@ function SelectUsers(){
                 
                 obj.forEach(element => {
                     if (loggedId==element.id){return;} 
-                    pageTotal = element.page_total;
+                    pageTotalU = element.page_total;
 
                     elements+=`<li id='${element.id}' class='user-id'>
                         <img src='${element.photo}' alt='${element.username}' />
@@ -128,10 +130,10 @@ function SelectUsers(){
 }
 
 function SelectUsersindex(){
-    pageTotal--;
-    console.log(pageTotal);
+    pageTotalU--;
+    console.log(pageTotalU);
 
-    fetch(`/list-users-index/${pageTotal}`) 
+    fetch(`/list-users-index/${pageTotalU}`) 
         .then(response => {
             if (!response.ok) {
                 throw new Error('Erro ao carregar a página');
@@ -273,7 +275,9 @@ function formatTimestamp(timestamp) {
 
 
 function loadPreviousMessages() {
-    fetch(`/list-message-index/${userId}/${loggedId}`)
+    pageTotalM--;
+    
+    fetch(`/list-message-index/${userId}/${loggedId}/${pageTotalM}`)
     .then(response => {
         if (!response.ok) {
             throw new Error('Error loading page');

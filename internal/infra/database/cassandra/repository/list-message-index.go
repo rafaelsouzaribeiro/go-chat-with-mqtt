@@ -8,8 +8,6 @@ import (
 
 func (r *CassandraRepository) ListMessageIndex(id, receive string) (*[]entity.Message, error) {
 
-	entity.IndexM--
-
 	s := fmt.Sprintf(`SELECT message,pages,username,userid,times,receive,types FROM %s.messages 
 	WHERE pages=? AND userid=? AND receive=? ORDER BY times DESC;`, entity.KeySpace)
 

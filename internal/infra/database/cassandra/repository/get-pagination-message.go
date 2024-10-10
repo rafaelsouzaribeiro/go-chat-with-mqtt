@@ -9,7 +9,6 @@ import (
 func (r *CassandraRepository) GetPaginationMessage(idUser, receive string) Pagination {
 	var save Pagination
 
-	// Consulta usando idUser
 	s := fmt.Sprintf(`SELECT id,page,total FROM %s.pagination_messages WHERE id=?`, entity.KeySpace)
 	query := r.gocql.Query(s, idUser)
 	iter := query.Iter()
