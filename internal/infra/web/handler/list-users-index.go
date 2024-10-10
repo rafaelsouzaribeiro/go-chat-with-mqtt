@@ -2,8 +2,10 @@ package handler
 
 import (
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
+	"github.com/rafaelsouzaribeiro/go-chat-with-mqtt/internal/entity"
 )
 
 func (o *ChatHandler) ListsIndex(c *gin.Context) {
@@ -12,6 +14,15 @@ func (o *ChatHandler) ListsIndex(c *gin.Context) {
 	if err != nil {
 		o.ClearSession(c, "go-chat")
 	}
+
+	pageStr := c.Param("page")
+	page, err := strconv.ParseInt(pageStr, 10, 64)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid page total"})
+		return
+	}
+
+	entity.IndexU = page
 
 	result := session.Flashes()
 

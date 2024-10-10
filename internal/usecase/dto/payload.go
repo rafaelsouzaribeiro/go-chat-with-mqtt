@@ -13,9 +13,10 @@ type PayloadMesage struct {
 }
 
 type PayloadUser struct {
-	Username string    `json:"username"`
-	Id       string    `json:"id"`
-	Photo    string    `json:"photo"`
-	Times    time.Time `json:"times"`
-	Password string    `json:"password"`
+	Username  string    `json:"username"`
+	Id        string    `json:"id"`
+	Photo     string    `json:"photo"`
+	Times     time.Time `json:"times"`
+	Password  string    `json:"password"`
+	PageTotal int64     `json:"page_total"`
 }

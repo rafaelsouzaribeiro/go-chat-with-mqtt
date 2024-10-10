@@ -8,11 +8,9 @@ import (
 
 func (r *CassandraRepository) ListUsersIndex() (*[]entity.User, error) {
 
-	entity.IndexU--
-
 	s := fmt.Sprintf(`SELECT photo,pages,username,id,times FROM %s.users 
 	WHERE pages=?;`, entity.KeySpace)
-	fmt.Printf("%s,%d", s, entity.IndexU)
+
 	query := r.gocql.Query(s, entity.IndexU)
 	iter := query.Iter()
 	defer iter.Close()

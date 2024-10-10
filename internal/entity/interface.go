@@ -9,6 +9,7 @@ type Irepository interface {
 	CheckUser(password, username string) (*User, error)
 	Registration(user User) (*User, error)
 	ListMessageIndex(id, receive string) (*[]Message, error)
+	GetPaginationUserIndex() int64
 }
 
 var (

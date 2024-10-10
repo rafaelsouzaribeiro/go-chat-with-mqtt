@@ -7,13 +7,12 @@ import (
 )
 
 func (r *CassandraRepository) ListUsers() (*[]entity.User, error) {
-
-	p := r.GetPaginationUser()
+	page := r.GetPaginationUserIndex()
 
 	s := fmt.Sprintf(`SELECT photo,pages,username,id,times FROM %s.users 
 	WHERE pages=?;`, entity.KeySpace)
 
-	query := r.gocql.Query(s, p.Page)
+	query := r.gocql.Query(s, page)
 	iter := query.Iter()
 	defer iter.Close()
 
@@ -22,11 +21,9 @@ func (r *CassandraRepository) ListUsers() (*[]entity.User, error) {
 
 	for iter.Scan(&user.Photo, &user.Pages, &user.Username,
 		&user.Id, &user.Times) {
-
+		user.PageTotal = page
 		users = append(users, user)
 	}
-
-	entity.IndexU = int64(p.Page)
 
 	return &users, nil
 }

@@ -5,6 +5,7 @@ var usernameCon = "root";
 var password = "123mudar";
 var userId = "";
 var userName = "";
+var pageTotal = 0;
 
 var mqttClient = new Paho.MQTT.Client(hostname, port, clientId);
 mqttClient.onMessageArrived = MessageArrived;
@@ -100,13 +101,14 @@ function SelectUsers(){
             }
             return response.text(); 
         })
-        .then(json => {
+        .then(json => { 
             if (json!=null){
                 var obj = JSON.parse(json);
                 var elements="";
                 
                 obj.forEach(element => {
                     if (loggedId==element.id){return;} 
+                    pageTotal = element.page_total;
 
                     elements+=`<li id='${element.id}' class='user-id'>
                         <img src='${element.photo}' alt='${element.username}' />
@@ -126,8 +128,10 @@ function SelectUsers(){
 }
 
 function SelectUsersindex(){
+    pageTotal--;
+    console.log(pageTotal);
 
-    fetch(`/list-users-index/`) 
+    fetch(`/list-users-index/${pageTotal}`) 
         .then(response => {
             if (!response.ok) {
                 throw new Error('Erro ao carregar a página');

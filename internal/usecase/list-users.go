@@ -15,10 +15,11 @@ func (i *UseCaseMessageUser) ListUsers() (*[]dto.PayloadUser, error) {
 
 	for _, v := range *list {
 		lists = append(lists, dto.PayloadUser{
-			Username: v.Username,
-			Id:       v.Id,
-			Photo:    v.Photo,
-			Times:    v.Times,
+			Username:  v.Username,
+			Id:        v.Id,
+			Photo:     v.Photo,
+			Times:     v.Times,
+			PageTotal: v.PageTotal,
 		})
 
 	}
