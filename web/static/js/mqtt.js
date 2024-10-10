@@ -76,6 +76,7 @@ function FetchMessage(id){
                 if (json!=null){
                     json.forEach(element => {
                         pageTotalM=element.page_total;
+                        console.log("total>>",pageTotalM)
 
                         document.getElementById("chat-body").innerHTML+=`<div class="message ${element.types}">
                             <p>${element.message}
@@ -276,7 +277,7 @@ function formatTimestamp(timestamp) {
 
 function loadPreviousMessages() {
     pageTotalM--;
-
+    console.log("index>>",pageTotalM)
     fetch(`/list-message-index/${userId}/${loggedId}/${pageTotalM}`)
     .then(response => {
         if (!response.ok) {

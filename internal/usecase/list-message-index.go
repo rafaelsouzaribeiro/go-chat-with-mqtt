@@ -15,13 +15,14 @@ func (i *UseCaseMessageUser) ListMessageIndex(id, receive string) (*[]dto.Payloa
 
 	for _, v := range *list {
 		lists = append(lists, dto.PayloadMesage{
-			Message:  v.Message,
-			Username: v.Username,
-			UserId:   v.UserId,
-			Times:    v.Times,
-			Pages:    v.Pages,
-			Receive:  v.Receive,
-			Types:    v.Types,
+			Message:   v.Message,
+			Username:  v.Username,
+			UserId:    v.UserId,
+			Times:     v.Times,
+			Pages:     v.Pages,
+			Receive:   v.Receive,
+			Types:     v.Types,
+			PageTotal: v.PageTotal,
 		})
 
 	}

@@ -8,7 +8,7 @@ import (
 
 func (r *CassandraRepository) ListMessage(id, receive string) (*[]entity.Message, error) {
 
-	pg := r.GetPaginationMessage(id, receive)
+	pg := r.GetPaginationMessageIndex(id, receive)
 	defer pg.Iter.Close()
 	p := pg.Page
 
@@ -24,7 +24,7 @@ func (r *CassandraRepository) ListMessage(id, receive string) (*[]entity.Message
 	for iter.Scan(&message.Message, &message.Pages, &message.Username,
 		&message.UserId, &message.Times, &message.Receive, &message.Types) {
 		message.Types = "received"
-
+		message.PageTotal = int64(p)
 		messages = append(messages, message)
 	}
 
@@ -35,7 +35,7 @@ func (r *CassandraRepository) ListMessage(id, receive string) (*[]entity.Message
 	for iter2.Scan(&message.Message, &message.Pages, &message.Username,
 		&message.UserId, &message.Times, &message.Receive, &message.Types) {
 		message.Types = "sent"
-
+		message.PageTotal = int64(p)
 		messages = append(messages, message)
 	}
 
