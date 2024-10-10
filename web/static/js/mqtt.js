@@ -109,9 +109,9 @@ function SelectUsers(){
                 var elements="";
                 
                 obj.forEach(element => {
-                    if (loggedId==element.id){return;} 
                     pageTotalU = element.page_total;
-
+                    if (loggedId==element.id){return;} 
+                    
                     elements+=`<li id='${element.id}' class='user-id'>
                         <img src='${element.photo}' alt='${element.username}' />
                         <span>${element.username}</span>
@@ -276,7 +276,7 @@ function formatTimestamp(timestamp) {
 
 function loadPreviousMessages() {
     pageTotalM--;
-    
+
     fetch(`/list-message-index/${userId}/${loggedId}/${pageTotalM}`)
     .then(response => {
         if (!response.ok) {
