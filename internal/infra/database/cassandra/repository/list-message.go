@@ -12,32 +12,36 @@ func (r *CassandraRepository) ListMessage(id, receive string) (*[]entity.Message
 	defer pg.Iter.Close()
 	p := pg.Page
 
-	s := fmt.Sprintf(`SELECT message,pages,username,userid,times,receive,types FROM %s.messages 
+	s := fmt.Sprintf(`SELECT id,message,pages,username,userid,times,receive,types FROM %s.messages 
 	WHERE pages=? AND userid=? AND receive=? ORDER BY times ASC;`, entity.KeySpace)
 	query := r.gocql.Query(s, p, id, receive)
 	iter := query.Iter()
 	defer iter.Close()
 
 	var message entity.Message
-	var messages []entity.Message
+	messages := make(map[string]entity.Message)
+	var m []entity.Message
 
-	for iter.Scan(&message.Message, &message.Pages, &message.Username,
+	for iter.Scan(&message.Id, &message.Message, &message.Pages, &message.Username,
 		&message.UserId, &message.Times, &message.Receive, &message.Types) {
 		message.Types = "received"
-		message.PageTotal = int64(p)
-		messages = append(messages, message)
+		messages[message.Id] = message
 	}
 
 	query2 := r.gocql.Query(s, p, receive, id)
 	iter2 := query2.Iter()
 	defer iter2.Close()
 
-	for iter2.Scan(&message.Message, &message.Pages, &message.Username,
+	for iter2.Scan(&message.Id, &message.Message, &message.Pages, &message.Username,
 		&message.UserId, &message.Times, &message.Receive, &message.Types) {
 		message.Types = "sent"
-		message.PageTotal = int64(p)
-		messages = append(messages, message)
+		messages[message.Id] = message
 	}
 
-	return &messages, nil
+	for _, msg := range messages {
+		msg.PageTotal = int64(p)
+		m = append(m, msg)
+	}
+
+	return &m, nil
 }

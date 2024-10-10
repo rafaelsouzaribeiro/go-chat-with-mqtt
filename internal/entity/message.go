@@ -3,6 +3,7 @@ package entity
 import "time"
 
 type Message struct {
+	Id        string
 	Message   string
 	Username  string
 	Times     time.Time

@@ -8,7 +8,7 @@ import (
 
 func (r *CassandraRepository) ListMessageIndex(id, receive string) (*[]entity.Message, error) {
 
-	s := fmt.Sprintf(`SELECT message,pages,username,userid,times,receive,types FROM %s.messages 
+	s := fmt.Sprintf(`SELECT id,message,pages,username,userid,times,receive,types FROM %s.messages 
 	WHERE pages=? AND userid=? AND receive=? ORDER BY times DESC;`, entity.KeySpace)
 
 	query := r.gocql.Query(s, entity.IndexM, id, receive)
@@ -17,13 +17,14 @@ func (r *CassandraRepository) ListMessageIndex(id, receive string) (*[]entity.Me
 	defer iter.Close()
 
 	var message entity.Message
-	var messages []entity.Message
+	messages := make(map[string]entity.Message)
+	var m []entity.Message
 
 	for iter.Scan(&message.Message, &message.Pages, &message.Username,
 		&message.UserId, &message.Times, &message.Receive, &message.Types) {
 		message.Types = "received"
 
-		messages = append(messages, message)
+		messages[message.Id] = message
 	}
 
 	query2 := r.gocql.Query(s, entity.IndexM, receive, id)
@@ -34,8 +35,12 @@ func (r *CassandraRepository) ListMessageIndex(id, receive string) (*[]entity.Me
 		&message.UserId, &message.Times, &message.Receive, &message.Types) {
 		message.Types = "sent"
 
-		messages = append(messages, message)
+		messages[message.Id] = message
 	}
 
-	return &messages, nil
+	for _, msg := range messages {
+		m = append(m, msg)
+	}
+
+	return &m, nil
 }
