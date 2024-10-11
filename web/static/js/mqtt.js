@@ -93,6 +93,7 @@ function FetchMessage(id){
                             <span class="time">${formatTimestamp(element.times)}</span>
                         </div>`;
                     });
+                    document.getElementById("loader").click();
                 }
          
 
