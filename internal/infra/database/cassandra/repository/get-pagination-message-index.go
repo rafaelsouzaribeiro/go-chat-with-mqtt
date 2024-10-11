@@ -8,7 +8,8 @@ import (
 
 func (r *CassandraRepository) GetPaginationMessageIndex(idUser, receive string) Pagination {
 	var save Pagination
-	var tempPage int
+	var PageS int
+	var PageR int
 
 	s := fmt.Sprintf(`SELECT id,page,total FROM %s.pagination_messages WHERE id=?`, entity.KeySpace)
 
@@ -16,7 +17,7 @@ func (r *CassandraRepository) GetPaginationMessageIndex(idUser, receive string) 
 	iter1 := query1.Iter()
 
 	if iter1.Scan(&save.Id, &save.Page, &save.Total) {
-		tempPage += save.Page
+		PageS = save.Page
 	}
 
 	iter1.Close()
@@ -25,12 +26,18 @@ func (r *CassandraRepository) GetPaginationMessageIndex(idUser, receive string) 
 	iter2 := query2.Iter()
 
 	if iter2.Scan(&save.Id, &save.Page, &save.Total) {
-		tempPage += save.Page
+		PageR = save.Page
 	}
 
 	iter2.Close()
 
-	save.Page = tempPage
+	if PageS >= PageR {
+		save.Page = PageS
+	}
+
+	if PageS <= PageR {
+		save.Page = PageR
+	}
 
 	return save
 }
