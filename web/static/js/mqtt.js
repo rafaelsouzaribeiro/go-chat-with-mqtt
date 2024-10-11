@@ -73,6 +73,7 @@ function FetchMessage(id){
                 var json = JSON.parse(json);
 
                 document.getElementById("chat-body").innerHTML="";
+                messageObject={};
 
                 if (json!=null){
                     json.forEach(element => {
