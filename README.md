@@ -1,6 +1,3 @@
-<h1>we are under construction</h1>
-<h1>It's still a mess, I'll improve the code</h1>
-
 <p>Web chat with MQTT and Cassandra, including user registration, logged-in and logged-out users, and emoji support, implemented in Go, HTML, CSS, and JavaScript </p>
 <br/>
 <p>To create the keyspace and tables in Cassandra, just run the following Makefile commands in the project root:</p>

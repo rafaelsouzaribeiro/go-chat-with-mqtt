@@ -12,8 +12,7 @@ func (r *CassandraRepository) GetPaginationMessageIndex(idUser, receive string) 
 	var PageR int
 
 	s := fmt.Sprintf(`SELECT id,page,total FROM %s.pagination_messages WHERE id=?`, entity.KeySpace)
-	println(s, idUser)
-	query1 := r.gocql.Query(s, idUser)
+	query1 := r.gocql.Query(s, fmt.Sprintf("%s|%s", idUser, receive))
 	iter1 := query1.Iter()
 
 	if iter1.Scan(&save.Id, &save.Page, &save.Total) {
@@ -21,8 +20,7 @@ func (r *CassandraRepository) GetPaginationMessageIndex(idUser, receive string) 
 	}
 
 	iter1.Close()
-	println(s, receive)
-	query2 := r.gocql.Query(s, receive)
+	query2 := r.gocql.Query(s, fmt.Sprintf("%s|%s", receive, idUser))
 	iter2 := query2.Iter()
 
 	if iter2.Scan(&save.Id, &save.Page, &save.Total) {

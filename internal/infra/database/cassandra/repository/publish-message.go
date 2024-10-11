@@ -24,13 +24,13 @@ func (i *CassandraRepository) PublishMessage(input *entity.Message) error {
 		if pg.Iter.NumRows() == 0 {
 			query := fmt.Sprintf(`INSERT INTO %s.pagination_messages (id,page,total) VALUES (?,?,?)`,
 				entity.KeySpace)
-			batch.Query(query, input.UserId, 1, 1)
+			batch.Query(query, fmt.Sprintf("%s|%s", input.UserId, input.Receive), 1, 1)
 
 		} else {
 			query := fmt.Sprintf(`UPDATE %s.pagination_messages SET page = ?, total = ? 
 								  WHERE id = ?`, entity.KeySpace)
 
-			batch.Query(query, pg.Page, pg.Total, input.UserId)
+			batch.Query(query, pg.Page, pg.Total, fmt.Sprintf("%s|%s", input.UserId, input.Receive))
 
 		}
 
