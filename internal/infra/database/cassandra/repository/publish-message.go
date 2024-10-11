@@ -30,6 +30,7 @@ func (i *CassandraRepository) PublishMessage(input *entity.Message) error {
 			query := fmt.Sprintf(`UPDATE %s.pagination_messages SET page = ?, total = ? 
 								  WHERE id = ?`, entity.KeySpace)
 
+			println(query, fmt.Sprintf("%s|%s", input.UserId, input.Receive))
 			batch.Query(query, pg.Page, pg.Total, fmt.Sprintf("%s|%s", input.UserId, input.Receive))
 
 		}
