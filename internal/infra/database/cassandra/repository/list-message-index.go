@@ -2,7 +2,6 @@ package repository
 
 import (
 	"fmt"
-	"sort"
 
 	"github.com/rafaelsouzaribeiro/go-chat-with-mqtt/internal/entity"
 )
@@ -37,10 +36,6 @@ func (r *CassandraRepository) ListMessageIndex(id, receive string) (*[]entity.Me
 
 		messages = append(messages, message)
 	}
-
-	sort.Slice(messages, func(i, j int) bool {
-		return messages[i].Times.Before(messages[j].Times)
-	})
 
 	return &messages, nil
 }

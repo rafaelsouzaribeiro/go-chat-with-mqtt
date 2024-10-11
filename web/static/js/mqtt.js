@@ -7,6 +7,7 @@ var userId = "";
 var userName = "";
 var pageTotalU = 0;
 var pageTotalM = 0;
+var messageObject = {};
 
 var mqttClient = new Paho.MQTT.Client(hostname, port, clientId);
 mqttClient.onMessageArrived = MessageArrived;
@@ -77,6 +78,7 @@ function FetchMessage(id){
                     json.forEach(element => {
                         pageTotalM=element.page_total;
                         console.log("total>>",pageTotalM)
+                        messageObject[element.times] = element;
 
                         document.getElementById("chat-body").innerHTML+=`<div class="message ${element.types}">
                             <p>${element.message}
@@ -291,7 +293,14 @@ function loadPreviousMessages() {
 
             if (json!=null){
                 json.forEach(element => {
-                    
+                    messageObject[element.times] = element;
+                });
+
+                document.getElementById("chat-body").innerHTML="";
+
+                var sortedTimes = Object.keys(messageObject).sort();
+                sortedTimes.forEach(time=>{
+                    var element = messageObject[time];
                     document.getElementById("chat-body").innerHTML+=`<div class="message ${element.types}">
                         <p>${element.message}
                         </p>
