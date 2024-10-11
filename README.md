@@ -14,7 +14,7 @@ Drop tables and keyspace: make migratedown
 sudo apt install make
  ```
 
-<p>To run Redis in Docker, navigate to the internal/infra/database/cassandra directory and run:</p>
+<p>To run Cassandra in Docker, navigate to the internal/infra/database/cassandra directory and run:</p>
 
  ```
 sudo docker compose up
