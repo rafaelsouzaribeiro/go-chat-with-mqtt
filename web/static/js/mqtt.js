@@ -79,7 +79,13 @@ function FetchMessage(id){
                         pageTotalM=element.page_total;
                         console.log("total>>",pageTotalM)
                         messageObject[element.times] = element;
+                      
+                    });
 
+
+                    var sortedTimes = Object.keys(messageObject).sort();
+                    sortedTimes.forEach(time=>{
+                        var element = messageObject[time];
                         document.getElementById("chat-body").innerHTML+=`<div class="message ${element.types}">
                             <p>${element.message}
                             </p>
