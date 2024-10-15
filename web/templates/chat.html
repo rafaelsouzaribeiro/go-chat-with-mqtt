@@ -14,6 +14,7 @@
                     <img src="{{.photo}}" alt="{{.username}}" />
                     <figcaption>{{.username}}</figcaption>
                 </figure>
+                <a href="#" class="logout" title="logout" onclick="logout()">Logout</a>
             </div>
             <div class="clear"></div>
             <h3>Users</h3>
@@ -51,6 +52,10 @@
         var loggedId = "{{.idUser}}";
         var loggeduser= 	"{{.username}}";
         var loggedphoto = "{{.loggeduser}}";
+        var hostname = "{{.hostname}}";
+        var port = "{{.port}}";
+        var usernameCon = "{{.usernameCon}}";
+        var password = "{{.password}}";
     </script>
     <script src="/static/js/mqtt.js"></script>
 </body>

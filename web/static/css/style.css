@@ -18,6 +18,13 @@ body {
     overflow: hidden;
 }
 
+.logout{
+    text-decoration: none;
+    color: #fff;
+    margin-left: 30%;
+  
+}
+
 .user-list {
     width: 25%;
     background-color: #2f3542;

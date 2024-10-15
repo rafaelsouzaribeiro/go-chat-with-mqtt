@@ -1,15 +1,11 @@
-var hostname = "127.0.0.1";  
-var port = 9090; 
 var clientId = "webio4mqttexample" + new Date().getUTCMilliseconds();
-var usernameCon = "root";
-var password = "123mudar";
 var userId = "";
 var userName = "";
 var pageTotalU = 0;
 var pageTotalM = 0;
 var messageObject = {};
 
-var mqttClient = new Paho.MQTT.Client(hostname, port, clientId);
+var mqttClient = new Paho.MQTT.Client(hostname, parseInt(port), clientId);
 mqttClient.onMessageArrived = MessageArrived;
 mqttClient.onConnectionLost = ConnectionLost;
 const emojis = ["😀", "😃", "😄", "😁", "😆", "😅", "😂", "🤣", "😊", 
@@ -345,3 +341,19 @@ document.getElementById("chat-body").addEventListener('scroll', function(event) 
 window.addEventListener("load", function() {
     SelectUsers();
 });
+
+
+function logout() {
+    fetch('/logout', {
+        method: 'POST',
+        credentials: 'same-origin'
+    }).then(response => {
+        if (response.ok) {
+            window.location.href = '/'; 
+        } else {
+            alert('Logout failed!');
+        }
+    }).catch(error => {
+        console.error('Error during logout:', error);
+    });
+}
