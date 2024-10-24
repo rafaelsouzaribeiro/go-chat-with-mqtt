@@ -130,7 +130,7 @@ function SelectUsers(){
                     elements+=`<li id='${element.id}' class='user-id'>
                         <img src='${element.photo}' alt='${element.username}' />
                         <span class="username">${element.username}</span>
-                         <span class="${con}"></span>
+                         <span id='${element.id}-status' class="${con}"></span>
                         <div class='clear'></div>                       
                     </li>`;
                 });
@@ -177,13 +177,14 @@ function SelectUsersindex() {
                         elements += `<li id='${element.id}' class='user-id'>
                             <img src='${element.photo}' alt='${element.username}' />
                             <span  class="username">${element.username}</span>
-                            <span class="${con}"></span>
+                            <span id='${element.id}-status' class="${con}"></span>
                             <div class='clear'></div>                        
                         </li>`;
                 });
 
                 document.getElementById('users').innerHTML += elements;
                 Onclick();
+                SettingStatus();
             } catch (e) {
                 hasmoreusers = false;
             }
@@ -399,3 +400,36 @@ window.addEventListener('beforeunload', function (event) {
 
     event.returnValue = 'Are you sure you want to leave? Your changes might not be saved.';
 });
+
+function SettingStatus() {
+    fetch('/get-users-status', {
+        method: 'POST',
+    }).then(response => {
+        if (!response.ok) {
+            throw new Error('Error loading status');
+        }
+
+        return response.json(); 
+    }).then(json=>{
+        if (Array.isArray(json)) {
+            json.forEach(e=>{
+                var v = document.getElementById(e.Id+"-status");
+                if (v!=null){
+                    v.classList.remove("online", "offline");
+
+                    if (e.Status === "online") {
+                        v.classList.add("online");
+                    } else {
+                        v.classList.add("offline");
+                    }
+                }
+           
+            });
+        }
+         
+    }).catch(error => {
+        console.error('Error during addClass:', error);
+    });
+}
+
+setInterval(SettingStatus,10000);
