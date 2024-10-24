@@ -123,8 +123,9 @@ function SelectUsers(){
                     
                     elements+=`<li id='${element.id}' class='user-id'>
                         <img src='${element.photo}' alt='${element.username}' />
-                        <span>${element.username}</span>
-                        <div class='clear'></div>
+                        <span class="username">${element.username}</span>
+                         <span class="status"></span>
+                        <div class='clear'></div>                       
                     </li>`;
                 });
 
@@ -163,8 +164,9 @@ function SelectUsersindex() {
 
                     elements += `<li id='${element.id}' class='user-id'>
                         <img src='${element.photo}' alt='${element.username}' />
-                        <span>${element.username}</span>
-                        <div class='clear'></div>
+                        <span  class="username">${element.username}</span>
+                        <span class="status"></span>
+                        <div class='clear'></div>                        
                     </li>`;
                 });
 

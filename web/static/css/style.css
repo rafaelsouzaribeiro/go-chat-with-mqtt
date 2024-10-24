@@ -54,6 +54,22 @@ body {
 }
 
 
+#users li.user-id{
+    position: relative;
+}
+
+#users li.user-id span.status{
+    display: block;
+    width: 12px;
+    background-color: #2ed573;
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    z-index: 1000;
+    height: 11px;
+    border-radius: 112px;
+}
+
 .chat-container {
     flex: 1;
     display: flex;
@@ -130,7 +146,7 @@ body {
     float: left;
 }
 
-#users span,.user-itens figcaption{
+#users span.username,.user-itens figcaption{
     float: left;
     margin-top: 18px;
     margin-left: 10px;
