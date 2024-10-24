@@ -58,7 +58,7 @@ body {
     position: relative;
 }
 
-#users li.user-id span.status{
+#users li.user-id span.online,#users li.user-id span.offline{
     display: block;
     width: 12px;
     background-color: #2ed573;
@@ -68,6 +68,10 @@ body {
     z-index: 1000;
     height: 11px;
     border-radius: 112px;
+}
+
+#users li.user-id span.offline{
+    background-color: #333!important;
 }
 
 .chat-container {

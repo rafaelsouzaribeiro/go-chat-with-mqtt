@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"encoding/json"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -29,6 +30,14 @@ func (o *ChatHandler) IndexTemplates(c *gin.Context) {
 		return
 	}
 
+	usersStatus, _ := o.chatUseCase.GetStatusUser()
+
+	usersJSON, err := json.Marshal(usersStatus)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to marshal users"})
+		return
+	}
+
 	data := gin.H{
 		"topic":       viper.GetString("TOPIC_MQTT"),
 		"idUser":      user.Id,
@@ -38,6 +47,7 @@ func (o *ChatHandler) IndexTemplates(c *gin.Context) {
 		"port":        viper.GetInt("PORT_MQTT_WEBSOCKET"),
 		"usernameCon": viper.GetString("USERNAME_MQTT"),
 		"password":    viper.GetString("PASSWORD_MQTT"),
+		"users":       string(usersJSON),
 	}
 
 	c.HTML(http.StatusOK, "chat.html", data)

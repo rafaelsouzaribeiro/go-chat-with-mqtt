@@ -119,12 +119,20 @@ function SelectUsers(){
                 
                 obj.forEach(element => {
                     pageTotalU = element.page_total;
+                    var con="offline";
+
+                    users.forEach(elements => {
+                        if (element.id==elements.id){
+                            con="online";
+                            return
+                        }
+                    });
                     if (loggedId==element.id){return;} 
                     
                     elements+=`<li id='${element.id}' class='user-id'>
                         <img src='${element.photo}' alt='${element.username}' />
                         <span class="username">${element.username}</span>
-                         <span class="status"></span>
+                         <span class="${con}"></span>
                         <div class='clear'></div>                       
                     </li>`;
                 });
@@ -160,12 +168,20 @@ function SelectUsersindex() {
                 try {
                     var elements = "";
                     json.forEach(element => {
+                    var con="offline";
+
+                    users.forEach(elements => {
+                        if (element.id==elements.id){
+                            con="online";
+                            return
+                        }
+                    });
                     if (loggedId == element.id) { return; }
 
                     elements += `<li id='${element.id}' class='user-id'>
                         <img src='${element.photo}' alt='${element.username}' />
                         <span  class="username">${element.username}</span>
-                        <span class="status"></span>
+                        <span class="${con}"></span>
                         <div class='clear'></div>                        
                     </li>`;
                 });

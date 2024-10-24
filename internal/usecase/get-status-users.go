@@ -17,8 +17,8 @@ func (r *UseCaseMessageUser) GetStatusUser() ([]dto.PayloadUser, error) {
 	for _, obj := range query {
 		users = append(users, dto.PayloadUser{
 			Id:     obj.Id,
-			Times:  obj.Times,
 			Status: obj.Status,
+			Times:  obj.Times,
 		})
 	}
 
