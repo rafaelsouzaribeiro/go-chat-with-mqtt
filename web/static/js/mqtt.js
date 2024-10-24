@@ -367,3 +367,15 @@ function logout() {
         console.error('Error during logout:', error);
     });
 }
+
+
+function preventBackNavigation() {
+    history.pushState(null, null, location.href);
+    window.onpopstate = function () {
+        history.pushState(null, null, location.href);
+    };
+}
+
+window.addEventListener('load', function () {
+    preventBackNavigation();
+});

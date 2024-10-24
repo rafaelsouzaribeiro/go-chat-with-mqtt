@@ -25,7 +25,7 @@ func (o *ChatHandler) ListMessageIndex(c *gin.Context) {
 	_, err = o.chatUseCase.CheckUser(result[1].(string), result[0].(string))
 
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "user not logged in"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "user not logged in"})
 		return
 	}
 

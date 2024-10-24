@@ -25,7 +25,7 @@ func (o *ChatHandler) IndexTemplates(c *gin.Context) {
 	user, err := o.chatUseCase.CheckUser(result[1].(string), result[0].(string))
 
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "user not logged in"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "user not logged in"})
 		return
 	}
 
