@@ -10,4 +10,5 @@ type User struct {
 	Pages     string
 	Password  string
 	PageTotal int64
+	Status    string
 }

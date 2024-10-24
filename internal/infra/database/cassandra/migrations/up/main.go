@@ -75,9 +75,9 @@ func setCommands() {
 	);`, entity.KeySpace)
 
 	cql[5] = fmt.Sprintf(`CREATE TABLE IF NOT EXISTS %s.users_status (
-                        idUser TEXT,
+                        id TEXT,
                         times TIMESTAMP,
                         status TEXT,
-                        PRIMARY KEY(idUser,times)
+                        PRIMARY KEY(id)
         );`, entity.KeySpace)
 }

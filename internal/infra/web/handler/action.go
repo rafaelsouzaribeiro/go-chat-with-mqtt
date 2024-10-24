@@ -23,11 +23,13 @@ func (o *ChatHandler) Action(c *gin.Context) {
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Error logging in"})
+		o.ClearSession(c, "go-chat")
 		return
 	}
 
 	if !o.chatUseCase.CheckPassword(user.Password, loginReq.Password) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Error logging in"})
+		o.ClearSession(c, "go-chat")
 		return
 	}
 
@@ -39,9 +41,12 @@ func (o *ChatHandler) Action(c *gin.Context) {
 	session.AddFlash(user.Username)
 	session.AddFlash(user.Password)
 
+	o.chatUseCase.SendStatus(user.Id, "online")
+
 	err = session.Save(c.Request, c.Writer)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error save session"})
+		o.ClearSession(c, "go-chat")
 		return
 	}
 
