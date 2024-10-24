@@ -20,4 +20,5 @@ type PayloadUser struct {
 	Times     time.Time `json:"times"`
 	Password  string    `json:"password"`
 	PageTotal int64     `json:"page_total"`
+	Status    string    `json:"status"`
 }
