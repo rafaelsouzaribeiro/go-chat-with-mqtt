@@ -121,12 +121,9 @@ function SelectUsers(){
                     pageTotalU = element.page_total;
                     var con="offline";
 
-                    users.forEach(obj => {
-                        if (element.id==obj.id){
-                            con="online";
-                            return true;
-                        }
-                    });
+                    if (users[element.id]){
+                        con="online";
+                    }
 
                     if (loggedId==element.id){return;} 
                     
@@ -171,20 +168,18 @@ function SelectUsersindex() {
                     json.forEach(element => {
                         var con="offline";
                     
-                        users.forEach(obj => {                            
-                            if (element.id==obj.id){
-                                con="online";
-                                return true;
-                            }
-                        });
-                    if (loggedId == element.id) { return; }
+                        if (users[element.id]){
+                            con="online";
+                        }
+                       
+                        if (loggedId == element.id) { return; }
 
-                    elements += `<li id='${element.id}' class='user-id'>
-                        <img src='${element.photo}' alt='${element.username}' />
-                        <span  class="username">${element.username}</span>
-                        <span class="${con}"></span>
-                        <div class='clear'></div>                        
-                    </li>`;
+                        elements += `<li id='${element.id}' class='user-id'>
+                            <img src='${element.photo}' alt='${element.username}' />
+                            <span  class="username">${element.username}</span>
+                            <span class="${con}"></span>
+                            <div class='clear'></div>                        
+                        </li>`;
                 });
 
                 document.getElementById('users').innerHTML += elements;

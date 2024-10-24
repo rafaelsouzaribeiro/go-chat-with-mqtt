@@ -4,7 +4,7 @@ import (
 	"github.com/rafaelsouzaribeiro/go-chat-with-mqtt/internal/usecase/dto"
 )
 
-func (r *UseCaseMessageUser) GetStatusUser() (*[]dto.PayloadUser, error) {
+func (r *UseCaseMessageUser) GetStatusUser() (*map[string]dto.PayloadUser, error) {
 
 	query, err := r.Irepository.GetStatusUser()
 
@@ -12,14 +12,14 @@ func (r *UseCaseMessageUser) GetStatusUser() (*[]dto.PayloadUser, error) {
 		return nil, err
 	}
 
-	var users []dto.PayloadUser
+	users := make(map[string]dto.PayloadUser)
 
 	for _, obj := range *query {
-		users = append(users, dto.PayloadUser{
+		users[obj.Id] = dto.PayloadUser{
 			Id:     obj.Id,
 			Status: obj.Status,
 			Times:  obj.Times,
-		})
+		}
 	}
 
 	return &users, nil
