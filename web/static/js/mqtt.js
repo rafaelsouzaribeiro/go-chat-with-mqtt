@@ -4,6 +4,8 @@ var userName = "";
 var pageTotalU = 0;
 var pageTotalM = 0;
 var messageObject = {};
+var hasmoreusers=true;
+var hasmoremessages=true;
 
 var mqttClient = new Paho.MQTT.Client(hostname, parseInt(port), clientId);
 mqttClient.onMessageArrived = MessageArrived;
@@ -136,43 +138,50 @@ function SelectUsers(){
         });
 }
 
-function SelectUsersindex(){
-    pageTotalU--;
-    console.log(pageTotalU);
+function SelectUsersindex() {
+    if (hasmoreusers) {
+        pageTotalU--;
 
-    fetch(`/list-users-index/${pageTotalU}`) 
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Erro ao carregar a página');
-            }
-            return response.text(); 
-        })
-        .then(json => {
-            if (json!=null){
-                var obj = JSON.parse(json);
-                var elements="";
-                if (obj!=null){
-                    obj.forEach(element => {
-                        if (loggedId==element.id){return;} 
-    
-                        elements+=`<li id='${element.id}' class='user-id'>
-                            <img src='${element.photo}' alt='${element.username}' />
-                            <span>${element.username}</span>
-                            <div class='clear'></div>
-                        </li>`;
-                    });
-    
-                
-                    document.getElementById('users').innerHTML += elements;
-                    Onclick();
+        fetch(`/list-users-index/${pageTotalU}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Erro ao carregar a página');
                 }
-  
+                return response.json();
+            })
+            .then(json => {
+            
+                if (!json || json.length === 0) {
+                    hasmoreusers = false;
+                    return; 
+                }
+
+                try {
+                    var elements = "";
+                    json.forEach(element => {
+                    if (loggedId == element.id) { return; }
+
+                    elements += `<li id='${element.id}' class='user-id'>
+                        <img src='${element.photo}' alt='${element.username}' />
+                        <span>${element.username}</span>
+                        <div class='clear'></div>
+                    </li>`;
+                });
+
+                document.getElementById('users').innerHTML += elements;
+                Onclick();
+            } catch (e) {
+                hasmoreusers = false;
             }
-        })
-        .catch(error => {
-            console.error('Erro:', error);
-        });
+        
+            })
+            .catch(error => {
+                hasmoreusers = false;
+                console.error('Erro:', error);
+            });
+    }
 }
+
 
 
 function Connect() {
@@ -282,44 +291,43 @@ function formatTimestamp(timestamp) {
 
 
 function loadPreviousMessages() {
-    pageTotalM--;
-    console.log("index>>",pageTotalM)
-    fetch(`/list-message-index/${userId}/${loggedId}/${pageTotalM}`)
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Error loading page');
-        }
-        return response.text(); 
-    })
-    .then(json => {
-        if(json!=null){
-            var json = JSON.parse(json);
-
-            if (json!=null){
-                json.forEach(element => {
-                    messageObject[element.times] = element;
-                });
-
-                document.getElementById("chat-body").innerHTML="";
-
-                var sortedTimes = Object.keys(messageObject).sort();
-                sortedTimes.forEach(time=>{
-                    var element = messageObject[time];
-                    document.getElementById("chat-body").innerHTML+=`<div class="message ${element.types}">
-                        <p>${element.message}
-                        </p>
-                        <span class="time">${formatTimestamp(element.times)}</span>
-                    </div>`;
-                });
+    if (hasmoremessages){
+        pageTotalM--;
+        fetch(`/list-message-index/${userId}/${loggedId}/${pageTotalM}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Error loading page');
             }
-     
+            return response.json(); 
+        })
+        .then(json => {
+            if (!json || json.length === 0) {
+                hasmoremessages = false;
+                return; 
+            }
+                
+            json.forEach(element => {
+                messageObject[element.times] = element;
+            });
 
-        }
-        
-    })
-    .catch(error => {
-        console.error('Erro:', error);
-    }); 
+            document.getElementById("chat-body").innerHTML="";
+
+            var sortedTimes = Object.keys(messageObject).sort();
+            sortedTimes.forEach(time=>{
+                var element = messageObject[time];
+                document.getElementById("chat-body").innerHTML+=`<div class="message ${element.types}">
+                    <p>${element.message}
+                    </p>
+                    <span class="time">${formatTimestamp(element.times)}</span>
+                </div>`;
+            });
+            
+        })
+        .catch(error => {
+            hasmoremessages=false;
+            console.error('Erro:', error);
+        }); 
+    }
 }
 
 document.getElementById("loader").addEventListener('click',function(){
