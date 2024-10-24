@@ -121,14 +121,13 @@ function SelectUsers(){
                     pageTotalU = element.page_total;
                     var con="offline";
 
-                    users.forEach(elements => {
-                        if (element.id==elements.id){
+                    users.forEach(obj => {
+                        if (element.id==obj.id){
                             con="online";
                             return true;
                         }
-                        return false;
                     });
-                    
+
                     if (loggedId==element.id){return;} 
                     
                     elements+=`<li id='${element.id}' class='user-id'>
@@ -171,13 +170,12 @@ function SelectUsersindex() {
                     var elements = "";
                     json.forEach(element => {
                         var con="offline";
-
-                        users.forEach(elements => {
-                            if (element.id==elements.id){
+                    
+                        users.forEach(obj => {                            
+                            if (element.id==obj.id){
                                 con="online";
                                 return true;
                             }
-                            return false;
                         });
                     if (loggedId == element.id) { return; }
 

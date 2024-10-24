@@ -12,7 +12,7 @@ type Irepository interface {
 	GetPaginationUserIndex() int64
 	GetUsername(username string) int
 	SendStatus(id, status string)
-	GetStatusUser() ([]User, error)
+	GetStatusUser() (*[]User, error)
 }
 
 var (
