@@ -121,7 +121,7 @@ function SelectUsers(){
                     pageTotalU = element.page_total;
                     var con="offline";
 
-                    if (users[element.id]){
+                    if (users[element.id] && users[element.id].status=="online"){
                         con="online";
                     }
 
@@ -168,7 +168,7 @@ function SelectUsersindex() {
                     json.forEach(element => {
                         var con="offline";
                     
-                        if (users[element.id]){
+                        if (users[element.id] && users[element.id].status=="online"){
                             con="online";
                         }
                        
@@ -393,7 +393,9 @@ window.addEventListener('load', function () {
 });
 
 window.addEventListener('beforeunload', function (event) {
-    
-    event.preventDefault();                
-        
+    event.preventDefault();
+
+    logout();
+
+    event.returnValue = 'Are you sure you want to leave? Your changes might not be saved.';
 });
