@@ -391,3 +391,9 @@ function preventBackNavigation() {
 window.addEventListener('load', function () {
     preventBackNavigation();
 });
+
+window.addEventListener('beforeunload', function (event) {
+    
+    event.preventDefault();                
+        
+});
