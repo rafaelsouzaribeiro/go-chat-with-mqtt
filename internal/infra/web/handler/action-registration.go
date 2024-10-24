@@ -16,6 +16,13 @@ func (o *ChatHandler) ActionRegistration(c *gin.Context) {
 		return
 	}
 
+	num := o.chatUseCase.GetUsername(loginReq.Username)
+
+	if num > 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "username already exists"})
+		return
+	}
+
 	p, err := o.chatUseCase.HashPassword(loginReq.Password)
 
 	if err != nil {

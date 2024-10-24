@@ -12,12 +12,6 @@ import (
 
 func (i *CassandraRepository) Registration(user entity.User) (*entity.User, error) {
 
-	u := i.GetUsername(user.Username)
-
-	if u > 0 {
-		return nil, fmt.Errorf("username already exists")
-	}
-
 	pg := i.GetPaginationUser()
 	defer pg.Iter.Close()
 

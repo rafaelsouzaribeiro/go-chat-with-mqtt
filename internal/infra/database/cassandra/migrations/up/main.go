@@ -7,7 +7,7 @@ import (
 	"github.com/rafaelsouzaribeiro/go-chat-with-mqtt/internal/infra/database/cassandra/migrations"
 )
 
-var cql = make([]string, 5)
+var cql = make([]string, 6)
 
 func main() {
 
@@ -73,4 +73,11 @@ func setCommands() {
 			photo TEXT,
 			PRIMARY KEY(username,password)
 	);`, entity.KeySpace)
+
+	cql[5] = fmt.Sprintf(`CREATE TABLE IF NOT EXISTS %s.users_status (
+                        idUser TEXT,
+                        times TIMESTAMP,
+                        status TEXT,
+                        PRIMARY KEY(idUser,times)
+        );`, entity.KeySpace)
 }
