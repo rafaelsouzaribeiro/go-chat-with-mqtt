@@ -441,7 +441,7 @@ function updateUserStatus(e) {
         }
     }
 
-    if (v == null && !hasmoreusers) {
+    if (v == null) {
         var con = "offline";
 
         if (e.status === "online") {
