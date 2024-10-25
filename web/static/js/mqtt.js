@@ -6,7 +6,7 @@ var pageTotalM = 0;
 var messageObject = {};
 var hasmoreusers=true;
 var hasmoremessages=true;
-const socket = new WebSocket('ws://localhost:8080/ws'); 
+const socket = new WebSocket(`ws://${hostwebsocket}:${portwebsocket}/ws`); 
 
 var mqttClient = new Paho.MQTT.Client(hostname, parseInt(port), clientId);
 mqttClient.onMessageArrived = MessageArrived;

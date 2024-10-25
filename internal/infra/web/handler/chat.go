@@ -39,15 +39,17 @@ func (o *ChatHandler) IndexTemplates(c *gin.Context) {
 	}
 
 	data := gin.H{
-		"topic":       viper.GetString("TOPIC_MQTT"),
-		"idUser":      user.Id,
-		"username":    user.Username,
-		"photo":       user.Photo,
-		"hostname":    viper.GetString("HOST_MQTT_WEBSOCKET"),
-		"port":        viper.GetInt("PORT_MQTT_WEBSOCKET"),
-		"usernameCon": viper.GetString("USERNAME_MQTT"),
-		"password":    viper.GetString("PASSWORD_MQTT"),
-		"users":       string(usersJSON),
+		"topic":          viper.GetString("TOPIC_MQTT"),
+		"idUser":         user.Id,
+		"username":       user.Username,
+		"photo":          user.Photo,
+		"hostname":       viper.GetString("HOST_MQTT_WEBSOCKET"),
+		"port":           viper.GetInt("PORT_MQTT_WEBSOCKET"),
+		"usernameCon":    viper.GetString("USERNAME_MQTT"),
+		"password":       viper.GetString("PASSWORD_MQTT"),
+		"users":          string(usersJSON),
+		"port_weboscket": viper.GetString("WEBSERVER_PORT"),
+		"host_weboscket": viper.GetString("WEBSERVER_HOST"),
 	}
 
 	c.HTML(http.StatusOK, "chat.html", data)
