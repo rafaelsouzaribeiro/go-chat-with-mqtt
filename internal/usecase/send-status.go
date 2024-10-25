@@ -1,7 +1,18 @@
 package usecase
 
-func (i *UseCaseMessageUser) SendStatus(id, status string) {
+import (
+	"github.com/rafaelsouzaribeiro/go-chat-with-mqtt/internal/entity"
+	"github.com/rafaelsouzaribeiro/go-chat-with-mqtt/internal/usecase/dto"
+)
 
-	i.Irepository.SendStatus(id, status)
+func (i *UseCaseMessageUser) SendStatus(user dto.PayloadUser) {
+
+	i.Irepository.SendStatus(entity.User{
+		Username: user.Username,
+		Id:       user.Id,
+		Photo:    user.Photo,
+		Times:    user.Times,
+		Status:   user.Status,
+	})
 
 }

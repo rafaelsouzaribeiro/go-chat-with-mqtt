@@ -41,7 +41,8 @@ func (o *ChatHandler) Action(c *gin.Context) {
 	session.AddFlash(user.Username)
 	session.AddFlash(user.Password)
 
-	o.chatUseCase.SendStatus(user.Id, "online")
+	user.Status = "online"
+	o.chatUseCase.SendStatus(*user)
 
 	err = session.Save(c.Request, c.Writer)
 	if err != nil {

@@ -11,7 +11,7 @@ type Irepository interface {
 	ListMessageIndex(id, receive string) (*[]Message, error)
 	GetPaginationUserIndex() int64
 	GetUsername(username string) int
-	SendStatus(id, status string)
+	SendStatus(User)
 	GetStatusUser() (*[]User, error)
 }
 

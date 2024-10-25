@@ -369,7 +369,6 @@ window.addEventListener("load", function() {
 function logout() {
     fetch('/logout', {
         method: 'POST',
-        credentials: 'same-origin'
     }).then(response => {
         if (response.ok) {
             window.location.href = '/'; 
@@ -413,15 +412,32 @@ function SettingStatus() {
     }).then(json=>{
         if (Array.isArray(json)) {
             json.forEach(e=>{
-                var v = document.getElementById(e.Id+"-status");
+                var v = document.getElementById(e.id+"-status");
                 if (v!=null){
                     v.classList.remove("online", "offline");
 
-                    if (e.Status === "online") {
+                    if (e.status === "online") {
                         v.classList.add("online");
                     } else {
                         v.classList.add("offline");
                     }
+                }
+
+                if (v==null && !hasmoreusers){
+                    var con="offline";
+                    
+                    if (users[e.id] && users[e.id].status=="online"){
+                        con="online";
+                    }
+
+                    document.getElementById('users').insertAdjacentHTML('afterbegin', 
+                        `<li id='${e.id}' class='user-id'>
+                            <img src='${e.photo}' alt='${e.username}' />
+                            <span class="username">${e.username}</span>
+                            <span id='${e.id}-status' class="${con}"></span>
+                            <div class='clear'></div>
+                        </li>`
+                    );
                 }
            
             });

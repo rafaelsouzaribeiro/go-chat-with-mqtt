@@ -38,9 +38,11 @@ func (o *ChatHandler) LisUsersStatus(c *gin.Context) {
 	var out []entity.User
 	for _, v := range *output {
 		out = append(out, entity.User{
-			Id:     v.Id,
-			Times:  v.Times,
-			Status: v.Status,
+			Id:       v.Id,
+			Times:    v.Times,
+			Status:   v.Status,
+			Username: v.Username,
+			Photo:    v.Photo,
 		})
 	}
 

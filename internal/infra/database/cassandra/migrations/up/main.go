@@ -78,6 +78,8 @@ func setCommands() {
                         id TEXT,
                         times TIMESTAMP,
                         status TEXT,
+						photo TEXT,
+						username TEXT,
                         PRIMARY KEY(id)
         );`, entity.KeySpace)
 }

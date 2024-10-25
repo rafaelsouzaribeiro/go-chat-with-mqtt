@@ -16,9 +16,11 @@ func (r *UseCaseMessageUser) GetStatusUser() (*map[string]dto.PayloadUser, error
 
 	for _, obj := range *query {
 		users[obj.Id] = dto.PayloadUser{
-			Id:     obj.Id,
-			Status: obj.Status,
-			Times:  obj.Times,
+			Id:       obj.Id,
+			Status:   obj.Status,
+			Times:    obj.Times,
+			Username: obj.Username,
+			Photo:    obj.Photo,
 		}
 	}
 
