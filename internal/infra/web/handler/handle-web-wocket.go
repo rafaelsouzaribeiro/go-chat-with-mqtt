@@ -42,13 +42,22 @@ func (d *ChatHandler) HandleWebSocket(c *gin.Context) {
 	}
 
 	mu.Lock()
-	d.chatUseCase.SendStatus(&dto.PayloadUser{
+	m := &dto.PayloadUser{
 		Username: currentUser.Username,
 		Photo:    currentUser.Photo,
 		Status:   "offline",
 		Times:    currentUser.Times,
-		Id:       currentUser.Id,
-	})
+		Id:       currentUser.Id}
+	d.chatUseCase.SendStatus(m)
+
+	for conn := range clients {
+		if err := conn.WriteJSON(m); err != nil {
+			fmt.Println("Error sending message:", err)
+			conn.Close()
+			delete(clients, conn)
+		}
+	}
+
 	delete(clients, conn)
 	mu.Unlock()
 }
