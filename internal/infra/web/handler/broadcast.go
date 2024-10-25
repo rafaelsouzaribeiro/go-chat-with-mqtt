@@ -11,7 +11,6 @@ func (d *ChatHandler) broadcast(msg dto.PayloadUser) {
 	defer mu.Unlock()
 
 	for conn := range clients {
-		fmt.Printf("%v", msg)
 		if err := conn.WriteJSON(msg); err != nil {
 			fmt.Println("Error sending message:", err)
 			conn.Close()
