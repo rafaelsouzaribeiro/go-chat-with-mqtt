@@ -59,6 +59,12 @@ function Onclick() {
 
 
 function FetchMessage(id){
+    var d = document.getElementById(`${id}-message`);
+
+    if(d){
+        d.innerHTML=0;
+        d.classList.remove("messages-show");
+    }
     
     fetch(`/list-message/${id}/${loggedId}/`) 
         .then(response => {
@@ -132,6 +138,7 @@ function SelectUsers(){
                         <img src='${element.photo}' alt='${element.username}' />
                         <span class="username">${element.username}</span>
                          <span id='${element.id}-status' class="${con}"></span>
+                         <span id='${element.id}-message' class="messages"></span>
                         <div class='clear'></div>                       
                     </li>`;
                 });
@@ -179,6 +186,7 @@ function SelectUsersindex() {
                             <img src='${element.photo}' alt='${element.username}' />
                             <span  class="username">${element.username}</span>
                             <span id='${element.id}-status' class="${con}"></span>
+                            <span id='${element.id}-message' class="messages"></span>
                             <div class='clear'></div>                        
                         </li>`;
                 });
@@ -237,13 +245,13 @@ function MessageArrived(message) {
     console.log(json);
 
     if (json!=null){
+
         if (json.receive == loggedId && json.userId == userId) { 
             document.getElementById("chat-body").innerHTML+=`<div class="message received">
                 <p>${json.message}
                 </p>
                 <span class="time">${formatTimestamp(json.times)}</span>
             </div>`;
-            
         }
 
         if (json.receive == userId && json.userId == loggedId){
@@ -252,6 +260,14 @@ function MessageArrived(message) {
                 </p>
                 <span class="time">${formatTimestamp(json.times)}</span>
             </div>`;
+        }
+
+        var messageCounter = document.getElementById(`${json.receive}-message`);
+        
+        if (messageCounter) {
+            let currentCount = parseInt(messageCounter.innerHTML) || 0;
+            messageCounter.innerHTML = currentCount + 1; 
+            messageCounter.classList.add("messages-show"); 
         }
 
     }
@@ -444,6 +460,7 @@ function updateUserStatus(e) {
                     <img src='${e.photo}' alt='${e.username}' />
                     <span class="username">${e.username}</span>
                     <span id='${e.id}-status' class="${con}"></span>
+                    <span id='${e.id}-message' class="messages"></span>
                     <div class='clear'></div>
                 </li>`
             );

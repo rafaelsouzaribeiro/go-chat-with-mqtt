@@ -18,6 +18,25 @@ body {
     overflow: hidden;
 }
 
+span.messages{
+    display: block;
+    width: 33px;
+    height: 27px;
+    background-color: brown;
+    position: absolute;
+    z-index: 2000;
+    bottom: -10px;
+    right: 22px;
+    border-radius: 46px;
+    display: none;
+    text-align: center;
+    line-height: 26px;
+}
+
+span.messages-show{
+    display: block!important
+}
+
 .logout{
     text-decoration: none;
     color: #fff;
