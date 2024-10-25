@@ -369,7 +369,7 @@ window.addEventListener("load", function() {
 
 function logout() {
     fetch('/logout', {
-        method: 'POST',
+        method: 'GET',
     }).then(response => {
         if (response.ok) {
             socket.send(JSON.stringify({ id: loggedId,username:loggeduser,photo:loggedphoto,status:"offline" }));
@@ -394,16 +394,6 @@ window.addEventListener('load', function () {
     preventBackNavigation();
 });
 
-window.addEventListener('beforeunload', function (event) {
-    event.preventDefault();
-
-    logout();
-
-    event.returnValue = 'Are you sure you want to leave? Your changes might not be saved.';
-});
-
-
-
 
 socket.onopen = function() {
     console.log('WebSocket connection established.');
@@ -426,6 +416,7 @@ socket.onerror = function(error) {
 
 socket.onclose = function() {
     console.log('WebSocket connection closed.');
+    
 };
 
 function updateUserStatus(e) {

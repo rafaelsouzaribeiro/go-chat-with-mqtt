@@ -27,7 +27,7 @@ func (o ChatHandler) Logout(c *gin.Context) {
 	}
 
 	user.Status = "offline"
-	o.chatUseCase.SendStatus(*user)
+	o.chatUseCase.SendStatus(user)
 
 	o.ClearSession(c, "go-chat")
 	c.JSON(http.StatusOK, gin.H{"message": "Logged out successfully"})

@@ -29,6 +29,7 @@ func (d *ChatHandler) HandleWebSocket(c *gin.Context) {
 	clients[conn] = true
 	mu.Unlock()
 
+	var currentUser dto.PayloadUser
 	for {
 		var msgs dto.PayloadUser
 		err := conn.ReadJSON(&msgs)
@@ -36,10 +37,18 @@ func (d *ChatHandler) HandleWebSocket(c *gin.Context) {
 			break
 		}
 
+		currentUser = msgs
 		d.broadcast(msgs)
 	}
 
 	mu.Lock()
+	d.chatUseCase.SendStatus(&dto.PayloadUser{
+		Username: currentUser.Username,
+		Photo:    currentUser.Photo,
+		Status:   "offline",
+		Times:    currentUser.Times,
+		Id:       currentUser.Id,
+	})
 	delete(clients, conn)
 	mu.Unlock()
 }
