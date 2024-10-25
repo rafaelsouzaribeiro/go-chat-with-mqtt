@@ -185,7 +185,7 @@ function SelectUsersindex() {
 
                 document.getElementById('users').innerHTML += elements;
                 Onclick();
-                //SettingStatus();
+               
             } catch (e) {
                 hasmoreusers = false;
             }
@@ -456,6 +456,7 @@ function updateUserStatus(e) {
                 <div class='clear'></div>
             </li>`
         );
+        Onclick();
     }
 }
 
