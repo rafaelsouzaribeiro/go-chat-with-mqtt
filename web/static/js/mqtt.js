@@ -429,34 +429,36 @@ socket.onclose = function() {
 };
 
 function updateUserStatus(e) {
-      
-    var v = document.getElementById(e.id + "-status");
-    if (v != null) {
-        v.classList.remove("online", "offline");
-
-        if (e.status === "online") {
-            v.classList.add("online");
-        } else {
-            v.classList.add("offline");
+    if (e.id!=loggedId){
+        var v = document.getElementById(e.id + "-status");
+        if (v != null) {
+            v.classList.remove("online", "offline");
+    
+            if (e.status === "online") {
+                v.classList.add("online");
+            } else {
+                v.classList.add("offline");
+            }
+        }
+    
+        if (v == null) {
+            var con = "offline";
+    
+            if (e.status === "online") {
+                con = "online";
+            }
+    
+            document.getElementById('users').insertAdjacentHTML('afterbegin',
+                `<li id='${e.id}' class='user-id'>
+                    <img src='${e.photo}' alt='${e.username}' />
+                    <span class="username">${e.username}</span>
+                    <span id='${e.id}-status' class="${con}"></span>
+                    <div class='clear'></div>
+                </li>`
+            );
+            Onclick();
         }
     }
-
-    if (v == null) {
-        var con = "offline";
-
-        if (e.status === "online") {
-            con = "online";
-        }
-
-        document.getElementById('users').insertAdjacentHTML('afterbegin',
-            `<li id='${e.id}' class='user-id'>
-                <img src='${e.photo}' alt='${e.username}' />
-                <span class="username">${e.username}</span>
-                <span id='${e.id}-status' class="${con}"></span>
-                <div class='clear'></div>
-            </li>`
-        );
-        Onclick();
-    }
+   
 }
 
