@@ -6,6 +6,7 @@ var pageTotalM = 0;
 var messageObject = {};
 var hasmoreusers=true;
 var hasmoremessages=true;
+const socket = new WebSocket('ws://localhost:8080/ws'); 
 
 var mqttClient = new Paho.MQTT.Client(hostname, parseInt(port), clientId);
 mqttClient.onMessageArrived = MessageArrived;
@@ -184,7 +185,7 @@ function SelectUsersindex() {
 
                 document.getElementById('users').innerHTML += elements;
                 Onclick();
-                SettingStatus();
+                //SettingStatus();
             } catch (e) {
                 hasmoreusers = false;
             }
@@ -371,6 +372,7 @@ function logout() {
         method: 'POST',
     }).then(response => {
         if (response.ok) {
+            socket.send(JSON.stringify({ id: loggedId,username:loggeduser,photo:loggedphoto,status:"offline" }));
             window.location.href = '/'; 
         } else {
             alert('Logout failed!');
@@ -400,52 +402,60 @@ window.addEventListener('beforeunload', function (event) {
     event.returnValue = 'Are you sure you want to leave? Your changes might not be saved.';
 });
 
-function SettingStatus() {
-    fetch('/get-users-status', {
-        method: 'POST',
-    }).then(response => {
-        if (!response.ok) {
-            throw new Error('Error loading status');
+
+
+
+socket.onopen = function() {
+    console.log('WebSocket connection established.');
+    socket.send(JSON.stringify({ id: loggedId,username:loggeduser,photo:loggedphoto,status:"online" }));
+};
+
+socket.onmessage = function(event) {
+    try {
+        const data = JSON.parse(event.data);
+        
+        updateUserStatus(data);
+    } catch (error) {
+        console.error('Error parsing WebSocket message:', error);
+    }
+};
+
+socket.onerror = function(error) {
+    console.error('WebSocket error:', error);
+};
+
+socket.onclose = function() {
+    console.log('WebSocket connection closed.');
+};
+
+function updateUserStatus(e) {
+      
+    var v = document.getElementById(e.id + "-status");
+    if (v != null) {
+        v.classList.remove("online", "offline");
+
+        if (e.status === "online") {
+            v.classList.add("online");
+        } else {
+            v.classList.add("offline");
+        }
+    }
+
+    if (v == null && !hasmoreusers) {
+        var con = "offline";
+
+        if (e.status === "online") {
+            con = "online";
         }
 
-        return response.json(); 
-    }).then(json=>{
-        if (Array.isArray(json)) {
-            json.forEach(e=>{
-                var v = document.getElementById(e.id+"-status");
-                if (v!=null){
-                    v.classList.remove("online", "offline");
-
-                    if (e.status === "online") {
-                        v.classList.add("online");
-                    } else {
-                        v.classList.add("offline");
-                    }
-                }
-
-                if (v==null && !hasmoreusers){
-                    var con="offline";
-                    
-                    if (users[e.id] && users[e.id].status=="online"){
-                        con="online";
-                    }
-
-                    document.getElementById('users').insertAdjacentHTML('afterbegin', 
-                        `<li id='${e.id}' class='user-id'>
-                            <img src='${e.photo}' alt='${e.username}' />
-                            <span class="username">${e.username}</span>
-                            <span id='${e.id}-status' class="${con}"></span>
-                            <div class='clear'></div>
-                        </li>`
-                    );
-                }
-           
-            });
-        }
-         
-    }).catch(error => {
-        console.error('Error during addClass:', error);
-    });
+        document.getElementById('users').insertAdjacentHTML('afterbegin',
+            `<li id='${e.id}' class='user-id'>
+                <img src='${e.photo}' alt='${e.username}' />
+                <span class="username">${e.username}</span>
+                <span id='${e.id}-status' class="${con}"></span>
+                <div class='clear'></div>
+            </li>`
+        );
+    }
 }
 
-setInterval(SettingStatus,10000);
