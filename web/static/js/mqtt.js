@@ -471,6 +471,16 @@ window.addEventListener("beforeunload", function (e) {
     return;  
 });
 
+document.addEventListener("keydown", (event) => {
+    if (event.keyCode == 116) { 
+        event.preventDefault();
+    } 
+});
+
+
+
+
+
 
 
 
