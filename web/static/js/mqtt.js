@@ -466,3 +466,11 @@ function updateUserStatus(e) {
    
 }
 
+window.addEventListener("beforeunload", function (e) {
+    logout();
+    return;  
+});
+
+
+
+
