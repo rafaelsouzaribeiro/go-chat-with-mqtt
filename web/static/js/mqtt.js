@@ -241,7 +241,6 @@ function ConnectionLost(res) {
     if (res.errorCode !== 0) {
         console.log("Connection lost: " + res.errorMessage);
         Connect();
-        notifyPresence("offline");
     }
 }
 
