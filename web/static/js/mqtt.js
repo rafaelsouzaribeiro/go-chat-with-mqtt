@@ -6,7 +6,6 @@ var pageTotalM = 0;
 var messageObject = {};
 var hasmoreusers=true;
 var hasmoremessages=true;
-const socket = new WebSocket(`ws://${hostwebsocket}:${portwebsocket}/ws`); 
 
 var mqttClient = new Paho.MQTT.Client(hostname, parseInt(port), clientId);
 mqttClient.onMessageArrived = MessageArrived;
@@ -209,13 +208,17 @@ function SelectUsersindex() {
 
 
 function Connect() {
+    const lastWillMessage = new Paho.MQTT.Message(JSON.stringify({ id: loggedId,username:loggeduser,photo:loggedphoto,status:"offline" }));
+    lastWillMessage.destinationName = "presence/offline";
+
     mqttClient.connect({
         onSuccess: Connected,
         onFailure: ConnectionFailed,
         keepAliveInterval: 10,
         userName: usernameCon,
         useSSL: false,
-        password: password
+        password: password,
+        willMessage: lastWillMessage,
     });
 }
 
@@ -223,6 +226,8 @@ function Connect() {
 function Connected() {
     console.log("Connected");
     mqttClient.subscribe(subscription);
+    subscribeToPresence();
+    notifyPresence("online");
     
  }
 
@@ -236,14 +241,21 @@ function ConnectionLost(res) {
     if (res.errorCode !== 0) {
         console.log("Connection lost: " + res.errorMessage);
         Connect();
+        notifyPresence("offline");
     }
 }
 
 
 function MessageArrived(message) {
     var json = JSON.parse(message.payloadString)
-    console.log(json);
+    if (message.destinationName.startsWith("presence/")) {
+        updateUserStatus(json);
+    } else {
+        Message(json); 
+    }   
+}
 
+function Message(json){
     if (json!=null){
 
         if (json.receive == loggedId && json.userId == userId) { 
@@ -271,10 +283,7 @@ function MessageArrived(message) {
         }
 
     }
-
-   
 }
-
 
 function sendMessage() {
     message=document.getElementById("message-input").value.trim();
@@ -295,7 +304,7 @@ function sendMessage() {
         message.destinationName = subscription;
     
         mqttClient.send(message);
-    
+        message.value="";
         console.log("Mensagem enviada: " + payload);        
     }
    
@@ -388,7 +397,7 @@ function logout() {
         method: 'GET',
     }).then(response => {
         if (response.ok) {
-            socket.send(JSON.stringify({ id: loggedId,username:loggeduser,photo:loggedphoto,status:"offline" }));
+            notifyPresence("offline")
             window.location.href = '/'; 
         } else {
             alert('Logout failed!');
@@ -410,30 +419,18 @@ window.addEventListener('load', function () {
     preventBackNavigation();
 });
 
+function notifyPresence(status) {
 
-socket.onopen = function() {
-    console.log('WebSocket connection established.');
-    socket.send(JSON.stringify({ id: loggedId,username:loggeduser,photo:loggedphoto,status:"online" }));
-};
+    const message = new Paho.MQTT.Message(JSON.stringify({id: loggedId,username:loggeduser,photo:loggedphoto,status:status}));
+    message.destinationName = `presence/${status}`;
+    mqttClient.send(message);
+}
 
-socket.onmessage = function(event) {
-    try {
-        const data = JSON.parse(event.data);
-        
-        updateUserStatus(data);
-    } catch (error) {
-        console.error('Error parsing WebSocket message:', error);
-    }
-};
+function subscribeToPresence() {
+    mqttClient.subscribe("presence/online");
+    mqttClient.subscribe("presence/offline");
+}
 
-socket.onerror = function(error) {
-    console.error('WebSocket error:', error);
-};
-
-socket.onclose = function() {
-    console.log('WebSocket connection closed.');
-    
-};
 
 function updateUserStatus(e) {
     if (e.id!=loggedId){

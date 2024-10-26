@@ -21,7 +21,6 @@ func (w *WebServer) AddHandlerChat(order *usecase.UseCaseMessageUser) {
 	w.router.GET("/registration", chatHandler.RegistrationTemplates)
 	w.router.POST("/action-registration", chatHandler.ActionRegistration)
 	w.router.GET("/logout", chatHandler.Logout)
-	w.router.GET("/ws", chatHandler.HandleWebSocket)
 
 }
 
