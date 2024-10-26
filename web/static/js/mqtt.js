@@ -208,8 +208,6 @@ function SelectUsersindex() {
 
 
 function Connect() {
-    const lastWillMessage = new Paho.MQTT.Message(JSON.stringify({ id: loggedId,username:loggeduser,photo:loggedphoto,status:"offline" }));
-    lastWillMessage.destinationName = "presence/offline";
 
     mqttClient.connect({
         onSuccess: Connected,
@@ -218,7 +216,6 @@ function Connect() {
         userName: usernameCon,
         useSSL: false,
         password: password,
-        willMessage: lastWillMessage,
     });
 }
 
