@@ -404,7 +404,6 @@ function logout() {
         method: 'GET',
     }).then(response => {
         if (response.ok) {
-            notifyPresence("offline")
             window.location.href = '/'; 
         } else {
             alert('Logout failed!');
@@ -480,6 +479,7 @@ window.addEventListener("beforeunload", function (e) {
     logout();
     return;  
 });
+
 
 document.addEventListener("keydown", (event) => {
     if (event.keyCode == 116) { 
