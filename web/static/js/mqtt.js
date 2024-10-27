@@ -476,7 +476,7 @@ function updateUserStatus(e) {
 }
 
 window.addEventListener("beforeunload", function (e) {
-    logout();
+    logout();    
     return;  
 });
 
@@ -486,6 +486,8 @@ document.addEventListener("keydown", (event) => {
         event.preventDefault();
     } 
 });
+
+
 
 
 
