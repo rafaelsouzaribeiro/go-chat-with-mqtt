@@ -6,6 +6,8 @@ var pageTotalM = 0;
 var messageObject = {};
 var hasmoreusers=true;
 var hasmoremessages=true;
+var alertMessage="";
+
 
 var mqttClient = new Paho.MQTT.Client(hostname, parseInt(port), clientId);
 mqttClient.onMessageArrived = MessageArrived;
@@ -131,7 +133,7 @@ function SelectUsers(){
                         con="online";
                     }
 
-                    if (loggedId==element.id){return;} 
+                    if (loggedId==element.id){return false;} 
                     
                     elements+=`<li id='${element.id}' class='user-id'>
                         <img src='${element.photo}' alt='${element.username}' />
@@ -145,6 +147,7 @@ function SelectUsers(){
             
                 document.getElementById('users').innerHTML += elements;
                 Onclick();
+                updateMessageCounter();
             }
         })
         .catch(error => {
@@ -179,7 +182,7 @@ function SelectUsersindex() {
                             con="online";
                         }
                        
-                        if (loggedId == element.id) { return; }
+                        if (loggedId == element.id) { return false; }
 
                         elements += `<li id='${element.id}' class='user-id'>
                             <img src='${element.photo}' alt='${element.username}' />
@@ -192,6 +195,7 @@ function SelectUsersindex() {
 
                 document.getElementById('users').innerHTML += elements;
                 Onclick();
+                updateMessageCounter();
                
             } catch (e) {
                 hasmoreusers = false;
@@ -272,15 +276,19 @@ function Message(json){
                 <span class="time">${formatTimestamp(json.times)}</span>
             </div>`;
         }
+        alertMessage=json.receive;
+        updateMessageCounter();
 
-        var messageCounter = document.getElementById(`${json.receive}-message`);
-        
-        if (messageCounter) {
-            let currentCount = parseInt(messageCounter.innerHTML) || 0;
-            messageCounter.innerHTML = currentCount + 1; 
-            messageCounter.classList.add("messages-show"); 
-        }
+    }
+}
 
+function updateMessageCounter() {
+    var messageCounter = document.getElementById(`${alertMessage}-message`);
+    
+    if (messageCounter) {
+        let currentCount = parseInt(messageCounter.innerHTML) || 0;
+        messageCounter.innerHTML = currentCount + 1; 
+        messageCounter.classList.add("messages-show"); 
     }
 }
 
@@ -432,6 +440,7 @@ function subscribeToPresence() {
 
 
 function updateUserStatus(e) {
+    
     if (e.id!=loggedId){
         var v = document.getElementById(e.id + "-status");
         if (v != null) {
@@ -444,7 +453,7 @@ function updateUserStatus(e) {
             }
         }
     
-        if (v == null) {
+        if (v == null && !users.hasOwnProperty(e.id)) {
             var con = "offline";
     
             if (e.status === "online") {
@@ -461,6 +470,7 @@ function updateUserStatus(e) {
                 </li>`
             );
             Onclick();
+            updateMessageCounter();
         }
     }
    
