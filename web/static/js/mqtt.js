@@ -8,7 +8,6 @@ var hasmoreusers=true;
 var hasmoremessages=true;
 var alertMessage="";
 
-
 var mqttClient = new Paho.MQTT.Client(hostname, parseInt(port), clientId);
 mqttClient.onMessageArrived = MessageArrived;
 mqttClient.onConnectionLost = ConnectionLost;
@@ -405,9 +404,7 @@ function logout() {
     }).then(response => {
         if (response.ok) {
             window.location.href = '/'; 
-        } else {
-            alert('Logout failed!');
-        }
+        } 
     }).catch(error => {
         console.error('Error during logout:', error);
     });
