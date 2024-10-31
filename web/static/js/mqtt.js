@@ -8,6 +8,7 @@ var hasmoreusers=true;
 var hasmoremessages=true;
 var alertMessage="";
 var messageCounter=0;
+var alerts={};
 
 var mqttClient = new Paho.MQTT.Client(hostname, parseInt(port), clientId);
 mqttClient.onMessageArrived = MessageArrived;
@@ -278,32 +279,28 @@ function Message(json){
             </div>`;
         }
         
-        if (alertMessage==""){
-            alertMessage = `${json.receive}-${json.userId}`;
-            messageCounter=1;
-        }
+        var alertKey = `${json.receive}-${json.userId}`;
 
-        if (alertMessage==`${json.receive}-${json.userId}`){
-            messageCounter = parseInt(messageCounter) + 1;
-            alertMessage=`${json.receive}-${json.userId}`;
-            
-        }else{
-            alertMessage="";
+        if (alerts[alertKey]) {
+            alerts[alertKey] += 1;
+        } else {
+            alerts[alertKey] = 1;
         }
-        
-       
         updateMessageCounter();
 
     }
 }
 
 function updateMessageCounter() {
-    var element = document.getElementById(`${alertMessage}-message`);
+    for (const key in alerts) {
+        var element = document.getElementById(`${key}-message`);
     
-    if (element) {        
-        element.innerHTML = messageCounter; 
-        element.classList.add("messages-show"); 
+        if (element) {        
+            element.innerHTML = alerts[key]; 
+            element.classList.add("messages-show"); 
+        } 
     }
+    
 }
 
 function sendMessage() {
@@ -498,7 +495,6 @@ document.addEventListener("keydown", (event) => {
         event.preventDefault();
     } 
 });
-
 
 
 
