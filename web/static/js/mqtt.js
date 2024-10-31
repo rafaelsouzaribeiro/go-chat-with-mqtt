@@ -278,8 +278,20 @@ function Message(json){
             </div>`;
         }
         
-        alertMessage = `${json.receive}-${json.userId}`;
-        messageCounter = parseInt(messageCounter) + 1;
+        if (alertMessage==""){
+            alertMessage = `${json.receive}-${json.userId}`;
+            messageCounter=1;
+        }
+
+        if (alertMessage==`${json.receive}-${json.userId}`){
+            messageCounter = parseInt(messageCounter) + 1;
+            alertMessage=`${json.receive}-${json.userId}`;
+            
+        }else{
+            alertMessage="";
+        }
+        
+       
         updateMessageCounter();
 
     }
