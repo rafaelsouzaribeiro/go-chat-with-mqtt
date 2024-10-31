@@ -54,6 +54,7 @@ function Onclick() {
                 el.style.backgroundColor = "#57606f";
             });
             this.style.backgroundColor = "#1e272e";
+            hasmoremessages=true;
             FetchMessage(id);
         });
     });
@@ -309,7 +310,7 @@ function updateMessageCounter() {
 function sendMessage() {
     message=document.getElementById("message-input").value.trim();
     document.getElementById("message-input").value="";
-    
+
     if (message!="" && userId){ 
         var jsonMessage = {
             "username": loggeduser,
@@ -321,7 +322,7 @@ function sendMessage() {
     
         var payload = JSON.stringify(jsonMessage);
         
-        hasmoremessages=true;
+        
         var message = new Paho.MQTT.Message(payload);
         message.destinationName = subscription;
     
