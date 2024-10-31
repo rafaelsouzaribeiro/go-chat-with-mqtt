@@ -308,7 +308,8 @@ function updateMessageCounter() {
 
 function sendMessage() {
     message=document.getElementById("message-input").value.trim();
-
+    document.getElementById("message-input").value="";
+    
     if (message!="" && userId){ 
         var jsonMessage = {
             "username": loggeduser,
@@ -320,12 +321,12 @@ function sendMessage() {
     
         var payload = JSON.stringify(jsonMessage);
         
-        
+        hasmoremessages=true;
         var message = new Paho.MQTT.Message(payload);
         message.destinationName = subscription;
     
         mqttClient.send(message);
-        message.value="";
+        
         console.log("Mensagem enviada: " + payload);        
     }
    
