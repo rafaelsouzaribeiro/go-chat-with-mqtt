@@ -66,6 +66,7 @@ function FetchMessage(id){
     if(d){
         d.innerHTML=0;
         d.classList.remove("messages-show");
+        delete alerts[`${id}-${loggedId}`];
     }
     
     fetch(`/list-message/${id}/${loggedId}/`) 
@@ -300,7 +301,7 @@ function updateMessageCounter() {
             element.classList.add("messages-show"); 
         } 
     }
-    
+
 }
 
 function sendMessage() {
