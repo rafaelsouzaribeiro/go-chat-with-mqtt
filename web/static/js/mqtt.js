@@ -7,6 +7,7 @@ var messageObject = {};
 var hasmoreusers=true;
 var hasmoremessages=true;
 var alertMessage="";
+var messageCounter=0;
 
 var mqttClient = new Paho.MQTT.Client(hostname, parseInt(port), clientId);
 mqttClient.onMessageArrived = MessageArrived;
@@ -59,7 +60,7 @@ function Onclick() {
 
 
 function FetchMessage(id){
-    var d = document.getElementById(`${id}-message`);
+    var d = document.getElementById(`${id}-${loggedId}-message`);
 
     if(d){
         d.innerHTML=0;
@@ -138,7 +139,7 @@ function SelectUsers(){
                         <img src='${element.photo}' alt='${element.username}' />
                         <span class="username">${element.username}</span>
                          <span id='${element.id}-status' class="${con}"></span>
-                         <span id='${element.id}-message' class="messages"></span>
+                         <span id='${element.id}-${loggedId}-message' class="messages"></span>
                         <div class='clear'></div>                       
                     </li>`;
                 });
@@ -187,7 +188,7 @@ function SelectUsersindex() {
                             <img src='${element.photo}' alt='${element.username}' />
                             <span  class="username">${element.username}</span>
                             <span id='${element.id}-status' class="${con}"></span>
-                            <span id='${element.id}-message' class="messages"></span>
+                            <span id='${element.id}-${loggedId}-message' class="messages"></span>
                             <div class='clear'></div>                        
                         </li>`;
                 });
@@ -254,6 +255,7 @@ function MessageArrived(message) {
         updateUserStatus(json);
     } else {
         Message(json); 
+  
     }   
 }
 
@@ -275,19 +277,20 @@ function Message(json){
                 <span class="time">${formatTimestamp(json.times)}</span>
             </div>`;
         }
-        alertMessage=json.receive;
+        
+        alertMessage = `${json.receive}-${json.userId}`;
+        messageCounter = parseInt(messageCounter) + 1;
         updateMessageCounter();
 
     }
 }
 
 function updateMessageCounter() {
-    var messageCounter = document.getElementById(`${alertMessage}-message`);
+    var element = document.getElementById(`${alertMessage}-message`);
     
-    if (messageCounter) {
-        let currentCount = parseInt(messageCounter.innerHTML) || 0;
-        messageCounter.innerHTML = currentCount + 1; 
-        messageCounter.classList.add("messages-show"); 
+    if (element) {        
+        element.innerHTML = messageCounter; 
+        element.classList.add("messages-show"); 
     }
 }
 
@@ -461,7 +464,7 @@ function updateUserStatus(e) {
                     <img src='${e.photo}' alt='${e.username}' />
                     <span class="username">${e.username}</span>
                     <span id='${e.id}-status' class="${con}"></span>
-                    <span id='${e.id}-message' class="messages"></span>
+                    <span id='${e.id}-${e.userId}-message' class="messages"></span>
                     <div class='clear'></div>
                 </li>`
             );
