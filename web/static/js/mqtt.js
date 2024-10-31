@@ -263,6 +263,8 @@ function MessageArrived(message) {
 
 function Message(json){
     if (json!=null){
+        const alertSound = new Audio("http://rafael-developer.com/wp-content/uploads/2024/10/alert.mp3");
+
         if (json.receive == loggedId && json.userId == userId) { 
             document.getElementById("chat-body").innerHTML+=`<div class="message received">
                 <p>${json.message}
@@ -278,6 +280,10 @@ function Message(json){
                 </p>
                 <span class="time">${formatTimestamp(json.times)}</span>
             </div>`;
+        }
+
+        if (json.userId == loggedId) {
+            alertSound.play();
         }
         
         var alertKey = `${json.receive}-${json.userId}`;
