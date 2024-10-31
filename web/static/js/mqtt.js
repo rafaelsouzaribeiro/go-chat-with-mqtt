@@ -263,13 +263,13 @@ function MessageArrived(message) {
 
 function Message(json){
     if (json!=null){
-
         if (json.receive == loggedId && json.userId == userId) { 
             document.getElementById("chat-body").innerHTML+=`<div class="message received">
                 <p>${json.message}
                 </p>
                 <span class="time">${formatTimestamp(json.times)}</span>
             </div>`;
+            
         }
 
         if (json.receive == userId && json.userId == loggedId){
@@ -282,11 +282,7 @@ function Message(json){
         
         var alertKey = `${json.receive}-${json.userId}`;
 
-        if (alerts[alertKey]) {
-            alerts[alertKey] += 1;
-        } else {
-            alerts[alertKey] = 1;
-        }
+        alerts[alertKey] = (alerts[alertKey] || 0) + 1;
         updateMessageCounter();
 
     }
