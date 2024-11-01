@@ -1,4 +1,4 @@
-<p>Chat with MQTT and Cassandra implementing user registration, login and logout, emoji support, an online and offline user list, message sending, and message counters using Go, HTML, CSS, and JavaScript. </p>
+<p>Chat application with MQTT and Cassandra, implementing user registration, login and logout, emoji support, an online and offline user list, message sending, message counters, and alert notifications using Go, HTML, CSS, JavaScript, HTML5. </p>
 <br/>
 <p>To create the keyspace and tables in Cassandra, just run the following Makefile commands in the project root:</p>
 
