@@ -495,11 +495,18 @@ window.addEventListener("beforeunload", function (e) {
 });
 
 
-document.addEventListener("keydown", (event) => {
-    if (event.keyCode == 116) { 
-        event.preventDefault();
-    } 
-});
+
+document.onkeydown = fkey;
+document.onkeypress = fkey
+document.onkeyup = fkey;
+
+function fkey(e){
+    e = e || window.event;
+
+    if (e.code == "F5") {
+        e.preventDefault();
+    }
+ }
 
 
 
