@@ -186,7 +186,7 @@ function SelectUsersindex() {
                         }
                        
                         if (loggedId == element.id) { return false; }
-
+                        
                         elements += `<li id='${element.id}' class='user-id'>
                             <img src='${element.photo}' alt='${element.username}' />
                             <span  class="username">${element.username}</span>
@@ -199,6 +199,7 @@ function SelectUsersindex() {
                 document.getElementById('users').innerHTML += elements;
                 Onclick();
                 updateMessageCounter();
+                notifyPresence("online");
                
             } catch (e) {
                 hasmoreusers = false;
