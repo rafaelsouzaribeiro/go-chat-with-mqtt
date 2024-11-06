@@ -9,6 +9,7 @@ var hasmoremessages=true;
 var alertMessage="";
 var messageCounter=0;
 var alerts={};
+let intervalId;
 
 var mqttClient = new Paho.MQTT.Client(hostname, parseInt(port), clientId);
 mqttClient.onMessageArrived = MessageArrived;
@@ -199,7 +200,6 @@ function SelectUsersindex() {
                 document.getElementById('users').innerHTML += elements;
                 Onclick();
                 updateMessageCounter();
-                notifyPresence("online");
                
             } catch (e) {
                 hasmoreusers = false;
@@ -213,6 +213,13 @@ function SelectUsersindex() {
     }
 }
 
+
+
+function startCheckingPresence(interval,status) {
+    intervalId = setInterval(() => {
+        notifyPresence(status);
+     }, interval);
+}
 
 
 function Connect() {
@@ -414,11 +421,13 @@ window.addEventListener("load", function() {
 
 
 function logout() {
+    clearInterval(intervalId);
+    notifyPresence("offline");
+
     fetch('/logout', {
         method: 'GET',
     }).then(response => {
         if (response.ok) {
-            notifyPresence("offline");
             window.location.href = '/'; 
         } 
     }).catch(error => {
@@ -508,6 +517,7 @@ function fkey(e){
  }
 
 
+ startCheckingPresence(5000,"online");
 
 
 
