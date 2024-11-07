@@ -520,9 +520,3 @@ function fkey(e){
 
 
  startCheckingPresence(5000,"online");
-
-
-
-
-
-
