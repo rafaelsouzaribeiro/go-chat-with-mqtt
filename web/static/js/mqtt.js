@@ -135,7 +135,6 @@ function SelectUsers(){
 
                     if (users[element.id] && users[element.id].status=="online"){
                         con="online";
-                        clearInterval(intervalId);
                     }
 
                     if (loggedId==element.id){return false;} 
@@ -185,7 +184,7 @@ function SelectUsersindex() {
                     
                         if (users[element.id] && users[element.id].status=="online"){
                             con="online";
-                            clearInterval(intervalId);
+                     
                         }
                        
                         if (loggedId == element.id) { return false; }
@@ -205,13 +204,11 @@ function SelectUsersindex() {
                
             } catch (e) {
                 hasmoreusers = false;
-                clearInterval(intervalId);
             }
         
             })
             .catch(error => {
                 hasmoreusers = false;
-                clearInterval(intervalId);
                 console.error('Erro:', error);
             });
     }
@@ -470,7 +467,6 @@ function updateUserStatus(e) {
     if (e.id!=loggedId){
         var v = document.getElementById(e.id + "-status");
         if (v != null) {
-            clearInterval(intervalId);
             v.classList.remove("online", "offline");
     
             if (e.status === "online") {
