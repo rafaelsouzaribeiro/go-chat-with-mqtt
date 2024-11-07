@@ -217,6 +217,7 @@ function SelectUsersindex() {
 
 function startCheckingPresence(interval,status) {
     intervalId = setInterval(() => {
+        console.log("Entrou");
         notifyPresence(status);
      }, interval);
 }
@@ -465,6 +466,7 @@ function updateUserStatus(e) {
     if (e.id!=loggedId){
         var v = document.getElementById(e.id + "-status");
         if (v != null) {
+            clearInterval(intervalId);
             v.classList.remove("online", "offline");
     
             if (e.status === "online") {
