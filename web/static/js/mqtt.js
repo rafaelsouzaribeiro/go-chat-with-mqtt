@@ -135,6 +135,7 @@ function SelectUsers(){
 
                     if (users[element.id] && users[element.id].status=="online"){
                         con="online";
+                        clearInterval(intervalId);
                     }
 
                     if (loggedId==element.id){return false;} 
@@ -184,6 +185,7 @@ function SelectUsersindex() {
                     
                         if (users[element.id] && users[element.id].status=="online"){
                             con="online";
+                            clearInterval(intervalId);
                         }
                        
                         if (loggedId == element.id) { return false; }
@@ -203,11 +205,13 @@ function SelectUsersindex() {
                
             } catch (e) {
                 hasmoreusers = false;
+                clearInterval(intervalId);
             }
         
             })
             .catch(error => {
                 hasmoreusers = false;
+                clearInterval(intervalId);
                 console.error('Erro:', error);
             });
     }
