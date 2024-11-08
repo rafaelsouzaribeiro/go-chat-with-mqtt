@@ -9,7 +9,7 @@ var hasmoremessages=true;
 var alertMessage="";
 var messageCounter=0;
 var alerts={};
-let intervalId;
+let keys={}
 
 var mqttClient = new Paho.MQTT.Client(hostname, parseInt(port), clientId);
 mqttClient.onMessageArrived = MessageArrived;
@@ -152,6 +152,7 @@ function SelectUsers(){
                 document.getElementById('users').innerHTML += elements;
                 Onclick();
                 updateMessageCounter();
+                VerifyCon();
             }
         })
         .catch(error => {
@@ -201,6 +202,7 @@ function SelectUsersindex() {
                 document.getElementById('users').innerHTML += elements;
                 Onclick();
                 updateMessageCounter();
+                VerifyCon();
                
             } catch (e) {
                 hasmoreusers = false;
@@ -212,15 +214,6 @@ function SelectUsersindex() {
                 console.error('Erro:', error);
             });
     }
-}
-
-
-
-function startCheckingPresence(interval,status) {
-    intervalId = setInterval(() => {
-        console.log("Entrou");
-        notifyPresence(status);
-     }, interval);
 }
 
 
@@ -423,8 +416,8 @@ window.addEventListener("load", function() {
 
 
 function logout() {
-    clearInterval(intervalId);
     notifyPresence("offline");
+    delete keys[loggedId];
 
     fetch('/logout', {
         method: 'GET',
@@ -456,23 +449,41 @@ function notifyPresence(status) {
     mqttClient.send(message);
 }
 
+function notifyPresenceId(id,status) {
+
+    const message = new Paho.MQTT.Message(JSON.stringify({id: id,username:loggeduser,photo:loggedphoto,status:status}));
+    message.destinationName = `presence/${status}`;
+    mqttClient.send(message);
+}
+
 function subscribeToPresence() {
     mqttClient.subscribe("presence/online");
     mqttClient.subscribe("presence/offline");
 }
 
+function VerifyCon(){
+    Object.keys(keys).forEach(key => {
+        notifyPresenceId(keys[key],"online")
+    });
+}
 
 function updateUserStatus(e) {
-    
+
+    if (!keys.hasOwnProperty(e.id)) {
+        keys[e.id]=e.id;
+    }
+
     if (e.id!=loggedId){
         var v = document.getElementById(e.id + "-status");
+
         if (v != null) {
             v.classList.remove("online", "offline");
     
             if (e.status === "online") {
-                v.classList.add("online");
+                 v.classList.add("online");
             } else {
                 v.classList.add("offline");
+                delete keys[e.id];
             }
         }
     
@@ -519,4 +530,3 @@ function fkey(e){
  }
 
 
- startCheckingPresence(5000,"online");
