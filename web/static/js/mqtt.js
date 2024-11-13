@@ -10,6 +10,7 @@ var alertMessage="";
 var messageCounter=0;
 var alerts={};
 let keys={}
+let active="";
 
 var mqttClient = new Paho.MQTT.Client(hostname, parseInt(port), clientId);
 mqttClient.onMessageArrived = MessageArrived;
@@ -69,6 +70,7 @@ function FetchMessage(id){
         d.innerHTML=0;
         d.classList.remove("messages-show");
         delete alerts[`${id}-${loggedId}`];
+        active=`${id}-${loggedId}`;
     }
     
     fetch(`/list-message/${id}/${loggedId}/`) 
@@ -299,7 +301,7 @@ function updateMessageCounter() {
     for (const key in alerts) {
         var element = document.getElementById(`${key}-message`);
     
-        if (element) {        
+        if (element && active!=key) {        
             element.innerHTML = alerts[key]; 
             element.classList.add("messages-show"); 
         } 
