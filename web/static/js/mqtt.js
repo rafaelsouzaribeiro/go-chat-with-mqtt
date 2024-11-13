@@ -304,6 +304,8 @@ function updateMessageCounter() {
         if (element && active!=key) {        
             element.innerHTML = alerts[key]; 
             element.classList.add("messages-show"); 
+        }else{
+            delete alerts[active];
         }
     }
 
