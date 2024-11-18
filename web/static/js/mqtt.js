@@ -9,8 +9,9 @@ var hasmoremessages=true;
 var alertMessage="";
 var messageCounter=0;
 var alerts={};
-let keys={}
 let active="";
+let keysOnline={}
+let keysOffline={}
 
 var mqttClient = new Paho.MQTT.Client(hostname, parseInt(port), clientId);
 mqttClient.onMessageArrived = MessageArrived;
@@ -421,8 +422,7 @@ window.addEventListener("load", function() {
 
 function logout() {
     notifyPresence("offline");
-    delete keys[loggedId];
-
+    
     fetch('/logout', {
         method: 'GET',
     }).then(response => {
@@ -466,15 +466,26 @@ function subscribeToPresence() {
 }
 
 function VerifyCon(){
-    Object.keys(keys).forEach(key => {
-        notifyPresenceId(keys[key],"online")
+    Object.keys(keysOnline).forEach(key => {
+        console.log(">>"+keysOnline[key])
+        notifyPresenceId(keysOnline[key],"online")
+    });
+
+
+    Object.keys(keysOffline).forEach(key => {
+        console.log(">><<"+keysOffline[key])
+        notifyPresenceId(keysOffline[key],"offline")
     });
 }
 
 function updateUserStatus(e) {
 
-    if (!keys.hasOwnProperty(e.id)) {
-        keys[e.id]=e.id;
+    if (e.status === "online") {
+        keysOnline[e.id] = e.id; 
+        delete keysOffline[e.id];
+    } else {
+        delete keysOnline[e.id]; 
+        keysOffline[e.id] = e.id; 
     }
 
     if (e.id!=loggedId){
@@ -487,7 +498,6 @@ function updateUserStatus(e) {
                  v.classList.add("online");
             } else {
                 v.classList.add("offline");
-                delete keys[e.id];
             }
         }
     
